@@ -1,0 +1,37 @@
+Fri Feb 25 23:02:54 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Fri Feb 25 23:02:55 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-32b1-6e76-ffff85de0958 
+on database directory C:\Users\Esraa\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_191-b12
+user.dir=C:\Program Files\glassfish-4.1.1\javadb
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\Esraa\Documents\GitHub\tic-tac-toe-java\Database
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Feb 25 23:02:56 EET 2022:
+Shutting down instance a816c00e-017f-32b1-6e76-ffff85de0958 on database directory C:\Users\Esraa\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri Feb 25 23:02:56 EET 2022 Thread[DRDAConnThread_3,5,main] (DATABASE = PlayerDB), (DRDAID = {2}), Database 'PlayerDB' shutdown.
+----------------------------------------------------------------
+Fri Feb 25 23:03:21 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance 560740aa-017f-32b1-6e76-ffff85de0958 
+on database directory C:\Users\Esraa\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_191-b12
+user.dir=C:\Program Files\glassfish-4.1.1\javadb
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\Esraa\Documents\GitHub\tic-tac-toe-java\Database
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Feb 25 23:10:19 EET 2022: Shutting down Derby engine
+----------------------------------------------------------------
+Fri Feb 25 23:10:19 EET 2022:
+Shutting down instance 560740aa-017f-32b1-6e76-ffff85de0958 on database directory C:\Users\Esraa\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+----------------------------------------------------------------

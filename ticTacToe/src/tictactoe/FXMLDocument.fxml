@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.FXMLDocumentController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" stylesheets="@TicTacToeStyleSheet.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="tictactoe.FXMLDocumentController">
+   <styleClass>
+      <String fx:value="widthAndHieght" />
+      <String fx:value="bckGroundColod" />
+   </styleClass>
+   <children>
+      <Label layoutX="107.0" layoutY="124.0" styleClass="text" stylesheets="@TicTacToeStyleSheet.css" text="Tic" />
+      <Label layoutX="107.0" layoutY="206.0" stylesheets="@TicTacToeStyleSheet.css" text="Tac">
+         <styleClass>
+            <String fx:value="text" />
+            <String fx:value="text" />
+         </styleClass>
+      </Label>
+      <Label layoutX="107.0" layoutY="286.0" text="Toe">
+         <styleClass>
+            <String fx:value="text" />
+            <String fx:value="text" />
+         </styleClass>
+      </Label>
+   </children>
 </AnchorPane>

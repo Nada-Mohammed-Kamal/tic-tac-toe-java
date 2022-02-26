@@ -9,27 +9,37 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
-/**
- *
- * @author nados
- */
-public class FXMLDocumentController implements Initializable {
-    
+public class FXMLDocumentController {
+
     @FXML
-    private Label label;
-    
+    private ResourceBundle resources;
+
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private URL location;
+
+    @FXML
+    void OnlineMultiPlayerButton(ActionEvent event) {
+
     }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+
+    @FXML
+    void RecordsButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void localMultiPlayerButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void singlePlayerButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void initialize() {
+
+    }
 }

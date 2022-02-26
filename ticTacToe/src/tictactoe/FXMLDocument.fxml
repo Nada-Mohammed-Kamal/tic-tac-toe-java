@@ -1,27 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" stylesheets="@TicTacToeStyleSheet.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="tictactoe.FXMLDocumentController">
-   <styleClass>
-      <String fx:value="widthAndHieght" />
-      <String fx:value="bckGroundColod" />
-   </styleClass>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #072a40;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <effect>
+      <ColorAdjust />
+   </effect>
    <children>
-      <Label layoutX="107.0" layoutY="124.0" styleClass="text" stylesheets="@TicTacToeStyleSheet.css" text="Tic" />
-      <Label layoutX="107.0" layoutY="206.0" stylesheets="@TicTacToeStyleSheet.css" text="Tac">
-         <styleClass>
-            <String fx:value="text" />
-            <String fx:value="text" />
-         </styleClass>
-      </Label>
-      <Label layoutX="107.0" layoutY="286.0" text="Toe">
-         <styleClass>
-            <String fx:value="text" />
-            <String fx:value="text" />
-         </styleClass>
-      </Label>
+      <AnchorPane layoutX="108.0" layoutY="164.0">
+         <children>
+            <Label layoutY="-29.0" prefHeight="140.0" prefWidth="216.0" text="Tic" textFill="#e7ffdb">
+               <font>
+                  <Font name="Berlin Sans FB" size="100.0" />
+               </font>
+            </Label>
+            <Label layoutY="132.0" prefHeight="140.0" prefWidth="252.0" text="Toe" textFill="#e7ffdb">
+               <font>
+                  <Font name="Berlin Sans FB" size="100.0" />
+               </font>
+            </Label>
+            <Label layoutX="3.0" layoutY="52.0" prefHeight="140.0" prefWidth="228.0" text="Tac" textFill="#e7ffdb">
+               <font>
+                  <Font name="Berlin Sans FB" size="100.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button layoutX="393.0" layoutY="440.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="347.0" style="-fx-background-color: #1db2ca; -fx-background-radius: 45;" text="Single Player" textFill="#e7ffdb">
+         <font>
+            <Font name="Comic Sans MS Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="393.0" layoutY="343.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="347.0" style="-fx-background-color: #1db2ca; -fx-background-radius: 45;" text="Single Player" textFill="#e7ffdb">
+         <font>
+            <Font name="Comic Sans MS Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="393.0" layoutY="247.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="347.0" style="-fx-background-color: #1db2ca; -fx-background-radius: 45;" text="Single Player" textFill="#e7ffdb">
+         <font>
+            <Font name="Comic Sans MS Bold" size="40.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="178.0" fitWidth="299.0" layoutX="432.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../Desktop/XoLogo.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="770.0" layoutY="48.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="216.0" style="-fx-background-color: #434341; -fx-background-radius: 45;" text="Records      " textFill="#e7ffdb">
+               <font>
+                  <Font name="Comic Sans MS" size="24.0" />
+               </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Circle fill="#cd191a" layoutX="950.0" layoutY="74.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fitHeight="37.0" fitWidth="42.0" layoutX="929.0" layoutY="56.0" rotate="88.0">
+         <image>
+            <Image url="@../../../../../../Desktop/play.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

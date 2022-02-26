@@ -7,21 +7,48 @@ package tictactoe;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
-/**
- * FXML Controller class
- *
- * @author nados
- */
-public class LoginScreenController implements Initializable {
+public class LoginScreenController {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private Button backButtonid;
+
+    @FXML
+    private Button loginId;
+
+    @FXML
+    private TextField nameTextBoxid;
+
+    @FXML
+    private TextField passwordtextboxid;
+
+    @FXML
+    void backButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void login(ActionEvent event) {
+
+    }
+
+    @FXML
+    void signUpButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void initialize() {
+        
+    }
 }

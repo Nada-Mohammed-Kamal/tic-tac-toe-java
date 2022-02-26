@@ -28,47 +28,47 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="2">
+                  <Button fx:id="button3id" mnemonicParsing="false" onAction="#button3id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="2">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Button fx:id="button6id" mnemonicParsing="false" onAction="#button6id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="1">
+                  <Button fx:id="button2id" mnemonicParsing="false" onAction="#button2id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="1">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2">
+                  <Button fx:id="button1id" mnemonicParsing="false" onAction="#button1" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="button5id" mnemonicParsing="false" onAction="#button5id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="button8id" mnemonicParsing="false" onAction="#button8id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Button fx:id="button9id" mnemonicParsing="false" onAction="#button9id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.rowIndex="1">
+                  <Button fx:id="button4id" mnemonicParsing="false" onAction="#button4id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.rowIndex="2">
+                  <Button fx:id="button7id" mnemonicParsing="false" onAction="#button7id" prefHeight="95.0" prefWidth="133.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 13;" textFill="#edf1f2" GridPane.rowIndex="2">
                      <font>
                         <Font name="Berlin Sans FB" size="42.0" />
                      </font>
@@ -84,7 +84,7 @@
          <children>
             <AnchorPane>
                <children>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
+                  <ImageView fx:id="player1img" fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
                      <image>
                         <Image url="@../../../../../../Desktop/male.jfif" />
                      </image>
@@ -94,14 +94,14 @@
                         <Font name="Berlin Sans FB" size="68.0" />
                      </font>
                   </Label>
-                  <Label layoutX="5.0" prefHeight="75.0" prefWidth="193.0" text="player1" textFill="#edf1f2">
+                  <Label fx:id="player1name" layoutX="5.0" prefHeight="75.0" prefWidth="193.0" text="player1" textFill="#edf1f2">
                      <font>
                         <Font name="Berlin Sans FB" size="36.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Label layoutX="32.0" layoutY="297.0" prefHeight="54.0" prefWidth="109.0" text="result1" textFill="#edf1f2">
+            <Label fx:id="player1result" layoutX="32.0" layoutY="297.0" prefHeight="54.0" prefWidth="109.0" text="result1" textFill="#edf1f2">
                <font>
                   <Font name="Berlin Sans FB" size="36.0" />
                </font>
@@ -112,7 +112,7 @@
          <children>
             <AnchorPane prefHeight="305.0" prefWidth="196.0">
                <children>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
+                  <ImageView fx:id="player2img" fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
                      <image>
                         <Image url="@../../../../../../Desktop/female.jfif" />
                      </image>
@@ -122,14 +122,14 @@
                         <Font name="Berlin Sans FB" size="68.0" />
                      </font>
                   </Label>
-                  <Label layoutX="3.0" prefHeight="64.0" prefWidth="193.0" text="player2" textFill="#edf1f2">
+                  <Label fx:id="player2name" layoutX="3.0" prefHeight="64.0" prefWidth="193.0" text="player2" textFill="#edf1f2">
                      <font>
                         <Font name="Berlin Sans FB" size="36.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Label layoutX="44.0" layoutY="294.0" prefHeight="54.0" prefWidth="109.0" text="result2" textFill="#edf1f2">
+            <Label fx:id="player2result" layoutX="44.0" layoutY="294.0" prefHeight="54.0" prefWidth="109.0" text="result2" textFill="#edf1f2">
                <font>
                   <Font name="Berlin Sans FB" size="36.0" />
                </font>
@@ -138,7 +138,7 @@
       </AnchorPane>
       <AnchorPane layoutX="29.0" layoutY="501.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
+            <Button fx:id="backButtonId" mnemonicParsing="false" onAction="#backButton" prefHeight="75.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>

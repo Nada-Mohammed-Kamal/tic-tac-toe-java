@@ -32,7 +32,7 @@
       </AnchorPane>
       <AnchorPane layoutX="39.0" layoutY="504.0">
          <children>
-            <Button layoutY="-14.0" mnemonicParsing="false" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
+            <Button fx:id="backButtonid" layoutY="-14.0" mnemonicParsing="false" onAction="#backButton" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>
@@ -46,7 +46,7 @@
       </AnchorPane>
       <AnchorPane layoutX="396.0" layoutY="504.0">
          <children>
-            <Button layoutY="-14.0" mnemonicParsing="false" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="      LogIn" textFill="#011317">
+            <Button fx:id="loginId" layoutY="-14.0" mnemonicParsing="false" onAction="#login" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="      LogIn" textFill="#011317">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>
@@ -70,19 +70,19 @@
                   <Font name="Berlin Sans FB" size="30.0" />
                </font>
             </Label>
-            <Label layoutY="44.0" prefHeight="89.0" prefWidth="366.0" text="Sign up here" textFill="#e7ffdb">
+            <Button layoutX="-47.0" layoutY="45.0" mnemonicParsing="false" onAction="#signUpButton" prefHeight="89.0" prefWidth="282.0" style="-fx-background-radius: 17; -fx-background-color: tranceparent;" text="Sign up here" textFill="#e7ffdb">
                <font>
-                  <Font name="Berlin Sans FB Bold" size="30.0" />
+                  <Font name="Berlin Sans FB Bold" size="33.0" />
                </font>
-            </Label>
+            </Button>
          </children>
       </AnchorPane>
-      <TextField layoutX="352.0" layoutY="221.0" prefHeight="79.0" prefWidth="556.0" promptText="Name" style="-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;">
+      <TextField fx:id="nameTextBoxid" layoutX="352.0" layoutY="221.0" prefHeight="79.0" prefWidth="556.0" promptText="Name" style="-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;">
          <font>
             <Font name="Berlin Sans FB" size="36.0" />
          </font>
       </TextField>
-      <TextField layoutX="352.0" layoutY="337.0" prefHeight="79.0" prefWidth="556.0" promptText="Password" style="-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;">
+      <TextField fx:id="passwordtextboxid" layoutX="352.0" layoutY="337.0" prefHeight="79.0" prefWidth="556.0" promptText="Password" style="-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;">
          <font>
             <Font name="Berlin Sans FB" size="36.0" />
          </font>

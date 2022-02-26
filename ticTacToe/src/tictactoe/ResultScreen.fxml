@@ -14,7 +14,7 @@
          <children>
             <AnchorPane>
                <children>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
+                  <ImageView fx:id="playerOneImg" fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
                      <image>
                         <Image url="@../../../../../../Desktop/male.jfif" />
                      </image>
@@ -24,14 +24,14 @@
                         <Font name="Berlin Sans FB" size="68.0" />
                      </font>
                   </Label>
-                  <Label layoutX="5.0" prefHeight="75.0" prefWidth="193.0" text="player1" textFill="#edf1f2">
+                  <Label fx:id="playerOneName" layoutX="5.0" prefHeight="75.0" prefWidth="193.0" text="player1" textFill="#edf1f2">
                      <font>
                         <Font name="Berlin Sans FB" size="36.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Label layoutX="32.0" layoutY="297.0" prefHeight="54.0" prefWidth="109.0" text="result1" textFill="#edf1f2">
+            <Label fx:id="playerOneResult" layoutX="32.0" layoutY="297.0" prefHeight="54.0" prefWidth="109.0" text="result1" textFill="#edf1f2">
                <font>
                   <Font name="Berlin Sans FB" size="36.0" />
                </font>
@@ -42,7 +42,7 @@
          <children>
             <AnchorPane prefHeight="305.0" prefWidth="196.0">
                <children>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
+                  <ImageView fx:id="playerTwoImage" fitHeight="142.0" fitWidth="154.0" layoutX="9.0" layoutY="94.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);">
                      <image>
                         <Image url="@../../../../../../Desktop/female.jfif" />
                      </image>
@@ -52,14 +52,14 @@
                         <Font name="Berlin Sans FB" size="68.0" />
                      </font>
                   </Label>
-                  <Label layoutX="3.0" prefHeight="64.0" prefWidth="193.0" text="player2" textFill="#edf1f2">
+                  <Label fx:id="playerTwoName" layoutX="3.0" prefHeight="64.0" prefWidth="193.0" text="player2" textFill="#edf1f2">
                      <font>
                         <Font name="Berlin Sans FB" size="36.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Label layoutX="44.0" layoutY="294.0" prefHeight="54.0" prefWidth="109.0" text="result2" textFill="#edf1f2">
+            <Label fx:id="playerTwoResult" layoutX="44.0" layoutY="294.0" prefHeight="54.0" prefWidth="109.0" text="result2" textFill="#edf1f2">
                <font>
                   <Font name="Berlin Sans FB" size="36.0" />
                </font>
@@ -68,7 +68,7 @@
       </AnchorPane>
       <AnchorPane layoutX="39.0" layoutY="511.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
+            <Button fx:id="BackButtonid" mnemonicParsing="false" onAction="#BackButton" prefHeight="75.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>
@@ -82,7 +82,7 @@
       </AnchorPane>
       <AnchorPane layoutX="779.0" layoutY="511.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Save" textFill="#011317">
+            <Button fx:id="SaveButtonid" mnemonicParsing="false" onAction="#SaveButton" prefHeight="75.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Save" textFill="#011317">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>
@@ -96,7 +96,7 @@
       </AnchorPane>
       <AnchorPane layoutX="378.0" layoutY="300.0" prefHeight="75.0" prefWidth="259.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="216.0" style="-fx-background-radius: 17;" text="       Play Again" textFill="#011317" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="PlayAgainButtonid" mnemonicParsing="false" onAction="#PlayAgainButton" prefHeight="75.0" prefWidth="216.0" style="-fx-background-radius: 17;" text="       Play Again" textFill="#011317" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>
@@ -108,7 +108,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <Label layoutX="409.0" layoutY="219.0" prefHeight="54.0" prefWidth="198.0" text="game Result" textFill="#edf1f2">
+      <Label fx:id="GameResultId" layoutX="409.0" layoutY="219.0" prefHeight="54.0" prefWidth="198.0" text="game Result" textFill="#edf1f2">
          <font>
             <Font name="Berlin Sans FB" size="36.0" />
          </font>

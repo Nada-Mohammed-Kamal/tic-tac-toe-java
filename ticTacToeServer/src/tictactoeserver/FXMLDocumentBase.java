@@ -16,18 +16,19 @@ public class FXMLDocumentBase extends AnchorPane {
     protected final Label label;
     protected final Label label0;
     protected final Label label1;
-    protected final AnchorPane anchorPane0;
     protected final ImageView imageView;
-    protected final AnchorPane anchorPane1;
+    protected final AnchorPane anchorPane0;
     protected final Button Stop;
     protected final Button Start;
     protected final Label StautsOfServer;
     protected final Label OnlineNum;
     protected final Label OffilneNum;
-    protected final AnchorPane anchorPane2;
-    protected final Label statusOfUserOnButton;
+    protected final AnchorPane anchorPane1;
     protected final ScrollPane scrollPane;
-    protected final Button NameOfPersonButton;
+    protected final AnchorPane anchorPane2;
+    protected final Label label2;
+    protected final ImageView imageView0;
+    protected final Label statusOfUserOnButton;
 
     public FXMLDocumentBase() {
 
@@ -36,18 +37,19 @@ public class FXMLDocumentBase extends AnchorPane {
         label = new Label();
         label0 = new Label();
         label1 = new Label();
-        anchorPane0 = new AnchorPane();
         imageView = new ImageView();
-        anchorPane1 = new AnchorPane();
+        anchorPane0 = new AnchorPane();
         Stop = new Button();
         Start = new Button();
         StautsOfServer = new Label();
         OnlineNum = new Label();
         OffilneNum = new Label();
-        anchorPane2 = new AnchorPane();
-        statusOfUserOnButton = new Label();
+        anchorPane1 = new AnchorPane();
         scrollPane = new ScrollPane();
-        NameOfPersonButton = new Button();
+        anchorPane2 = new AnchorPane();
+        label2 = new Label();
+        imageView0 = new ImageView();
+        statusOfUserOnButton = new Label();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -83,19 +85,16 @@ public class FXMLDocumentBase extends AnchorPane {
         label1.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         label1.setFont(new Font("Berlin Sans FB", 100.0));
 
-        anchorPane0.setLayoutX(336.0);
-        anchorPane0.setLayoutY(246.0);
-
         imageView.setFitHeight(188.0);
         imageView.setFitWidth(307.0);
         imageView.setLayoutX(357.0);
         imageView.setLayoutY(36.0);
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
-      //  imageView.setImage(new Image(getClass().getResource("../../../../../../Desktop/044e056e-b176-478c-b7af-34cbd57d197c.jpg").toExternalForm()));
-
-        anchorPane1.setLayoutX(770.0);
-        anchorPane1.setLayoutY(48.0);
+        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoeserver/Images/XOLogo.jfif")));
+        
+        anchorPane0.setLayoutX(770.0);
+        anchorPane0.setLayoutY(48.0);
 
         Stop.setLayoutX(290.0);
         Stop.setLayoutY(390.0);
@@ -141,62 +140,65 @@ public class FXMLDocumentBase extends AnchorPane {
         OffilneNum.setTextFill(javafx.scene.paint.Color.valueOf("#bd2227"));
         OffilneNum.setFont(new Font("Berlin Sans FB", 38.0));
 
-        anchorPane2.setLayoutX(750.0);
-        anchorPane2.setLayoutY(149.0);
-        anchorPane2.setMinHeight(USE_PREF_SIZE);
-        anchorPane2.setMinWidth(USE_PREF_SIZE);
-        anchorPane2.setPrefHeight(410.0);
-        anchorPane2.setPrefWidth(228.0);
-        anchorPane2.setStyle("-fx-background-color: #E9EDF0; -fx-background-radius: 10;");
+        anchorPane1.setLayoutX(746.0);
+        anchorPane1.setLayoutY(149.0);
+        anchorPane1.setMinHeight(USE_PREF_SIZE);
+        anchorPane1.setMinWidth(USE_PREF_SIZE);
+        anchorPane1.setPrefHeight(420.0);
+        anchorPane1.setPrefWidth(228.0);
+        anchorPane1.setStyle("-fx-background-color: #E9EDF0; -fx-background-radius: 10;");
 
-        statusOfUserOnButton.setLayoutX(685.0);
-        statusOfUserOnButton.setLayoutY(105.0);
+        scrollPane.setHbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setLayoutX(4.0);
+        scrollPane.setLayoutY(14.0);
+        scrollPane.setPrefHeight(402.0);
+        scrollPane.setPrefWidth(222.0);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-background-radius: 10;");
+        scrollPane.setVbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS);
+
+        anchorPane2.setPrefHeight(54.0);
+        anchorPane2.setPrefWidth(207.0);
+        anchorPane2.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 10;");
+
+        label2.setLayoutX(54.0);
+        label2.setLayoutY(13.0);
+        label2.setText("Esraa");
+        label2.setTextFill(javafx.scene.paint.Color.WHITE);
+        label2.setFont(new Font("Arial", 20.0));
+
+        imageView0.setFitHeight(30.0);
+        imageView0.setFitWidth(27.0);
+        imageView0.setLayoutX(14.0);
+        imageView0.setLayoutY(13.0);
+        imageView0.setPickOnBounds(true);
+        imageView0.setPreserveRatio(true);
+        imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoeserver/Images/arrow.png")));
+        
+        statusOfUserOnButton.setLayoutX(144.0);
+        statusOfUserOnButton.setLayoutY(25.0);
         statusOfUserOnButton.setPrefHeight(30.0);
         statusOfUserOnButton.setPrefWidth(62.0);
         statusOfUserOnButton.setText("offline");
         statusOfUserOnButton.setTextFill(javafx.scene.paint.Color.WHITE);
         statusOfUserOnButton.setFont(new Font("Arial", 16.0));
-
-        AnchorPane.setBottomAnchor(scrollPane, 270.0);
-        AnchorPane.setLeftAnchor(scrollPane, 336.0);
-        AnchorPane.setRightAnchor(scrollPane, 471.0);
-        AnchorPane.setTopAnchor(scrollPane, 72.0);
-        scrollPane.setHbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setLayoutX(336.0);
-        scrollPane.setLayoutY(72.0);
-        scrollPane.setPannable(true);
-        scrollPane.setPrefHeight(258.0);
-        scrollPane.setPrefWidth(193.0);
-        scrollPane.setStyle("-fx-background-color: transparent; -fx-background-radius: 20;");
-        scrollPane.setVbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS);
-
-        NameOfPersonButton.setAlignment(javafx.geometry.Pos.BASELINE_LEFT);
-        NameOfPersonButton.setLayoutX(575.0);
-        NameOfPersonButton.setLayoutY(93.0);
-        NameOfPersonButton.setMnemonicParsing(false);
-        NameOfPersonButton.setPrefHeight(54.0);
-        NameOfPersonButton.setPrefWidth(207.0);
-        NameOfPersonButton.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 10;");
-        NameOfPersonButton.setText("Esraa");
-        NameOfPersonButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        NameOfPersonButton.setFont(new Font("Arial", 23.0));
+        scrollPane.setContent(anchorPane2);
 
         anchorPane.getChildren().add(label);
         anchorPane.getChildren().add(label0);
         anchorPane.getChildren().add(label1);
         getChildren().add(anchorPane);
-        getChildren().add(anchorPane0);
         getChildren().add(imageView);
-        getChildren().add(anchorPane1);
+        getChildren().add(anchorPane0);
         getChildren().add(Stop);
         getChildren().add(Start);
         getChildren().add(StautsOfServer);
         getChildren().add(OnlineNum);
         getChildren().add(OffilneNum);
-        getChildren().add(anchorPane2);
-        getChildren().add(statusOfUserOnButton);
-        getChildren().add(scrollPane);
-        getChildren().add(NameOfPersonButton);
+        anchorPane2.getChildren().add(label2);
+        anchorPane2.getChildren().add(imageView0);
+        anchorPane2.getChildren().add(statusOfUserOnButton);
+        anchorPane1.getChildren().add(scrollPane);
+        getChildren().add(anchorPane1);
 
     }
 }

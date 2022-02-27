@@ -4,8 +4,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +25,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class SignUp extends AnchorPane {
+public class SignUp extends AnchorPane implements Runnable {
 
     protected final AnchorPane anchorPane;
     protected final Label label;
@@ -163,7 +165,11 @@ public class SignUp extends AnchorPane {
         btnRegister.setFont(new Font("Berlin Sans FB", 30.0));
         btnRegister.setOnAction((action) -> {
             if(validateUserData()) {
-                sendDataToServer();
+                if(connectedToServer) {
+                    sendDataToServer();
+                } else {
+                    showAlertMessage("Error", "Server is not found or turned off.", Alert.AlertType.ERROR);
+                }
             }
         });
         btnRegister.setOnMouseEntered((event) -> {
@@ -244,7 +250,7 @@ public class SignUp extends AnchorPane {
         btnLogin.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         btnLogin.setFont(new Font("Berlin Sans FB Bold", 33.0));
         btnLogin.setOnAction((action) -> {
-            navigateToLoginScreen(stage);
+            navigateToAnotherScreen(stage, new LoginScreenBase(stage));
         });
         btnLogin.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -305,11 +311,26 @@ public class SignUp extends AnchorPane {
                             } else {
                                 showAlertMessage("Warning", "Username is taken before, choose another username!", Alert.AlertType.WARNING);
                             }
+                        } catch (SocketException ex) {
+                            connectedToServer = false;
+                            
+                            Platform.runLater(SignUp.this);
+                            System.out.println("hello");
+                            try {
+                                mySocket.close();
+                                dis.close();
+                            } catch (IOException ex1) {
+                                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex1);
+                                showAlertMessage("Error", "Can't close the Socket or DataInputStream!", Alert.AlertType.ERROR);
+                            }
+                            ps.close();
+                            stop();
                         } catch (IOException ex) {
                             connectedToServer = false;
                             stop();
                             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                            showAlertMessage("Error", "Can't read data from server!\nMay be Server Down or there exist an enhancement.", Alert.AlertType.ERROR);
+                        } 
                     }
                 }
             }.start();
@@ -330,7 +351,7 @@ public class SignUp extends AnchorPane {
         if(connectedToServer){
             closeConnectionToServer();
         }
-        navigateToHomeScreen(stage);
+        navigateToAnotherScreen(stage, new HomeScreen(stage));
     }
     
     private void closeConnectionToServer() {
@@ -344,14 +365,7 @@ public class SignUp extends AnchorPane {
             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void navigateToHomeScreen(Stage stage) {
-        Parent root = new HomeScreen(stage);
-        Scene scene1 = new Scene(root);
-        stage.setScene(scene1);
-        stage.show();
-    }
-    
+        
     private boolean validateUserData() {
         boolean isValidData = true;
         if (txtFieldName.getText().trim().isEmpty()) {
@@ -363,9 +377,7 @@ public class SignUp extends AnchorPane {
         } else if(txtFieldRePassword.getText().trim().isEmpty()){
             showAlertMessage("Warning", "Re-Password is Empty!\nPlease, confirm your password.", Alert.AlertType.WARNING);
             isValidData = false;
-        }
-
-        if (!txtFieldPassword.getText().trim().equals(txtFieldRePassword.getText().trim())) {
+        } else if (!txtFieldPassword.getText().trim().equals(txtFieldRePassword.getText().trim())) {
             showAlertMessage("Warning", "Password and Re-Password isn't the same!\nPlease, type your password and Confirm password correct.", Alert.AlertType.WARNING);
             isValidData = false;
         }
@@ -374,15 +386,19 @@ public class SignUp extends AnchorPane {
     }
     
     private void sendDataToServer() {
-        String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();
-            
+        String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  
         ps.println(data);
     }
     
-    private void navigateToLoginScreen(Stage stage) {
-        Parent root = new LoginScreenBase(stage);
-        Scene scene1 = new Scene(root);
-        stage.setScene(scene1);
+    private void navigateToAnotherScreen(Stage stage, Parent r) {
+        Parent root = r;
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         stage.show();
+    }
+    
+    @Override
+    public void run() {
+        showAlertMessage("Alert", "Sorry!\nServer down!", Alert.AlertType.INFORMATION);
     }
 }

@@ -19,8 +19,8 @@ public class TicTacToe extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new HomeScreen(stage);
-//        Parent root = new SignUp(stage);
+//        Parent root = new HomeScreen(stage);
+        Parent root = new SignUp(stage);
         
         Scene scene = new Scene(root);
         

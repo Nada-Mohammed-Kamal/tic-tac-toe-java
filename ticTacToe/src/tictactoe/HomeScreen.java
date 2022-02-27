@@ -1,6 +1,7 @@
 package tictactoe;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -96,6 +97,12 @@ public class HomeScreen extends AnchorPane {
         onlinePlayer.setText("Online MultiPlayers");
         onlinePlayer.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         onlinePlayer.setFont(new Font("Comic Sans MS Bold", 40.0));
+        onlinePlayer.setOnAction((action) -> {
+            navigateToGame(stage, new LoginScreenBase(stage));
+        });
+        onlinePlayer.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
 
         singlePlayer.setMnemonicParsing(false);
         singlePlayer.setPrefHeight(84.0);
@@ -107,14 +114,13 @@ public class HomeScreen extends AnchorPane {
         singlePlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new PersonVSBoot(stage);
-        
-                Scene scene = new Scene(root);
-
-                stage.setScene(scene);
-                stage.show();
-                }
+                navigateToGame(stage, new PersonVSBoot(stage));
+            }
         });
+        singlePlayer.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
+        
         localMultiPlayer.setLayoutX(4.0);
         localMultiPlayer.setLayoutY(97.0);
         localMultiPlayer.setMnemonicParsing(false);
@@ -127,13 +133,11 @@ public class HomeScreen extends AnchorPane {
         localMultiPlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Parent root = new GameLocalMultiPlayersScreenBase(stage);
-        
-                Scene scene = new Scene(root);
-
-                stage.setScene(scene);
-                stage.show();
-                }
+                navigateToGame(stage, new GameLocalMultiPlayersScreenBase(stage));
+            }
+        });
+        localMultiPlayer.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
         });
           
         imageView.setFitHeight(185.0);
@@ -185,5 +189,14 @@ public class HomeScreen extends AnchorPane {
         getChildren().add(circle);
         getChildren().add(imageView0);
 
+    }
+    
+    private void navigateToGame(Stage stage, Parent r) {
+        Parent root = r;
+       
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
 }

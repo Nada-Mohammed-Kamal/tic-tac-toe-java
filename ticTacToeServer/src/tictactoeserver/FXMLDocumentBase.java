@@ -7,6 +7,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class FXMLDocumentBase extends AnchorPane {
@@ -25,11 +26,11 @@ public class FXMLDocumentBase extends AnchorPane {
     protected final Label OffilneNum;
     protected final AnchorPane anchorPane1;
     protected final ScrollPane scrollPane;
-    protected final AnchorPane anchorPane2;
+    protected final VBox vBox;
+    protected final AnchorPane UserDetails;
     protected final Label label2;
     protected final ImageView imageView0;
     protected final Label statusOfUserOnButton;
-
     public FXMLDocumentBase() {
 
         colorAdjust = new ColorAdjust();
@@ -46,7 +47,9 @@ public class FXMLDocumentBase extends AnchorPane {
         OffilneNum = new Label();
         anchorPane1 = new AnchorPane();
         scrollPane = new ScrollPane();
-        anchorPane2 = new AnchorPane();
+        vBox = new VBox();
+        UserDetails = new AnchorPane();
+        
         label2 = new Label();
         imageView0 = new ImageView();
         statusOfUserOnButton = new Label();
@@ -92,7 +95,6 @@ public class FXMLDocumentBase extends AnchorPane {
         imageView.setPickOnBounds(true);
         imageView.setPreserveRatio(true);
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoeserver/Images/XOLogo.jfif")));
-        
         anchorPane0.setLayoutX(770.0);
         anchorPane0.setLayoutY(48.0);
 
@@ -100,7 +102,7 @@ public class FXMLDocumentBase extends AnchorPane {
         Stop.setLayoutY(390.0);
         Stop.setMnemonicParsing(false);
         Stop.setPrefHeight(84.0);
-        Stop.setPrefWidth(419.0);
+        Stop.setPrefWidth(356.0);
         Stop.setStyle("-fx-background-color: #1db2ca; -fx-background-radius: 45;");
         Stop.setText("Stop");
         Stop.setTextFill(javafx.scene.paint.Color.WHITE);
@@ -110,7 +112,7 @@ public class FXMLDocumentBase extends AnchorPane {
         Start.setLayoutY(258.0);
         Start.setMnemonicParsing(false);
         Start.setPrefHeight(84.0);
-        Start.setPrefWidth(409.0);
+        Start.setPrefWidth(356.0);
         Start.setStyle("-fx-background-color: #1db2ca; -fx-background-radius: 45;");
         Start.setText("Start");
         Start.setTextFill(javafx.scene.paint.Color.WHITE);
@@ -140,26 +142,29 @@ public class FXMLDocumentBase extends AnchorPane {
         OffilneNum.setTextFill(javafx.scene.paint.Color.valueOf("#bd2227"));
         OffilneNum.setFont(new Font("Berlin Sans FB", 38.0));
 
-        anchorPane1.setLayoutX(746.0);
+        anchorPane1.setLayoutX(717.0);
         anchorPane1.setLayoutY(149.0);
         anchorPane1.setMinHeight(USE_PREF_SIZE);
         anchorPane1.setMinWidth(USE_PREF_SIZE);
         anchorPane1.setPrefHeight(420.0);
-        anchorPane1.setPrefWidth(228.0);
+        anchorPane1.setPrefWidth(258.0);
         anchorPane1.setStyle("-fx-background-color: #E9EDF0; -fx-background-radius: 10;");
 
         scrollPane.setHbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setLayoutX(4.0);
-        scrollPane.setLayoutY(14.0);
+        scrollPane.setLayoutX(5.0);
+        scrollPane.setLayoutY(9.0);
         scrollPane.setPrefHeight(402.0);
-        scrollPane.setPrefWidth(222.0);
+        scrollPane.setPrefWidth(252.0);
         scrollPane.setStyle("-fx-background-color: transparent; -fx-background-radius: 10;");
         scrollPane.setVbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS);
 
-        anchorPane2.setPrefHeight(54.0);
-        anchorPane2.setPrefWidth(207.0);
-        anchorPane2.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 10;");
+        vBox.setPrefHeight(400.0);
+        vBox.setPrefWidth(236.0);
 
+        UserDetails.setPrefHeight(53.0);
+        UserDetails.setPrefWidth(207.0);
+        UserDetails.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 10;");
+        
         label2.setLayoutX(54.0);
         label2.setLayoutY(13.0);
         label2.setText("Esraa");
@@ -173,7 +178,7 @@ public class FXMLDocumentBase extends AnchorPane {
         imageView0.setPickOnBounds(true);
         imageView0.setPreserveRatio(true);
         imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoeserver/Images/arrow.png")));
-        
+       
         statusOfUserOnButton.setLayoutX(144.0);
         statusOfUserOnButton.setLayoutY(25.0);
         statusOfUserOnButton.setPrefHeight(30.0);
@@ -181,7 +186,7 @@ public class FXMLDocumentBase extends AnchorPane {
         statusOfUserOnButton.setText("offline");
         statusOfUserOnButton.setTextFill(javafx.scene.paint.Color.WHITE);
         statusOfUserOnButton.setFont(new Font("Arial", 16.0));
-        scrollPane.setContent(anchorPane2);
+        scrollPane.setContent(vBox);
 
         anchorPane.getChildren().add(label);
         anchorPane.getChildren().add(label0);
@@ -194,11 +199,57 @@ public class FXMLDocumentBase extends AnchorPane {
         getChildren().add(StautsOfServer);
         getChildren().add(OnlineNum);
         getChildren().add(OffilneNum);
-        anchorPane2.getChildren().add(label2);
-        anchorPane2.getChildren().add(imageView0);
-        anchorPane2.getChildren().add(statusOfUserOnButton);
+        UserDetails.getChildren().add(label2);
+        UserDetails.getChildren().add(imageView0);
+        UserDetails.getChildren().add(statusOfUserOnButton);
+        
+        vBox.setSpacing(8);
+        
+         addNewRow("Esraa", "Offline");
+         addNewRow("Ahmed", "Online");
+         addNewRow("Nada", "Offline");
+         addNewRow("Esraa", "Offline");
+                 
         anchorPane1.getChildren().add(scrollPane);
         getChildren().add(anchorPane1);
 
+    }
+    void addNewRow(String name,String onlineOrOffline)
+    {
+        Label label2 = new Label();
+        label2.setLayoutX(54.0);
+        label2.setLayoutY(13.0);
+        label2.setText(name);
+        label2.setTextFill(javafx.scene.paint.Color.WHITE);
+        label2.setFont(new Font("Arial", 20.0));
+        
+        Label statusOfUserOnButton = new Label();
+        statusOfUserOnButton.setLayoutX(144.0);
+        statusOfUserOnButton.setLayoutY(25.0);
+        statusOfUserOnButton.setPrefHeight(30.0);
+        statusOfUserOnButton.setPrefWidth(62.0);
+        statusOfUserOnButton.setText("offline");
+        statusOfUserOnButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        statusOfUserOnButton.setFont(new Font("Arial", 16.0));
+        
+        ImageView imageView0 = new ImageView();
+        imageView0.setFitHeight(30.0);
+        imageView0.setFitWidth(27.0);
+        imageView0.setLayoutX(14.0);
+        imageView0.setLayoutY(13.0);
+        imageView0.setPickOnBounds(true);
+        imageView0.setPreserveRatio(true);
+        imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoeserver/Images/arrow.png")));
+       
+        
+        AnchorPane UserDetails = new AnchorPane();
+        UserDetails.setPrefHeight(53.0);
+        UserDetails.setPrefWidth(207.0);
+        UserDetails.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 10;");
+        UserDetails.getChildren().add(label2);
+        UserDetails.getChildren().add(imageView0);
+        UserDetails.getChildren().add(statusOfUserOnButton);
+        vBox.getChildren().add(UserDetails);
+        
     }
 }

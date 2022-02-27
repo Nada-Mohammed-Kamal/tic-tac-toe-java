@@ -1,5 +1,12 @@
 package tictactoe;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,6 +17,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import javax.swing.JOptionPane;
 
 public class SignUp extends AnchorPane {
 
@@ -37,6 +45,13 @@ public class SignUp extends AnchorPane {
     protected final AnchorPane anchorPane2;
     protected final Label label2;
     protected final Button btnLogin;
+    
+    Socket mySocket;
+    DataInputStream dis;
+    PrintStream ps;
+    Thread thread;
+    
+    boolean openedConnectionStream = false;
 
     public SignUp() {
 
@@ -247,5 +262,49 @@ public class SignUp extends AnchorPane {
         anchorPane2.getChildren().add(btnLogin);
         getChildren().add(anchorPane2);
 
+        
+        try {
+            mySocket = new Socket("127.0.0.1", 5005);
+            dis = new DataInputStream(mySocket.getInputStream());
+            ps = new PrintStream(mySocket.getOutputStream());
+            
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        while (true) {
+                            String s = dis.readLine();
+                            System.out.println("respond: " + s);
+                            
+                            if ("success".equals(s)) {
+                                //JOptionPane.showMessageDialog(rootPane, "Registered Successfully.", "TicTacToe", JOptionPane.INFORMATION_MESSAGE);
+
+                                /*Login frame = new Login();
+                                frame.setVisible(true);
+                                Signup.this.setVisible(false);*/
+                                thread.stop();
+                            } else {
+                                //JOptionPane.showMessageDialog(rootPane, "Username is taken before, choose another username!");
+                            }
+                        }
+                    } catch (IOException ex) {
+                        thread.stop();
+                        Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            thread.start();
+            openedConnectionStream = true;
+        } catch (IOException ex) {
+            //JOptionPane.showMessageDialog(rootPane, "Server is not found or turned off.\nTurn server on first.", "Error", JOptionPane.ERROR_MESSAGE);
+            showAlertMessage("Error", "Server is not found or turned off.\nTurn server on first.", Alert.AlertType.ERROR);
+        }
+    }
+    
+    private void showAlertMessage(String header, String msg, Alert.AlertType type) {
+        Alert a = new Alert(type);
+        a.setHeaderText(header);
+        a.setContentText(msg);
+        a.show();
     }
 }

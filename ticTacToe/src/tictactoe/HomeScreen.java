@@ -124,7 +124,18 @@ public class HomeScreen extends AnchorPane {
         localMultiPlayer.setText("Local MultiPlayers");
         localMultiPlayer.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         localMultiPlayer.setFont(new Font("Comic Sans MS Bold", 40.0));
+        localMultiPlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Parent root = new GameLocalMultiPlayersScreenBase(stage);
+        
+                Scene scene = new Scene(root);
 
+                stage.setScene(scene);
+                stage.show();
+                }
+        });
+          
         imageView.setFitHeight(185.0);
         imageView.setFitWidth(338.0);
         imageView.setLayoutX(405.0);

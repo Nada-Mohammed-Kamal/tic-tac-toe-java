@@ -240,6 +240,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player1img.setLayoutX(9.0);
         player1img.setLayoutY(94.0);
         player1img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+        player1img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/male.jfif")));
         //player1img.setImage(new Image(getClass().getResource("../../../../../../Desktop/male.jfif").toExternalForm()));
 
         label.setLayoutX(144.0);
@@ -274,8 +275,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player2img.setLayoutX(9.0);
         player2img.setLayoutY(94.0);
         player2img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        //player2img.setImage(new Image(getClass().getResource("../../../../../../Desktop/female.jfif").toExternalForm()));
-
+        player2img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/female.jfif")));
+        
         label0.setLayoutX(144.0);
         label0.setLayoutY(222.0);
         label0.setText("O");
@@ -313,8 +314,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         imageView.setLayoutX(13.0);
         imageView.setLayoutY(11.0);
         imageView.setOpacity(0.47);
-        //imageView.setImage(new Image(getClass().getResource("../../../../../../Desktop/back%20button.png").toExternalForm()));
-
+        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
+        
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
         gridPane.getColumnConstraints().add(columnConstraints1);

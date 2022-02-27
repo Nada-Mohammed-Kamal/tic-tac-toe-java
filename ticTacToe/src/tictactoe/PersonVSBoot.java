@@ -1,8 +1,6 @@
 package tictactoe;
 
-import java.awt.Color;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +11,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class PersonVSBoot extends AnchorPane {
     
@@ -54,7 +53,7 @@ public class PersonVSBoot extends AnchorPane {
     private int Draws = 0;
     private TicTacToeAI TTT;
     
-    public PersonVSBoot() {
+    public PersonVSBoot(Stage stage) {
         TTT = new TicTacToeAI();
         TTT.NewGame();
         
@@ -142,7 +141,7 @@ public class PersonVSBoot extends AnchorPane {
                 b3.setDisable(true);
                 //P1.setForeground(pcolor);
                 b3.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -163,7 +162,7 @@ public class PersonVSBoot extends AnchorPane {
                 b6.setDisable(true);
                 //P1.setForeground(pcolor);
                 b6.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -183,7 +182,7 @@ public class PersonVSBoot extends AnchorPane {
                 b2.setDisable(true);
                 //P1.setForeground(pcolor);
                 b2.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -202,7 +201,7 @@ public class PersonVSBoot extends AnchorPane {
                 b1.setDisable(true);
                 //P1.setForeground(pcolor);
                 b1.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -223,7 +222,7 @@ public class PersonVSBoot extends AnchorPane {
                 b5.setDisable(true);
                 //P1.setForeground(pcolor);
                 b5.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -242,9 +241,8 @@ public class PersonVSBoot extends AnchorPane {
             if (TTT.Move(8, 1) && GO == 0) {
                 System.out.println("YES");
                 b8.setDisable(true);
-                //P1.setForeground(pcolor);
                 b8.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -265,7 +263,7 @@ public class PersonVSBoot extends AnchorPane {
                 b9.setDisable(true);
                 //P1.setForeground(pcolor);
                 b9.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -283,9 +281,8 @@ public class PersonVSBoot extends AnchorPane {
             if (TTT.Move(4, 1) && GO == 0) {
                 System.out.println("YES");
                 b4.setDisable(true);
-                //P1.setForeground(pcolor);
                 b4.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -304,7 +301,7 @@ public class PersonVSBoot extends AnchorPane {
                 System.out.println("YES");
                 b7.setDisable(true);
                 b7.setText("X");
-                ComputerMove(-1,Color.GREEN,0);
+                ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
             }
@@ -452,7 +449,7 @@ public class PersonVSBoot extends AnchorPane {
 		System.out.println(OWins + "");
 		System.out.println(Draws + "");
 	}
-        private void ComputerMove(int player, Color pcolor,int move) {
+        private void ComputerMove(int player,int move) {
 		if (move==0) 
 			move = TTT.isGameOver() == 0 ? TTT.GenerateMove(player) : 0;
 		String PText = (player == -1) ? "O" : "X";

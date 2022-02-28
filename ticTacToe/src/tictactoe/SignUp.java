@@ -213,6 +213,7 @@ public class SignUp extends AnchorPane {
         rowConstraints2.setMinHeight(10.0);
         rowConstraints2.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
 
+        GridPane.setRowIndex(txtFieldName, 1);
         txtFieldName.setPrefHeight(56.0);
         txtFieldName.setPrefWidth(556.0);
         txtFieldName.setPromptText("Name");

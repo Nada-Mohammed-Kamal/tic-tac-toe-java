@@ -18,12 +18,15 @@ import java.util.logging.Logger;
  */
 public class PlayerManagerImpl implements PlayerManager{
     
-    ConnectionDB con;
+    private ConnectionDB con;
+    
+    public PlayerManagerImpl() {
+        con = ConnectionDB.getInstance();
+    }
     
     @Override
     public boolean addNewPlayer(String username, String password, int score, boolean isOnline) {
         
-        con = new ConnectionDB();
         boolean result = true;
         try {    
             PreparedStatement ps = con.getConnection().prepareStatement("INSERT INTO PLAYERS (USERNAME, PASSWORD, SCORE, ISONLINE) VALUES (?, ?, ?, ?)");
@@ -48,7 +51,6 @@ public class PlayerManagerImpl implements PlayerManager{
     @Override
     public boolean updatePlayerScore(String username, int score) {
         
-        con = new ConnectionDB();
         boolean result = true;
         try{
             PreparedStatement ps = con.getConnection().prepareStatement("UPDATE PLAYERS SET " + "SCORE = ? " + "WHERE USERNAME = ?");
@@ -71,7 +73,6 @@ public class PlayerManagerImpl implements PlayerManager{
     @Override
     public boolean updatePlayerState(String username, boolean isOnline) {
         
-        con = new ConnectionDB();
         boolean result = true;
         try{
             PreparedStatement ps = con.getConnection().prepareStatement("UPDATE PLAYERS SET " + "ISONLINE = ? " + "WHERE USERNAME = ?");
@@ -95,7 +96,6 @@ public class PlayerManagerImpl implements PlayerManager{
     @Override
     public Vector<PLayerDAO> selectAllPlayers(){
         
-        con = new ConnectionDB();
         rs = null;
         Vector<PLayerDAO> allPlayers = new Vector<>();
         
@@ -121,7 +121,6 @@ public class PlayerManagerImpl implements PlayerManager{
     @Override
     public Vector<PLayerDAO> selectOnlinePlayers(){
         
-        con = new ConnectionDB();
         rs = null;
         Vector<PLayerDAO> onlinePlayers = new Vector<>();
         
@@ -146,7 +145,6 @@ public class PlayerManagerImpl implements PlayerManager{
     
     @Override
     public boolean login(String userName, String password){
-        con = new ConnectionDB();
         rs = null;
         boolean result = false; 
         

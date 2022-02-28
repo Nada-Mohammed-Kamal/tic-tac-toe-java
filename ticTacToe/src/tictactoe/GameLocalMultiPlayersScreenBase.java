@@ -1,28 +1,48 @@
 package tictactoe;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.StringTokenizer;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Pair;
 
 public class GameLocalMultiPlayersScreenBase extends AnchorPane {
 
@@ -58,6 +78,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     protected final AnchorPane anchorPane4;
     protected final Button backButtonId;
     protected final ImageView imageView;
+    String playerOneName = "";
+    String playerTwoName = "";
     List<List> allWinningLists;
     String winnerName;
     ArrayList<Integer> player1Moves = new ArrayList<>();
@@ -68,8 +90,29 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     int playingCount = 0;
     int playerOneNumberOfWins = 0;
     int playerTwoNumberOfWins = 0;
+    
+    //newVars for savingandretrivingFromFiles
+    Vector<Integer> vc;
+        int numberofGameMovesInTheGame;
+        //ArrayList<Integer> player1Moves;
+        //ArrayList<Integer> player2Moves;
+        ArrayList<Integer> playersRecorderMoves;
+        int arr1Index;
+        int arr2Index;
+        String movesAsAString;
+        String nameOfPlayer1;
+        String nameOfPlayer2;
+        String readedTextFromFile;
+        String PlayernamesFromDataReturned;
+        String getSubStringForNames = "";
+        String nameOfPlayerOneRecorder = "";
+        String nameOfPlayerTwoRecorder = "";
+    
+    
 
     public GameLocalMultiPlayersScreenBase(Stage stage) {
+        //this method is for initializing the vars of the save and retrive from files and replay the game
+        //initializingVars();
         allWinningLists = new ArrayList<>();
         List topRow = Arrays.asList(1,2,3);
         List midRow = Arrays.asList(4,5,6);
@@ -127,7 +170,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         setPrefHeight(600.0);
         setPrefWidth(1000.0);
         setStyle("-fx-background-color: #072A40;");
-
+        dialogWithTwoTextBoxes();
         anchorPane.setLayoutX(277.0);
         anchorPane.setLayoutY(101.0);
         anchorPane.setPrefHeight(375.0);
@@ -252,7 +295,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player1name.setLayoutX(5.0);
         player1name.setPrefHeight(75.0);
         player1name.setPrefWidth(193.0);
-        player1name.setText("player1");
+        player1name.setText(playerOneName);
         player1name.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         player1name.setFont(new Font("Berlin Sans FB", 36.0));
 
@@ -260,9 +303,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player1result.setLayoutY(297.0);
         player1result.setPrefHeight(54.0);
         player1result.setPrefWidth(109.0);
-        player1result.setText("result1");
+        player1result.setText(Integer.toString(playerOneNumberOfWins));
         player1result.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        player1result.setFont(new Font("Berlin Sans FB", 36.0));
+        player1result.setFont(new Font("Berlin Sans FB", 50.0));
 
         anchorPane2.setLayoutX(763.0);
         anchorPane2.setLayoutY(104.0);
@@ -285,8 +328,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
 
         player2name.setLayoutX(3.0);
         player2name.setPrefHeight(64.0);
-        player2name.setPrefWidth(193.0);
-        player2name.setText("player2");
+        player2name.setPrefWidth(210.0);
+        player2name.setText(playerTwoName);
         player2name.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         player2name.setFont(new Font("Berlin Sans FB", 36.0));
 
@@ -294,9 +337,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player2result.setLayoutY(294.0);
         player2result.setPrefHeight(54.0);
         player2result.setPrefWidth(109.0);
-        player2result.setText("result2");
+        player2result.setText(Integer.toString(playerTwoNumberOfWins));
         player2result.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        player2result.setFont(new Font("Berlin Sans FB", 36.0));
+        player2result.setFont(new Font("Berlin Sans FB", 50.0));
 
         anchorPane4.setLayoutX(29.0);
         anchorPane4.setLayoutY(501.0);
@@ -496,7 +539,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         t.setFont(Font.font("Arial", FontWeight.BOLD, 36));
         t.setTextAlignment(TextAlignment.CENTER);
         dialogVbox.getChildren().add(t);
-        dialogVbox.getChildren().add(new Text("Nada won:" + playerOneNumberOfWins));
+        dialogVbox.getChildren().add(new Text(playerOneName + " won:" + playerOneNumberOfWins));
+        player1result.setText(Integer.toString(playerOneNumberOfWins));
         Button btn = new Button("     OK     ");
         btn.setOnAction((ActionEvent event1) -> {
             dialog.close();
@@ -561,7 +605,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         t.setFont(Font.font("Arial", FontWeight.BOLD, 36));
         t.setTextAlignment(TextAlignment.CENTER);
         dialogVbox.getChildren().add(t);
-        dialogVbox.getChildren().add(new Text("Mona won :" + playerTwoNumberOfWins));
+        dialogVbox.getChildren().add(new Text(playerTwoName + " won :" + playerTwoNumberOfWins));
+        player2result.setText(Integer.toString(playerTwoNumberOfWins));
         Button btn = new Button("     OK     ");
 
         btn.setOnAction((ActionEvent event1) -> {
@@ -671,7 +716,264 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
     }
     
+    //new functions
+    Vector<Integer> convertToVector(ArrayList<Integer> arr1 ,ArrayList<Integer> arr2 ){
+        for(int i = 0 ; i < (arr1.size() + arr2.size()) ; i++)
+        {
+            if(i%2 == 0 || i==0)
+            {
+                vc.add(arr1.get(arr1Index));
+                arr1Index++;
+            }
+            else{
+                vc.add(arr2.get(arr2Index));
+                arr2Index++;
+            }
+        }
+        return vc;
+    }
     
+    void printPlayer1Moves(ArrayList<Integer> arr1){
+        System.out.print("player1   ");
+        for(int i = 0 ; i < arr1.size() ; i++)
+        {
+            System.out.print(arr1.get(i));
+        }
+        System.out.println("");
+    }
+    
+    void printPlayer2Moves(ArrayList<Integer> arr2){
+        System.out.print("player2   ");
+        for(int i = 0 ; i < arr2.size() ; i++)
+        {
+            System.out.print(arr2.get(i));
+        }
+        System.out.println("");
+    }
+    
+    
+    void printVector(Vector<Integer> vec){
+        System.out.print("vector     ");
+        for(int i = 0 ; i < vec.size() ; i++)
+        {
+            System.out.println(vec.get(i));
+        }
+        System.out.println("");
+    }
+    
+    String convertVectorOfIntToString(Vector<Integer> vector){
+        String str = "";
+        for(int i = 0 ; i < vector.size() ; i++)
+        {
+            str += vector.get(i);
+            str += ",";
+        }
+        return str;
+    }
+    
+    void concatenateNameInStringToSaveInFile(String name1 , String name2){
+        movesAsAString += "&";
+        movesAsAString += name1;
+        movesAsAString += "&";
+        movesAsAString += name2;
+    }
+    
+    void convertStringFromFileToArrayListOfIntsAndPlayerNames(String strDatawithRecordedGameInfo){
+        //al i de batba3 beha bs
+        int i = 0;
+        int res = strDatawithRecordedGameInfo.indexOf(",&");
+        System.out.println(res);
+        getSubStringForNames = strDatawithRecordedGameInfo.substring(res + 2);
+        System.out.println(getSubStringForNames);
+        String sub = "";
+        sub = strDatawithRecordedGameInfo.substring(0,res);
+        System.out.println(sub);
+        StringTokenizer st = new StringTokenizer(sub,",");  
+        while (st.hasMoreTokens()) 
+        {  
+              playersRecorderMoves.add(Integer.parseInt(st.nextToken()));
+              System.out.println(playersRecorderMoves.get(i));
+              i++;
+        }
+        //keda ma3aya al moves f playersRecorderMoves
+        //wal2asamy f getsubStringForNames Bs MshMt2asam
+    }
+    
+    void seperateTheTwoPlayersNames(String concatenatedNames)
+    {
+        
+        int res = concatenatedNames.indexOf("&");
+        nameOfPlayerOneRecorder = concatenatedNames.substring(0,res);
+        nameOfPlayerTwoRecorder = concatenatedNames.substring(res+1);
+        System.out.println(nameOfPlayerOneRecorder);
+        System.out.println(nameOfPlayerTwoRecorder);
+    }
+    
+    
+    void replayTheMoves(String player1 , String player2 , ArrayList<Integer> PlayersMoves){
+        String symbol1 = "X";
+        String symbol2 = "O";
+        int currentPlayerNumber = 1;
+        Thread thread1 = new Thread(new Runnable() {
+        @Override
+        public void run(){
+            int currentPlayerNumber = 1;
+                for(int i = 0 ; i < PlayersMoves.size() ; i++)
+                {
+                  try {
+                    //thread1.wait(500);
+                    if(currentPlayerNumber == 1)
+                    {
+                        System.out.println("name of player" + player1 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol1);
+                        currentPlayerNumber = 2;
+                    }else{
+                        System.out.println("name of player" + player2 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol2);
+                        currentPlayerNumber = 1;
+                    }
+                    }catch (Exception ex) {
+                        Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
+        thread1.start();
+    }
+    
+    void dialogWithTwoTextBoxes(){
+        
+        //important a3adel hena a refactor de fal canel matwadenesh ll screen al ba3daha w al code maloosh lazma ashoof
+        //bs haktb al playerOneName = plyer1.getText(); playerTwoName = plyer1.getText();   
+        
+        // Create the custom dialog.
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Players");
+
+        // Set the button types.
+        ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+        ButtonType cancelBtnType = new ButtonType("Cancel" , ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField plyer1 = new TextField();
+        plyer1.setPromptText("Player1");
+        TextField plyer2 = new TextField();
+        plyer2.setPromptText("Player2");
+
+        gridPane.add(plyer1, 0, 0);
+        gridPane.add(new Label("VS"), 1, 0);
+        gridPane.add(plyer2, 2, 0);
+
+        dialog.getDialogPane().setContent(gridPane);
+
+        // Request focus on the username field by default.
+        Platform.runLater(() -> plyer1.requestFocus());
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                return new Pair<>(plyer1.getText(), plyer2.getText());
+            }
+            return null;
+        });
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+
+        result.ifPresent(pair -> {
+            playerOneName = pair.getKey();
+            playerTwoName = pair.getValue();   
+        });
+    }
+    
+    void theMainFuncForSavingAndRetrivingFromFiles(){
+        arr1Index = 0;
+        arr2Index = 0;
+        //a5aleehom static///////
+        nameOfPlayer1 = "nada";
+        nameOfPlayer2 = "mona";
+        numberofGameMovesInTheGame = 7;
+        ////////
+        playersRecorderMoves =new ArrayList<>();
+        
+        Button btn = new Button();
+        btn.setText("WriteToFile");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    vc = new Vector<>(numberofGameMovesInTheGame);
+                    //print the content of the file
+                    //String fileDirectory = System.getProperty("user.dir");
+                    //File file = new File(fileDirectory);
+                    //if(file.mkdirs()){System.out.println("true");};
+                    BufferedWriter writer = new BufferedWriter(new FileWriter( nameOfPlayer1 +"VS" + nameOfPlayer2+ ".txt"));
+                    writer.write(movesAsAString);
+                    writer.close();
+                } catch (Exception ex) {
+                    Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("");
+                
+            }
+        });
+        Button btn1 = new Button();
+        btn1.setText("convert To String");
+        btn1.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                    vc = new Vector<>(numberofGameMovesInTheGame);
+                    convertToVector(player1Moves, player2Moves);
+                    printPlayer1Moves(player1Moves);
+                    printPlayer2Moves(player2Moves);
+                    printVector(vc);
+                    movesAsAString = convertVectorOfIntToString(vc);
+                    concatenateNameInStringToSaveInFile(nameOfPlayer1 , nameOfPlayer2);
+                    System.out.println(movesAsAString);
+                    //print the content of the file
+                    
+                System.out.println("");
+            }
+        });
+           
+        Button btn3 = new Button();
+        btn3.setText("getTextFromFile");
+        btn3.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                  try {
+                    BufferedReader writer = new BufferedReader(new FileReader(nameOfPlayer1 +"VS" + nameOfPlayer2+ ".txt"));
+                    readedTextFromFile = writer.readLine();
+                    System.out.println(readedTextFromFile);
+                    writer.close();
+                    convertStringFromFileToArrayListOfIntsAndPlayerNames(readedTextFromFile);
+                    seperateTheTwoPlayersNames(getSubStringForNames);
+                    replayTheMoves(nameOfPlayerOneRecorder , nameOfPlayerTwoRecorder , playersRecorderMoves );
+                    //convertStringFromFileToPlayerNames(readedTextFromFile);
+                } catch (Exception ex) {
+                    Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("");
+            }
+        });
+ 
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        root.getChildren().add(btn1);
+        root.getChildren().add(btn3);
+        
+        Scene scene = new Scene(root, 300, 250);
+        
+        //primaryStage.setTitle("Hello World!");
+        //primaryStage.setScene(scene);
+        //primaryStage.show();
+    }
+    
+
     
     
 

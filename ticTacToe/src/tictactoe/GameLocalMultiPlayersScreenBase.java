@@ -16,7 +16,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,13 +29,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -94,26 +90,22 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     
     //newVars for savingandretrivingFromFiles
     Vector<Integer> vc;
-        int numberofGameMovesInTheGame;
-        //ArrayList<Integer> player1Moves;
-        //ArrayList<Integer> player2Moves;
-        ArrayList<Integer> playersRecorderMoves;
-        int arr1Index;
-        int arr2Index;
-        String movesAsAString;
-        String nameOfPlayer1;
-        String nameOfPlayer2;
-        String readedTextFromFile;
-        String PlayernamesFromDataReturned;
-        String getSubStringForNames = "";
-        String nameOfPlayerOneRecorder = "";
-        String nameOfPlayerTwoRecorder = "";
+    int numberofGameMovesInTheGame;
+    ArrayList<Integer> playersRecorderMoves;
+    int arr1Index;
+    int arr2Index;
+    String movesAsAString;
+    String nameOfPlayer1;
+    String nameOfPlayer2;
+    String readedTextFromFile;
+    String PlayernamesFromDataReturned;
+    String getSubStringForNames = "";
+    String nameOfPlayerOneRecorder = "";
+    String nameOfPlayerTwoRecorder = "";
     
     
 
     public GameLocalMultiPlayersScreenBase(Stage stage) {
-        //this method is for initializing the vars of the save and retrive from files and replay the game
-        //initializingVars();
         allWinningLists = new ArrayList<>();
         List topRow = Arrays.asList(1,2,3);
         List midRow = Arrays.asList(4,5,6);
@@ -743,6 +735,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         return vc;
     }
     
+    //just for checking////////////////////////////////////////////////
     void printPlayer1Moves(ArrayList<Integer> arr1){
         System.out.print("player1   ");
         for(int i = 0 ; i < arr1.size() ; i++)
@@ -760,8 +753,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         System.out.println("");
     }
-    
-    
+ 
     void printVector(Vector<Integer> vec){
         System.out.print("vector     ");
         for(int i = 0 ; i < vec.size() ; i++)
@@ -770,6 +762,11 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         System.out.println("");
     }
+    
+        
+    /////////////////////////////////////////////////////////////////
+    
+   
     
     String convertVectorOfIntToString(Vector<Integer> vector){
         String str = "";
@@ -791,6 +788,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     void convertStringFromFileToArrayListOfIntsAndPlayerNames(String strDatawithRecordedGameInfo){
         //al i de batba3 beha bs
         int i = 0;
+        
         int res = strDatawithRecordedGameInfo.indexOf(",&");
         System.out.println(res);
         getSubStringForNames = strDatawithRecordedGameInfo.substring(res + 2);
@@ -834,10 +832,50 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                     //thread1.wait(500);
                     if(currentPlayerNumber == 1)
                     {
-                        System.out.println("name of player" + player1 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol1);
+                        switch (PlayersMoves.get(i)){
+                            case 1:
+                               button1id.setText(symbol1);
+                            case 2:
+                               button2id.setText(symbol1);
+                            case 3:
+                               button3id.setText(symbol1);
+                            case 4:
+                               button4id.setText(symbol1);  
+                            case 5:
+                               button5id.setText(symbol1);
+                            case 6:
+                               button6id.setText(symbol1);
+                            case 7:
+                               button7id.setText(symbol1);
+                            case 8:
+                               button8id.setText(symbol1);
+                            case 9:
+                               button9id.setText(symbol1);
+                        }
+                        //System.out.println("name of player" + player1 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol1);
                         currentPlayerNumber = 2;
                     }else{
-                        System.out.println("name of player" + player2 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol2);
+                        switch (PlayersMoves.get(i)){
+                            case 1:
+                               button1id.setText(symbol2);
+                            case 2:
+                               button2id.setText(symbol2);
+                            case 3:
+                               button3id.setText(symbol2);
+                            case 4:
+                               button4id.setText(symbol2);  
+                            case 5:
+                               button5id.setText(symbol2);
+                            case 6:
+                               button6id.setText(symbol2);
+                            case 7:
+                               button7id.setText(symbol2);
+                            case 8:
+                               button8id.setText(symbol2);
+                            case 9:
+                               button9id.setText(symbol2);
+                        }
+                        //System.out.println("name of player" + player2 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol2);
                         currentPlayerNumber = 1;
                     }
                     }catch (Exception ex) {
@@ -847,6 +885,10 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             }
         });
         thread1.start();
+    }
+    
+    void viewResultScreenComponents(){
+        
     }
     
     void dialogWithTwoTextBoxes(){
@@ -900,14 +942,12 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     void theMainFuncForSavingAndRetrivingFromFiles(){
         arr1Index = 0;
         arr2Index = 0;
-        //a5aleehom static///////
-        nameOfPlayer1 = "nada";
-        nameOfPlayer2 = "mona";
-        numberofGameMovesInTheGame = 7;
-        ////////
+        nameOfPlayer1 = playerOneName;
+        nameOfPlayer2 = playerTwoName;
+        numberofGameMovesInTheGame = vc.size();
         playersRecorderMoves =new ArrayList<>();
-        
         Button btn = new Button();
+        // a replace bal button alhancaryato al howa save 
         btn.setText("WriteToFile");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             
@@ -948,7 +988,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 System.out.println("");
             }
         });
-           
         Button btn3 = new Button();
         btn3.setText("getTextFromFile");
         btn3.setOnAction(new EventHandler<ActionEvent>() {

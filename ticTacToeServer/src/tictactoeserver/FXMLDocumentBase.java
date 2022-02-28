@@ -1,5 +1,11 @@
 package tictactoeserver;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -9,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class FXMLDocumentBase extends AnchorPane {
 
@@ -19,11 +26,11 @@ public class FXMLDocumentBase extends AnchorPane {
     protected final Label label1;
     protected final ImageView imageView;
     protected final AnchorPane anchorPane0;
-    protected final Button Stop;
-    protected final Button Start;
-    protected final Label StautsOfServer;
-    protected final Label OnlineNum;
-    protected final Label OffilneNum;
+    protected final Button btnStop;
+    protected final Button btnStart;
+    protected final Label txtFieldServerState;
+    protected final Label txtFieldOnlineNumber;
+    protected final Label txtFieldOffilneNumber;
     protected final AnchorPane anchorPane1;
     protected final ScrollPane scrollPane;
     protected final VBox vBox;
@@ -31,7 +38,12 @@ public class FXMLDocumentBase extends AnchorPane {
     protected final Label label2;
     protected final ImageView imageView0;
     protected final Label statusOfUserOnButton;
-    public FXMLDocumentBase() {
+    
+    ServerSocket serverSocket;
+    private boolean turnServerOn = false;
+    Thread thread;
+    
+    public FXMLDocumentBase(Stage stage) {
 
         colorAdjust = new ColorAdjust();
         anchorPane = new AnchorPane();
@@ -40,11 +52,11 @@ public class FXMLDocumentBase extends AnchorPane {
         label1 = new Label();
         imageView = new ImageView();
         anchorPane0 = new AnchorPane();
-        Stop = new Button();
-        Start = new Button();
-        StautsOfServer = new Label();
-        OnlineNum = new Label();
-        OffilneNum = new Label();
+        btnStop = new Button();
+        btnStart = new Button();
+        txtFieldServerState = new Label();
+        txtFieldOnlineNumber = new Label();
+        txtFieldOffilneNumber = new Label();
         anchorPane1 = new AnchorPane();
         scrollPane = new ScrollPane();
         vBox = new VBox();
@@ -98,49 +110,113 @@ public class FXMLDocumentBase extends AnchorPane {
         anchorPane0.setLayoutX(770.0);
         anchorPane0.setLayoutY(48.0);
 
-        Stop.setLayoutX(290.0);
-        Stop.setLayoutY(390.0);
-        Stop.setMnemonicParsing(false);
-        Stop.setPrefHeight(84.0);
-        Stop.setPrefWidth(356.0);
-        Stop.setStyle("-fx-background-color: #1db2ca; -fx-background-radius: 45;");
-        Stop.setText("Stop");
-        Stop.setTextFill(javafx.scene.paint.Color.WHITE);
-        Stop.setFont(new Font("Comic Sans MS Bold", 40.0));
+        btnStop.setLayoutX(290.0);
+        btnStop.setLayoutY(390.0);
+        btnStop.setMnemonicParsing(false);
+        btnStop.setPrefHeight(84.0);
+        btnStop.setPrefWidth(356.0);
+        btnStop.setStyle("-fx-background-color: #1db2ca; -fx-background-radius: 45;");
+        btnStop.setText("Stop");
+        btnStop.setTextFill(javafx.scene.paint.Color.WHITE);
+        btnStop.setFont(new Font("Comic Sans MS Bold", 40.0));
+        btnStop.setOnAction((action) -> {
+            if (turnServerOn) {
+                turnServerOn = false;
+                txtFieldServerState.setText("Server is offline");
+                txtFieldServerState.setTextFill(javafx.scene.paint.Color.valueOf("#FF0000"));
+                btnStart.setDisable(false);
+                thread.stop();
+                try {
+                    serverSocket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
+        btnStop.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
+        btnStop.setOnMouseExited((event) -> {
+            stage.getScene().setCursor(Cursor.DEFAULT);
+        });
 
-        Start.setLayoutX(290.0);
-        Start.setLayoutY(258.0);
-        Start.setMnemonicParsing(false);
-        Start.setPrefHeight(84.0);
-        Start.setPrefWidth(356.0);
-        Start.setStyle("-fx-background-color: #1db2ca; -fx-background-radius: 45;");
-        Start.setText("Start");
-        Start.setTextFill(javafx.scene.paint.Color.WHITE);
-        Start.setFont(new Font("Comic Sans MS Bold", 40.0));
+        btnStart.setLayoutX(290.0);
+        btnStart.setLayoutY(258.0);
+        btnStart.setMnemonicParsing(false);
+        btnStart.setPrefHeight(84.0);
+        btnStart.setPrefWidth(356.0);
+        btnStart.setStyle("-fx-background-color: #1db2ca; -fx-background-radius: 45;");
+        btnStart.setText("Start");
+        btnStart.setTextFill(javafx.scene.paint.Color.WHITE);
+        btnStart.setFont(new Font("Comic Sans MS Bold", 40.0));
+        btnStart.setOnAction((action) -> {
+            
+            turnServerOn = true;
+            btnStart.setDisable(true);
+            try {
+                serverSocket = new ServerSocket(5555);
+                System.out.println("Server started");
+                System.out.println("Waiting for a client ...");
+                
+                txtFieldServerState.setText("Server is online");
+                txtFieldServerState.setTextFill(javafx.scene.paint.Color.valueOf("#22bd62"));
+                
+                thread = new Thread() {
+                    @Override
+                    public void run() {
+                        while (turnServerOn) {
+                            Socket accept;
+                            try {
+                                accept = serverSocket.accept();
+                                System.out.println("Client accepted");
+                            new GameHandler(accept, stage);
+                            } catch (IOException ex) {
+                                Logger.getLogger(FXMLDocumentBase.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                };
+                thread.start();
+            } catch (IOException ex) {
+                try {
+                    serverSocket.close();
+                } catch (IOException ex1) {
+                    Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        });
+        btnStart.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
+        btnStart.setOnMouseExited((event) -> {
+            stage.getScene().setCursor(Cursor.DEFAULT);
+        });
 
-        StautsOfServer.setLayoutX(66.0);
-        StautsOfServer.setLayoutY(470.0);
-        StautsOfServer.setPrefHeight(140.0);
-        StautsOfServer.setPrefWidth(252.0);
-        StautsOfServer.setText("Server is online");
-        StautsOfServer.setTextFill(javafx.scene.paint.Color.valueOf("#22bd62"));
-        StautsOfServer.setFont(new Font("Berlin Sans FB", 38.0));
+        txtFieldServerState.setLayoutX(66.0);
+        txtFieldServerState.setLayoutY(470.0);
+        txtFieldServerState.setPrefHeight(140.0);
+        txtFieldServerState.setPrefWidth(252.0);
+        txtFieldServerState.setText("Server is offline");
+        txtFieldServerState.setTextFill(javafx.scene.paint.Color.valueOf("#FF0000"));
+        txtFieldServerState.setFont(new Font("Berlin Sans FB", 38.0));
 
-        OnlineNum.setLayoutX(787.0);
-        OnlineNum.setLayoutY(-22.0);
-        OnlineNum.setPrefHeight(140.0);
-        OnlineNum.setPrefWidth(252.0);
-        OnlineNum.setText("Online:7");
-        OnlineNum.setTextFill(javafx.scene.paint.Color.valueOf("#22bd62"));
-        OnlineNum.setFont(new Font("Berlin Sans FB", 36.0));
+        txtFieldOnlineNumber.setLayoutX(787.0);
+        txtFieldOnlineNumber.setLayoutY(-22.0);
+        txtFieldOnlineNumber.setPrefHeight(140.0);
+        txtFieldOnlineNumber.setPrefWidth(252.0);
+        txtFieldOnlineNumber.setText("Online: 0");
+        txtFieldOnlineNumber.setTextFill(javafx.scene.paint.Color.valueOf("#22bd62"));
+        txtFieldOnlineNumber.setFont(new Font("Berlin Sans FB", 36.0));
 
-        OffilneNum.setLayoutX(787.0);
-        OffilneNum.setLayoutY(36.0);
-        OffilneNum.setPrefHeight(140.0);
-        OffilneNum.setPrefWidth(252.0);
-        OffilneNum.setText("Offilne:70");
-        OffilneNum.setTextFill(javafx.scene.paint.Color.valueOf("#bd2227"));
-        OffilneNum.setFont(new Font("Berlin Sans FB", 38.0));
+        txtFieldOffilneNumber.setLayoutX(787.0);
+        txtFieldOffilneNumber.setLayoutY(36.0);
+        txtFieldOffilneNumber.setPrefHeight(140.0);
+        txtFieldOffilneNumber.setPrefWidth(252.0);
+        txtFieldOffilneNumber.setText("Offline: 0");
+        txtFieldOffilneNumber.setTextFill(javafx.scene.paint.Color.valueOf("#bd2227"));
+        txtFieldOffilneNumber.setFont(new Font("Berlin Sans FB", 38.0));
 
         anchorPane1.setLayoutX(717.0);
         anchorPane1.setLayoutY(149.0);
@@ -194,28 +270,28 @@ public class FXMLDocumentBase extends AnchorPane {
         getChildren().add(anchorPane);
         getChildren().add(imageView);
         getChildren().add(anchorPane0);
-        getChildren().add(Stop);
-        getChildren().add(Start);
-        getChildren().add(StautsOfServer);
-        getChildren().add(OnlineNum);
-        getChildren().add(OffilneNum);
+        getChildren().add(btnStop);
+        getChildren().add(btnStart);
+        getChildren().add(txtFieldServerState);
+        getChildren().add(txtFieldOnlineNumber);
+        getChildren().add(txtFieldOffilneNumber);
         UserDetails.getChildren().add(label2);
         UserDetails.getChildren().add(imageView0);
         UserDetails.getChildren().add(statusOfUserOnButton);
         
         vBox.setSpacing(8);
         
-         addNewRow("Esraa", "Offline");
-         addNewRow("Ahmed", "Online");
-         addNewRow("Nada", "Offline");
-         addNewRow("Esraa", "Offline");
+//         addNewRow("Esraa", "Offline");
+//         addNewRow("Ahmed", "Online");
+//         addNewRow("Nada", "Offline");
+//         addNewRow("Esraa", "Offline");
                  
         anchorPane1.getChildren().add(scrollPane);
         getChildren().add(anchorPane1);
-
+        
     }
-    void addNewRow(String name,String onlineOrOffline)
-    {
+    
+    void addNewRow(String name,String onlineOrOffline) {
         Label label2 = new Label();
         label2.setLayoutX(54.0);
         label2.setLayoutY(13.0);
@@ -250,6 +326,5 @@ public class FXMLDocumentBase extends AnchorPane {
         UserDetails.getChildren().add(imageView0);
         UserDetails.getChildren().add(statusOfUserOnButton);
         vBox.getChildren().add(UserDetails);
-        
     }
 }

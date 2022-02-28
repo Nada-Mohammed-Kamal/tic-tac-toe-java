@@ -9,8 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,7 +23,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class SignUp extends AnchorPane implements Runnable {
+public class SignUp extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final Label label;
@@ -135,6 +133,9 @@ public class SignUp extends AnchorPane implements Runnable {
         btnBack.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
         });
+        btnBack.setOnMouseExited((event) -> {
+            stage.getScene().setCursor(Cursor.DEFAULT);
+        });
 
         imageView.setFitHeight(48.0);
         imageView.setFitWidth(62.0);
@@ -174,6 +175,9 @@ public class SignUp extends AnchorPane implements Runnable {
         });
         btnRegister.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
+        });
+        btnRegister.setOnMouseExited((event) -> {
+            stage.getScene().setCursor(Cursor.DEFAULT);
         });
 
         imageView0.setFitHeight(48.0);
@@ -250,10 +254,13 @@ public class SignUp extends AnchorPane implements Runnable {
         btnLogin.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         btnLogin.setFont(new Font("Berlin Sans FB Bold", 33.0));
         btnLogin.setOnAction((action) -> {
-            navigateToAnotherScreen(stage, new LoginScreenBase(stage));
+            Navigation.navigateTo(stage, new LoginScreenBase(stage), "Login");
         });
         btnLogin.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
+        });
+        btnLogin.setOnMouseExited((event) -> {
+            stage.getScene().setCursor(Cursor.DEFAULT);
         });
 
         anchorPane.getChildren().add(label);
@@ -280,9 +287,8 @@ public class SignUp extends AnchorPane implements Runnable {
         anchorPane2.getChildren().add(btnLogin);
         getChildren().add(anchorPane2);
 
-        
         try {
-            mySocket = new Socket("127.0.0.1", 5005);
+            mySocket = new Socket("127.0.0.1", 5555);
             dis = new DataInputStream(mySocket.getInputStream());
             ps = new PrintStream(mySocket.getOutputStream());
             
@@ -299,22 +305,24 @@ public class SignUp extends AnchorPane implements Runnable {
                             System.out.println("respond: " + s);
                             
                             if ("success".equals(s)) {
-                                showAlertMessage("Register", "Registered Successfully.", Alert.AlertType.INFORMATION);
+                                Platform.runLater(() -> {
+                                    showAlertMessage("Register", "Registered Successfully.", Alert.AlertType.INFORMATION);
                                 
-                                /*Parent root = new OnlinePlayerBoard(stage);
-                                
-                                Scene scene = new Scene(root);
-                                
-                                stage.setScene(scene);
-                                stage.show();*/
-                                stop();
+                                    Navigation.navigateTo(stage, new LoginScreenBase(stage), "Login");
+                                });
                             } else {
-                                showAlertMessage("Warning", "Username is taken before, choose another username!", Alert.AlertType.WARNING);
+                                connectedToServer = false;
+                                Platform.runLater(() -> {
+                                    showAlertMessage("Warning", "Sorry!\nServer down!", Alert.AlertType.WARNING);
+                                });
                             }
+                            stop();
                         } catch (SocketException ex) {
                             connectedToServer = false;
                             
-                            Platform.runLater(SignUp.this);
+                            Platform.runLater(() -> {
+                                showAlertMessage("Alert", "Sorry!\nServer down!", Alert.AlertType.INFORMATION);
+                            });
                             System.out.println("hello");
                             try {
                                 mySocket.close();
@@ -351,7 +359,7 @@ public class SignUp extends AnchorPane implements Runnable {
         if(connectedToServer){
             closeConnectionToServer();
         }
-        navigateToAnotherScreen(stage, new HomeScreen(stage));
+        Navigation.navigateTo(stage, new HomeScreen(stage), "XO Game");
     }
     
     private void closeConnectionToServer() {
@@ -388,17 +396,5 @@ public class SignUp extends AnchorPane implements Runnable {
     private void sendDataToServer() {
         String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  
         ps.println(data);
-    }
-    
-    private void navigateToAnotherScreen(Stage stage, Parent r) {
-        Parent root = r;
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    @Override
-    public void run() {
-        showAlertMessage("Alert", "Sorry!\nServer down!", Alert.AlertType.INFORMATION);
     }
 }

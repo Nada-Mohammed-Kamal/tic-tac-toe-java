@@ -19,8 +19,9 @@ import org.apache.derby.jdbc.ClientDriver;
 public class ConnectionDB {
     
     private Connection con;
+    private static ConnectionDB connectionDB;
     
-    public ConnectionDB(){
+    private ConnectionDB(){
         
         try {
             DriverManager.registerDriver(new ClientDriver());
@@ -59,5 +60,12 @@ public class ConnectionDB {
     
     public Connection getConnection(){
         return con;
+    }
+    
+    public static synchronized ConnectionDB getInstance(){
+        if(connectionDB == null) {
+            connectionDB = new ConnectionDB();
+        }
+        return connectionDB;
     }
 }

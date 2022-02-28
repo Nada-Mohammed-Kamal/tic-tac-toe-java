@@ -1,5 +1,9 @@
 package tictactoe;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -77,17 +81,26 @@ public class RecordedScreen extends AnchorPane {
 
         backButtonid.setLayoutX(4.0);
         backButtonid.setMnemonicParsing(false);
-        backButtonid.setPrefHeight(90.0);
-        backButtonid.setPrefWidth(219.0);
+        backButtonid.setPrefHeight(70.0);
+        backButtonid.setPrefWidth(200.0);
         backButtonid.setStyle("-fx-background-radius: 17; -fx-background-color: #e7ffdb;");
         backButtonid.setText("       Back");
         backButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonid.setFont(new Font("Berlin Sans FB", 33.0));
-
-        imageView.setFitHeight(62.0);
-        imageView.setFitWidth(62.0);
-        imageView.setLayoutX(13.0);
-        imageView.setLayoutY(3.0);
+        backButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Parent root = new HomeScreen(stage);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.show();
+            }
+        });
+        imageView.setFitHeight(52.0);
+        imageView.setFitWidth(52.0);
+        imageView.setLayoutX(20.0);
+        imageView.setLayoutY(9.0);
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
         
         anchorPane1.setLayoutX(283.0);

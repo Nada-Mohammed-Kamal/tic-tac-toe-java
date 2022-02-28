@@ -158,7 +158,15 @@ public class HomeScreen extends AnchorPane {
         records.setText("Records      ");
         records.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         records.setFont(new Font("Comic Sans MS", 24.0));
-
+        records.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                navigateToGame(stage, new RecordedScreen(stage));
+            }
+        });
+        records.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
         records.setEffect(innerShadow);
 
         circle.setFill(javafx.scene.paint.Color.valueOf("#cd191a"));
@@ -193,10 +201,9 @@ public class HomeScreen extends AnchorPane {
     
     private void navigateToGame(Stage stage, Parent r) {
         Parent root = r;
-       
         Scene scene = new Scene(root);
-
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

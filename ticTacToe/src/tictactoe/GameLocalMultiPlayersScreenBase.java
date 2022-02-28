@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -304,11 +305,20 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         backButtonId.setMnemonicParsing(false);
         backButtonId.setPrefHeight(75.0);
         backButtonId.setPrefWidth(185.0);
-        backButtonId.setStyle("-fx-background-radius: 17;");
+        backButtonId.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
         backButtonId.setText("       Back");
         backButtonId.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonId.setFont(new Font("Berlin Sans FB", 33.0));
-
+        backButtonId.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                    Parent root = new HomeScreen(stage);
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setResizable(false);
+                    stage.show();
+                 }
+        });
         imageView.setFitHeight(54.0);
         imageView.setFitWidth(62.0);
         imageView.setLayoutX(13.0);

@@ -2,88 +2,73 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #072a40;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.FXMLDocumentController">
-   <effect>
-      <ColorAdjust />
-   </effect>
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #072a40;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.LoginScreenController">
    <children>
-      <AnchorPane layoutX="66.0" layoutY="164.0">
+      <AnchorPane layoutX="45.0" layoutY="167.0">
          <children>
-            <Label layoutY="-29.0" prefHeight="140.0" prefWidth="216.0" text="TIC" textFill="#e7ffdb">
+            <Label layoutX="-8.0" layoutY="167.0" prefHeight="140.0" prefWidth="252.0" text="TOE" textFill="#e7ffdb">
+               <font>
+                  <Font name="Berlin Sans FB" size="93.0" />
+               </font>
+            </Label>
+            <Label layoutX="-11.0" layoutY="-33.0" prefHeight="140.0" prefWidth="216.0" text="TIC" textFill="#e7ffdb">
                <font>
                   <Font name="Berlin Sans FB" size="100.0" />
                </font>
             </Label>
-            <Label layoutY="166.0" prefHeight="140.0" prefWidth="252.0" text="TOE" textFill="#e7ffdb">
+            <Label layoutX="-13.0" layoutY="67.0" prefHeight="140.0" prefWidth="228.0" text="TAC" textFill="#e7ffdb">
                <font>
-                  <Font name="Berlin Sans FB" size="100.0" />
-               </font>
-            </Label>
-            <Label layoutY="66.0" prefHeight="140.0" prefWidth="228.0" text="TAC" textFill="#e7ffdb">
-               <font>
-                  <Font name="Berlin Sans FB" size="100.0" />
+                  <Font name="Berlin Sans FB" size="93.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="188.0" fitWidth="307.0" layoutX="357.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../Desktop/044e056e-b176-478c-b7af-34cbd57d197c.jpg" />
-         </image>
-      </ImageView>
-      <AnchorPane layoutX="770.0" layoutY="48.0" />
-      <Button fx:id="Stop" layoutX="290.0" layoutY="390.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="419.0" style="-fx-background-color: #1db2ca; -fx-background-radius: 45;" text="Stop" textFill="WHITE">
-         <font>
-            <Font name="Comic Sans MS Bold" size="40.0" />
-         </font>
-      </Button>
-      <Button fx:id="Start" layoutX="290.0" layoutY="258.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="409.0" style="-fx-background-color: #1db2ca; -fx-background-radius: 45;" text="Start" textFill="WHITE">
-         <font>
-            <Font name="Comic Sans MS Bold" size="40.0" />
-         </font>
-      </Button>
-      <Label fx:id="StautsOfServer" layoutX="66.0" layoutY="470.0" prefHeight="140.0" prefWidth="252.0" text="Server is online" textFill="#22bd62">
-         <font>
-            <Font name="Berlin Sans FB" size="38.0" />
-         </font>
-      </Label>
-      <Label fx:id="OnlineNum" layoutX="787.0" layoutY="-22.0" prefHeight="140.0" prefWidth="252.0" text="Online:7" textFill="#22bd62">
-         <font>
-            <Font name="Berlin Sans FB" size="36.0" />
-         </font>
-      </Label>
-      <Label fx:id="OffilneNum" layoutX="787.0" layoutY="36.0" prefHeight="140.0" prefWidth="252.0" text="Offilne:70" textFill="#bd2227">
-         <font>
-            <Font name="Berlin Sans FB" size="38.0" />
-         </font>
-      </Label>
-      <AnchorPane layoutX="746.0" layoutY="149.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="228.0" style="-fx-background-color: #E9EDF0; -fx-background-radius: 10;">
+      <AnchorPane layoutX="8.0" layoutY="491.0" prefHeight="89.0" prefWidth="219.0">
          <children>
-            <AnchorPane layoutX="10.0" layoutY="14.0" prefHeight="54.0" prefWidth="207.0" style="-fx-background-color: #1FA4E5; -fx-background-radius: 10;">
-               <children>
-                  <Label layoutX="54.0" layoutY="13.0" text="Esraa" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="20.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Desktop/arrow.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="statusOfUserOnButton" layoutX="144.0" layoutY="25.0" prefHeight="30.0" prefWidth="62.0" text="offline" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-         </children></AnchorPane>
+            <Button fx:id="backButtonid" layoutX="4.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="219.0" style="-fx-background-radius: 17; -fx-background-color: #e7ffdb;" text="       Back" textFill="#011317">
+               <font>
+                  <Font name="Berlin Sans FB" size="33.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="13.0" layoutY="3.0">
+               <image>
+                  <Image url="@../../../../../../Desktop/back%20button.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="283.0" layoutY="29.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="702.0" style="-fx-background-color: #E9EDF0; -fx-background-radius: 10;">
+         <children>
+            <ScrollPane hbarPolicy="NEVER" layoutX="5.0" layoutY="9.0" prefHeight="544.0" prefWidth="699.0" style="-fx-background-color: transparent; -fx-background-radius: 10;" vbarPolicy="ALWAYS">
+               <content>
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="682.0">
+                     <children>
+                        <AnchorPane fx:id="UserDetails" minHeight="-Infinity" minWidth="-Infinity" prefHeight="78.0" prefWidth="682.0" style="-fx-background-color: #8596A0; -fx-background-radius: 10;">
+                           <children>
+                              <Label fx:id="fileName" layoutX="11.0" layoutY="26.0" prefHeight="23.0" prefWidth="554.0" text="File Name" textFill="WHITE" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="26.0">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="showRecordedGame" layoutX="580.0" layoutY="15.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="48.0" prefWidth="88.0" style="-fx-background-color: #1FA4E5;" text="Show" textFill="WHITE" AnchorPane.rightAnchor="16.0">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

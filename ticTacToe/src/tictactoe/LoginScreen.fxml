@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #072a40;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="tictactoe.LoginScreenController">
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #072a40;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.LoginScreenController">
    <children>
       <AnchorPane layoutX="79.0" layoutY="164.0">
          <children>
@@ -32,7 +31,7 @@
       </AnchorPane>
       <AnchorPane layoutX="39.0" layoutY="504.0">
          <children>
-            <Button fx:id="backButtonid" layoutY="-14.0" mnemonicParsing="false" onAction="#backButton" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
+            <Button fx:id="backButtonid" layoutY="-14.0" mnemonicParsing="false" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="       Back" textFill="#011317">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>
@@ -46,7 +45,7 @@
       </AnchorPane>
       <AnchorPane layoutX="396.0" layoutY="504.0">
          <children>
-            <Button fx:id="loginId" layoutY="-14.0" mnemonicParsing="false" onAction="#login" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="      LogIn" textFill="#011317">
+            <Button fx:id="loginId" layoutY="-14.0" mnemonicParsing="false" prefHeight="89.0" prefWidth="185.0" style="-fx-background-radius: 17;" text="      LogIn" textFill="#011317">
                <font>
                   <Font name="Berlin Sans FB" size="33.0" />
                </font>
@@ -70,7 +69,7 @@
                   <Font name="Berlin Sans FB" size="30.0" />
                </font>
             </Label>
-            <Button layoutX="-47.0" layoutY="45.0" mnemonicParsing="false" onAction="#signUpButton" prefHeight="89.0" prefWidth="282.0" style="-fx-background-radius: 17; -fx-background-color: tranceparent;" text="Sign up here" textFill="#e7ffdb">
+            <Button fx:id="signUpHere" layoutX="-47.0" layoutY="45.0" mnemonicParsing="false" prefHeight="89.0" prefWidth="282.0" style="-fx-background-radius: 17; -fx-background-color: tranceparent;" text="Sign up here" textFill="#e7ffdb">
                <font>
                   <Font name="Berlin Sans FB Bold" size="33.0" />
                </font>

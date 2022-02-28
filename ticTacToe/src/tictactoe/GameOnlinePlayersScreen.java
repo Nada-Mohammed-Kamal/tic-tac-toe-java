@@ -1,5 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package tictactoe;
-
+/**
+ *
+ * @author Esraa
+ */
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,7 +26,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class PersonVSBoot extends AnchorPane {
+public class GameOnlinePlayersScreen extends AnchorPane {
     
     protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
@@ -58,18 +67,10 @@ public class PersonVSBoot extends AnchorPane {
     protected final AnchorPane saveAchorPane;
     protected final ImageView playAgainIcon;
       
-     protected final AnchorPane anchorPanePlayAgain;
+    protected final AnchorPane anchorPanePlayAgain;
+  
+    public GameOnlinePlayersScreen(Stage stage) {
         
-    private int XWins = 0;
-    private int OWins = 0;
-    private int Draws = 0;
-    private int newXResult = 0;
-    private int newYResult = 0;
-    private TicTacToeAI TTT;
-    
-    public PersonVSBoot(Stage stage) {
-        TTT = new TicTacToeAI();
-        TTT.NewGame();
         
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
@@ -198,16 +199,7 @@ public class PersonVSBoot extends AnchorPane {
         b3.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b3.setFont(new Font("Berlin Sans FB", 42.0));
         b3.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(3, 1) && GO == 0) {
-                System.out.println("YES");
-                
-                b3.setDisable(true);
-                b3.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+            
         });
         
         GridPane.setColumnIndex(b6, 2);
@@ -219,15 +211,7 @@ public class PersonVSBoot extends AnchorPane {
         b6.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b6.setFont(new Font("Berlin Sans FB", 42.0));
         b6.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(6, 1) && GO == 0) {
-                System.out.println("YES");
-                b6.setDisable(true);
-                b6.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+            
         });
         
         GridPane.setColumnIndex(b2, 1);
@@ -238,15 +222,7 @@ public class PersonVSBoot extends AnchorPane {
         b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b2.setFont(new Font("Berlin Sans FB", 42.0));
         b2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(2, 1) && GO == 0) {
-                System.out.println("YES");
-                b2.setDisable(true);
-                b2.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+            
         });
         
         b1.setMnemonicParsing(false);
@@ -256,15 +232,7 @@ public class PersonVSBoot extends AnchorPane {
         b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b1.setFont(new Font("Berlin Sans FB", 42.0));
         b1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(1, 1) && GO == 0) {
-                System.out.println("YES");
-                b1.setDisable(true);
-                b1.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+           
         });
         
         GridPane.setColumnIndex(b5, 1);
@@ -276,15 +244,7 @@ public class PersonVSBoot extends AnchorPane {
         b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b5.setFont(new Font("Berlin Sans FB", 42.0));
         b5.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(5, 1) && GO == 0) {
-                System.out.println("YES");
-                b5.setDisable(true);
-                b5.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+            
         });
         
         GridPane.setColumnIndex(b8, 1);
@@ -296,15 +256,7 @@ public class PersonVSBoot extends AnchorPane {
         b8.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b8.setFont(new Font("Berlin Sans FB", 42.0));
         b8.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(8, 1) && GO == 0) {
-                System.out.println("YES");
-                b8.setDisable(true);
-                b8.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+            
         });
         
         GridPane.setColumnIndex(b9, 2);
@@ -316,15 +268,7 @@ public class PersonVSBoot extends AnchorPane {
         b9.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b9.setFont(new Font("Berlin Sans FB", 42.0));
         b9.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(9, 1) && GO == 0) {
-                System.out.println("YES");
-                b9.setDisable(true);
-                b9.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+            
         });
         
         GridPane.setRowIndex(b4, 1);
@@ -335,15 +279,7 @@ public class PersonVSBoot extends AnchorPane {
         b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b4.setFont(new Font("Berlin Sans FB", 42.0));
         b4.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(4, 1) && GO == 0) {
-                System.out.println("YES");
-                b4.setDisable(true);
-                b4.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+            
         });
         
         GridPane.setRowIndex(b7, 2);
@@ -354,15 +290,7 @@ public class PersonVSBoot extends AnchorPane {
         b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b7.setFont(new Font("Berlin Sans FB", 42.0));
         b7.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(7, 1) && GO == 0) {
-                System.out.println("YES");
-                b7.setDisable(true);
-                b7.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
+          
         });
         
         AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
@@ -379,7 +307,7 @@ public class PersonVSBoot extends AnchorPane {
         PlayAgainButtonid.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                playAgainFunction(stage);
+               
                  }
         });
         PlayAgainButtonid.setOnMouseEntered((event) -> {
@@ -532,160 +460,4 @@ public class PersonVSBoot extends AnchorPane {
         getChildren().add(saveAchorPane);
 
     }
-       public void SetCounters(int Num) {
-		switch (Num) {
-		case 1:
-			XWins++;
-                       newXResult ++;
-		case -1:
-                        OWins++;
-                        newYResult++;
-			break;
-		case 2:
-			Draws++;
-			break;
-		case 0:
-			XWins = 0;
-			OWins = 0;
-			Draws = 0;
-			break;
-		}
-                hideAllXOButton();
-                playerXresult.setText("Result: "+XWins);
-                computerYResult.setText("Result: "+OWins);
-                if(newXResult > newYResult){
-                    GameResultId.setText("Congratulations you won");
-                    newXResult = 0;
-                    newYResult = 0;
-                }
-                else  if(newXResult < newYResult)
-                {
-                    GameResultId.setText("Unfortunately, the computer won");
-                    newXResult = 0;
-                    newYResult = 0;
-                }
-                else 
-                {
-                    GameResultId.setText("Game over,no one won");
-                    newXResult = 0;
-                    newYResult = 0;
-                }
-	        
-	}
-        private void ComputerMove(int player,int move) {
-		if (move==0) 
-			move = TTT.isGameOver() == 0 ? TTT.GenerateMove(player) : 0;
-		String PText = (player == -1) ? "O" : "X";
-
-		switch (move) {
-		case 1:
-                        b1.setDisable(true);
-                         b1.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b1.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 2:
-			b2.setDisable(true);
-			 b2.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b2.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 3:
-			b3.setDisable(true);
-			 b3.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b3.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 4:
-			b4.setDisable(true);
-			b4.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b4.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 5:
-			b5.setDisable(true);
-			b5.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b5.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 6:
-			b6.setDisable(true);
-			b6.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b6.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 7:
-			b7.setDisable(true);
-			b7.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b7.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 8:
-			b8.setDisable(true);
-                        b8.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b8.setText(PText);
-			TTT.Move(move, player);
-			break;
-		case 9:
-			b9.setDisable(true);
-		        b9.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-			b9.setText(PText);
-			TTT.Move(move, player);
-			break;
-		}
-
-	}
-        void hideAllXOButton()
-        {
-            b1.setVisible(false);
-            b2.setVisible(false);
-            b3.setVisible(false);
-            b4.setVisible(false);
-            b5.setVisible(false);
-            b6.setVisible(false);
-            b7.setVisible(false);
-            b8.setVisible(false);
-            b9.setVisible(false);
-            anchorPanePlayAgain.setVisible(true);
-            GameResultId.setVisible(true);
-            saveAchorPane.setVisible(true);
-        }
-        void playAgainFunction(Stage stage)
-        {
-            b1.setVisible(true);
-            b2.setVisible(true);
-            b3.setVisible(true);
-            b4.setVisible(true);
-            b5.setVisible(true);
-            b6.setVisible(true);
-            b7.setVisible(true);
-            b8.setVisible(true);
-            b9.setVisible(true);
-            
-            b1.setDisable(false);
-            b2.setDisable(false);
-            b3.setDisable(false);
-            b4.setDisable(false);
-            b5.setDisable(false);
-            b6.setDisable(false);
-            b7.setDisable(false);
-            b8.setDisable(false);
-            b9.setDisable(false);
-            
-            b1.setText("");
-            b2.setText("");
-            b3.setText("");
-            b4.setText("");
-            b5.setText("");
-            b6.setText("");
-            b7.setText("");
-            b8.setText("");
-            b9.setText("");
-            
-            TTT.NewGame();
-            anchorPanePlayAgain.setVisible(false);
-            GameResultId.setVisible(false);
-            saveAchorPane.setVisible(false);
-            stage.getScene().setCursor(Cursor.DEFAULT);
-        }
 }

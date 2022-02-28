@@ -4,8 +4,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,9 +22,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
-import javax.swing.JOptionPane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
-public class SignUp extends AnchorPane {
+public class SignUp extends AnchorPane implements Runnable {
 
     protected final AnchorPane anchorPane;
     protected final Label label;
@@ -40,7 +46,6 @@ public class SignUp extends AnchorPane {
     protected final RowConstraints rowConstraints2;
     protected final TextField txtFieldName;
     protected final TextField txtFieldPassword;
-    protected final TextField txtFieldEmail;
     protected final TextField txtFieldRePassword;
     protected final AnchorPane anchorPane2;
     protected final Label label2;
@@ -49,11 +54,9 @@ public class SignUp extends AnchorPane {
     Socket mySocket;
     DataInputStream dis;
     PrintStream ps;
-    Thread thread;
+    boolean connectedToServer = true;
     
-    boolean openedConnectionStream = false;
-
-    public SignUp() {
+    public SignUp(Stage stage) {
 
         anchorPane = new AnchorPane();
         label = new Label();
@@ -74,7 +77,6 @@ public class SignUp extends AnchorPane {
         rowConstraints2 = new RowConstraints();
         txtFieldName = new TextField();
         txtFieldPassword = new TextField();
-        txtFieldEmail = new TextField();
         txtFieldRePassword = new TextField();
         anchorPane2 = new AnchorPane();
         label2 = new Label();
@@ -127,6 +129,12 @@ public class SignUp extends AnchorPane {
         btnBack.setText("       Back");
         btnBack.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnBack.setFont(new Font("Berlin Sans FB", 30.0));
+        btnBack.setOnAction((action) -> {
+            closeWindow(stage);
+        });
+        btnBack.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
 
         imageView.setFitHeight(48.0);
         imageView.setFitWidth(62.0);
@@ -155,6 +163,18 @@ public class SignUp extends AnchorPane {
         btnRegister.setText("        Register");
         btnRegister.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnRegister.setFont(new Font("Berlin Sans FB", 30.0));
+        btnRegister.setOnAction((action) -> {
+            if(validateUserData()) {
+                if(connectedToServer) {
+                    sendDataToServer();
+                } else {
+                    showAlertMessage("Error", "Server is not found or turned off.", Alert.AlertType.ERROR);
+                }
+            }
+        });
+        btnRegister.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
 
         imageView0.setFitHeight(48.0);
         imageView0.setFitWidth(62.0);
@@ -202,17 +222,10 @@ public class SignUp extends AnchorPane {
         txtFieldPassword.setStyle("-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;");
         txtFieldPassword.setFont(new Font("Berlin Sans FB", 25.0));
 
-        GridPane.setRowIndex(txtFieldEmail, 1);
-        txtFieldEmail.setPrefHeight(56.0);
-        txtFieldEmail.setPrefWidth(563.0);
-        txtFieldEmail.setPromptText("email");
-        txtFieldEmail.setStyle("-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;");
-        txtFieldEmail.setFont(new Font("Berlin Sans FB", 25.0));
-
         GridPane.setRowIndex(txtFieldRePassword, 3);
         txtFieldRePassword.setPrefHeight(56.0);
         txtFieldRePassword.setPrefWidth(564.0);
-        txtFieldRePassword.setPromptText("re-Password");
+        txtFieldRePassword.setPromptText("Re-Password");
         txtFieldRePassword.setStyle("-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;");
         txtFieldRePassword.setFont(new Font("Berlin Sans FB", 25.0));
 
@@ -236,6 +249,12 @@ public class SignUp extends AnchorPane {
         btnLogin.setText("login here");
         btnLogin.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         btnLogin.setFont(new Font("Berlin Sans FB Bold", 33.0));
+        btnLogin.setOnAction((action) -> {
+            navigateToAnotherScreen(stage, new LoginScreenBase(stage));
+        });
+        btnLogin.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
 
         anchorPane.getChildren().add(label);
         anchorPane.getChildren().add(label0);
@@ -255,7 +274,6 @@ public class SignUp extends AnchorPane {
         gridPane.getRowConstraints().add(rowConstraints2);
         gridPane.getChildren().add(txtFieldName);
         gridPane.getChildren().add(txtFieldPassword);
-        gridPane.getChildren().add(txtFieldEmail);
         gridPane.getChildren().add(txtFieldRePassword);
         getChildren().add(gridPane);
         anchorPane2.getChildren().add(label2);
@@ -268,36 +286,57 @@ public class SignUp extends AnchorPane {
             dis = new DataInputStream(mySocket.getInputStream());
             ps = new PrintStream(mySocket.getOutputStream());
             
-            thread = new Thread() {
+            stage.setOnCloseRequest((WindowEvent event) -> {
+                closeWindow(stage);
+            });
+            
+            new Thread() {
                 @Override
                 public void run() {
-                    try {
-                        while (true) {
+                    while (connectedToServer) {
+                        try {
                             String s = dis.readLine();
                             System.out.println("respond: " + s);
                             
                             if ("success".equals(s)) {
-                                //JOptionPane.showMessageDialog(rootPane, "Registered Successfully.", "TicTacToe", JOptionPane.INFORMATION_MESSAGE);
-
-                                /*Login frame = new Login();
-                                frame.setVisible(true);
-                                Signup.this.setVisible(false);*/
-                                thread.stop();
+                                showAlertMessage("Register", "Registered Successfully.", Alert.AlertType.INFORMATION);
+                                
+                                /*Parent root = new OnlinePlayerBoard(stage);
+                                
+                                Scene scene = new Scene(root);
+                                
+                                stage.setScene(scene);
+                                stage.show();*/
+                                stop();
                             } else {
-                                //JOptionPane.showMessageDialog(rootPane, "Username is taken before, choose another username!");
+                                showAlertMessage("Warning", "Username is taken before, choose another username!", Alert.AlertType.WARNING);
                             }
-                        }
-                    } catch (IOException ex) {
-                        thread.stop();
-                        Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SocketException ex) {
+                            connectedToServer = false;
+                            
+                            Platform.runLater(SignUp.this);
+                            System.out.println("hello");
+                            try {
+                                mySocket.close();
+                                dis.close();
+                            } catch (IOException ex1) {
+                                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex1);
+                                showAlertMessage("Error", "Can't close the Socket or DataInputStream!", Alert.AlertType.ERROR);
+                            }
+                            ps.close();
+                            stop();
+                        } catch (IOException ex) {
+                            connectedToServer = false;
+                            stop();
+                            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+                            showAlertMessage("Error", "Can't read data from server!\nMay be Server Down or there exist an enhancement.", Alert.AlertType.ERROR);
+                        } 
                     }
                 }
-            };
-            thread.start();
-            openedConnectionStream = true;
+            }.start();
         } catch (IOException ex) {
-            //JOptionPane.showMessageDialog(rootPane, "Server is not found or turned off.\nTurn server on first.", "Error", JOptionPane.ERROR_MESSAGE);
-            showAlertMessage("Error", "Server is not found or turned off.\nTurn server on first.", Alert.AlertType.ERROR);
+            connectedToServer = false;
+            showAlertMessage("Error", "Server is not found or turned off.", Alert.AlertType.ERROR);
         }
     }
     
@@ -306,5 +345,60 @@ public class SignUp extends AnchorPane {
         a.setHeaderText(header);
         a.setContentText(msg);
         a.show();
+    }
+    
+    private void closeWindow(Stage stage) {
+        if(connectedToServer){
+            closeConnectionToServer();
+        }
+        navigateToAnotherScreen(stage, new HomeScreen(stage));
+    }
+    
+    private void closeConnectionToServer() {
+        try {
+            ps.println("closedNormally");
+            ps.close();
+            dis.close();
+            mySocket.close();
+            System.out.println("closed");
+        } catch (IOException ex) {
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
+    private boolean validateUserData() {
+        boolean isValidData = true;
+        if (txtFieldName.getText().trim().isEmpty()) {
+            showAlertMessage("Warning", "Name is Empty!\nPlease, type your name.", Alert.AlertType.WARNING);
+            isValidData = false;
+        } else if(txtFieldPassword.getText().trim().isEmpty()){
+            showAlertMessage("Warning", "Password is Empty!\nPlease, type your password.", Alert.AlertType.WARNING);
+            isValidData = false;
+        } else if(txtFieldRePassword.getText().trim().isEmpty()){
+            showAlertMessage("Warning", "Re-Password is Empty!\nPlease, confirm your password.", Alert.AlertType.WARNING);
+            isValidData = false;
+        } else if (!txtFieldPassword.getText().trim().equals(txtFieldRePassword.getText().trim())) {
+            showAlertMessage("Warning", "Password and Re-Password isn't the same!\nPlease, type your password and Confirm password correct.", Alert.AlertType.WARNING);
+            isValidData = false;
+        }
+        
+        return isValidData;
+    }
+    
+    private void sendDataToServer() {
+        String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  
+        ps.println(data);
+    }
+    
+    private void navigateToAnotherScreen(Stage stage, Parent r) {
+        Parent root = r;
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    @Override
+    public void run() {
+        showAlertMessage("Alert", "Sorry!\nServer down!", Alert.AlertType.INFORMATION);
     }
 }

@@ -5,19 +5,10 @@
  */
 package tictactoe;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+
 import java.io.File;
-import java.util.Date;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -53,25 +44,16 @@ public class VideoPlayer extends Application {
     }
 
        private void createScene(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
                 try{
             
-            File file = new File("1.mp4");//Video Folder Should Be in the Same Of .java File path
-            if(file != null){
-                String mediaUrl = file.toURI().toString();
+           // File file = new File("/tictactoe/video/1.mp4");//Video Folder Should Be in the Same Of .java File path
+            
+                File mediaUrl = new File("C:/Users/Esraa/Documents/GitHub/tic-tac-toe-java/ticTacToe/src/tictactoe/video/1.mp4");
                 System.out.println(""+mediaUrl);
-                mediaUrl="/tictactoe/1.mp4";
+                //mediaUrl="/tictactoe/video/1.mp4";
                 if(mediaUrl !=null){
                     
-                    media = new Media(mediaUrl);
+                    media = new Media(mediaUrl.toURI().toString());
                     player = new MediaPlayer(media);
                     MV=new MediaView(player);
                     StackPane root=new StackPane();
@@ -90,18 +72,13 @@ public class VideoPlayer extends Application {
                 }else{
                     System.out.println("File Not Found");
                 }
-            }else{
-                System.out.println("File Not Found");
-            }
+           
         }catch(Exception ex){
             System.out.println("File Not Found");
         }
 
         
     }
-     private void stopmyPro() {
-           pr.close();                
-     }
     /**
      * @param args the command line arguments
      */

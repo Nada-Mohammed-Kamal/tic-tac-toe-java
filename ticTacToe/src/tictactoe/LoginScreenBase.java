@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import tictactoe.network.NetworkLayerImpl;
 import utils.UIHelper;
 
 public class LoginScreenBase extends AnchorPane {
@@ -37,6 +38,7 @@ public class LoginScreenBase extends AnchorPane {
     private LoginScreenController controller;
     public LoginScreenBase(Stage stage) {
         controller = new LoginScreenControllerImpl(this);
+        controller.setNetworkLayer();
         anchorPane = new AnchorPane();
         label = new Label();
         label0 = new Label();

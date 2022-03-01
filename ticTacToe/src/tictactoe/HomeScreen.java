@@ -98,7 +98,7 @@ public class HomeScreen extends AnchorPane {
         onlinePlayer.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         onlinePlayer.setFont(new Font("Comic Sans MS Bold", 40.0));
         onlinePlayer.setOnAction((action) -> {
-            navigateToGame(stage, new LoginScreenBase(stage));
+            Navigation.navigateTo(stage, new LoginScreenBase(stage),"Log in");
         });
         onlinePlayer.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -114,7 +114,8 @@ public class HomeScreen extends AnchorPane {
         singlePlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                navigateToGame(stage, new PersonVSBoot(stage));
+                Navigation.navigateTo(stage, new PersonVSBoot(stage), "Home Screen");
+                 
             }
         });
         singlePlayer.setOnMouseEntered((event) -> {
@@ -133,7 +134,9 @@ public class HomeScreen extends AnchorPane {
         localMultiPlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                navigateToGame(stage, new GameLocalMultiPlayersScreenBase(stage));
+                
+                Navigation.navigateTo(stage, new GameLocalMultiPlayersScreenBase(stage), "Local Game");
+                 
             }
         });
         localMultiPlayer.setOnMouseEntered((event) -> {
@@ -161,7 +164,9 @@ public class HomeScreen extends AnchorPane {
         records.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                navigateToGame(stage, new RecordedScreen(stage));
+  
+                Navigation.navigateTo(stage,new RecordedScreen(stage), "Recorded screen");
+                 
             }
         });
         records.setOnMouseEntered((event) -> {
@@ -197,13 +202,5 @@ public class HomeScreen extends AnchorPane {
         getChildren().add(circle);
         getChildren().add(imageView0);
 
-    }
-    
-    private void navigateToGame(Stage stage, Parent r) {
-        Parent root = r;
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 }

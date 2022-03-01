@@ -355,11 +355,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         backButtonId.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    Parent root = new HomeScreen(stage);
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.show();
+                   
+                    Navigation.navigateTo(stage, new HomeScreen(stage), "Home Screen");
+                 
                  }
         });
         imageView.setFitHeight(54.0);
@@ -552,9 +550,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             public void handle(ActionEvent event) {
                
                  }
-        });
-        PlayAgainButtonid.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
         });
 
 

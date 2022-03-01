@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -75,6 +76,13 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     protected final AnchorPane anchorPane4;
     protected final Button backButtonId;
     protected final ImageView imageView;
+    protected final Button PlayAgainButtonid;
+    protected final Label GameResultId;
+    protected final Button SaveButtonid;
+    protected final ImageView savImageIcon;
+    protected final AnchorPane saveAchorPane;
+    protected final ImageView playAgainIcon;    
+    protected final AnchorPane anchorPanePlayAgain;
     String playerOneName = "";
     String playerTwoName = "";
     List<List> allWinningLists;
@@ -527,6 +535,101 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
+        PlayAgainButtonid = new Button();
+        AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
+        AnchorPane.setLeftAnchor(PlayAgainButtonid, 0.0);
+        AnchorPane.setRightAnchor(PlayAgainButtonid, 0.0);
+        AnchorPane.setTopAnchor(PlayAgainButtonid, 0.0);
+        PlayAgainButtonid.setMnemonicParsing(false);
+        PlayAgainButtonid.setPrefHeight(75.0);
+        PlayAgainButtonid.setPrefWidth(216.0);
+        PlayAgainButtonid.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
+        PlayAgainButtonid.setText("       Play Again");
+        PlayAgainButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
+        PlayAgainButtonid.setFont(new Font("Berlin Sans FB", 33.0));
+        PlayAgainButtonid.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               
+                 }
+        });
+        PlayAgainButtonid.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
+
+
+	GameResultId = new Label();
+        //GameResultId.setVisible(false);
+        GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
+        GameResultId.setLayoutX(339.0);
+        GameResultId.setLayoutY(219.0);
+        GameResultId.setMinHeight(USE_PREF_SIZE);
+        GameResultId.setMinWidth(USE_PREF_SIZE);
+        GameResultId.setPrefHeight(54.0);
+        GameResultId.setPrefWidth(342.0);
+        GameResultId.setText("game Result");
+        GameResultId.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        GameResultId.setTextOverrun(javafx.scene.control.OverrunStyle.CENTER_ELLIPSIS);
+        GameResultId.setFont(new Font("Berlin Sans FB", 24.0));
+        
+
+
+        SaveButtonid = new Button();SaveButtonid.setMnemonicParsing(false);
+        SaveButtonid.setPrefHeight(75.0);
+        SaveButtonid.setPrefWidth(195.0);
+        SaveButtonid.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
+        SaveButtonid.setText("       Save");
+        SaveButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
+        SaveButtonid.setFont(new Font("Berlin Sans FB", 33.0));
+        SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                
+                  }
+        });
+        SaveButtonid.setOnMouseEntered((event) -> {
+            stage.getScene().setCursor(Cursor.HAND);
+        });
+       
+       savImageIcon = new ImageView();
+       savImageIcon.setFitHeight(40.0);
+       savImageIcon.setFitWidth(48.0);
+       savImageIcon.setLayoutX(16.0);
+       savImageIcon.setLayoutY(16.0);
+       savImageIcon.setOpacity(0.47);
+       savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
+ 
+	saveAchorPane = new AnchorPane();
+	//saveAchorPane.setVisible(false);
+	saveAchorPane.setLayoutX(779.0);
+        saveAchorPane.setLayoutY(500.0);
+
+        playAgainIcon = new ImageView();
+        playAgainIcon.setFitHeight(54.0);
+        playAgainIcon.setFitWidth(62.0);
+        playAgainIcon.setLayoutX(13.0);
+        playAgainIcon.setLayoutY(11.0);
+        playAgainIcon.setOpacity(0.47);
+        playAgainIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/refresh.png")));
+       
+        anchorPanePlayAgain = new AnchorPane();
+        anchorPanePlayAgain.setLayoutX(378.0);
+        anchorPanePlayAgain.setLayoutY(300.0);
+        anchorPanePlayAgain.setPrefHeight(75.0);
+        anchorPanePlayAgain.setPrefWidth(259.0);
+        //anchorPanePlayAgain.setVisible(false);
+        
+
+
+        anchorPanePlayAgain.getChildren().add(PlayAgainButtonid);
+        anchorPanePlayAgain.getChildren().add(playAgainIcon);
+        getChildren().add(anchorPanePlayAgain);   
+        getChildren().add(GameResultId);
+        
+        saveAchorPane.getChildren().add(SaveButtonid);
+        saveAchorPane.getChildren().add(savImageIcon);
+        getChildren().add(saveAchorPane);
+        
     }
     
     public void player1wins(){

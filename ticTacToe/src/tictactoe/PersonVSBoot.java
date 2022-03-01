@@ -382,9 +382,7 @@ public class PersonVSBoot extends AnchorPane {
                 playAgainFunction(stage);
                  }
         });
-        PlayAgainButtonid.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
+
         gridPane.setPadding(new Insets(10.0, 0.0, 10.0, 10.0));
 
         anchorPane0.setLayoutX(49.0);

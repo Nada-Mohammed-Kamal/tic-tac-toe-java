@@ -559,6 +559,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
 
 
 	GameResultId = new Label();
+        //*************************** hide GameResultId **********************//
         //GameResultId.setVisible(false);
         GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
         GameResultId.setLayoutX(339.0);
@@ -587,9 +588,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 
                   }
         });
-        SaveButtonid.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
        
        savImageIcon = new ImageView();
        savImageIcon.setFitHeight(40.0);
@@ -600,6 +598,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
        savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
  
 	saveAchorPane = new AnchorPane();
+        //*************************** hide saveAchorPane Save button and it's image **********************//
 	//saveAchorPane.setVisible(false);
 	saveAchorPane.setLayoutX(779.0);
         saveAchorPane.setLayoutY(500.0);
@@ -617,6 +616,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         anchorPanePlayAgain.setLayoutY(300.0);
         anchorPanePlayAgain.setPrefHeight(75.0);
         anchorPanePlayAgain.setPrefWidth(259.0);
+        //*************************** hide anchorPanePlayAgain playAgain button and it's image **********************//
         //anchorPanePlayAgain.setVisible(false);
         
 

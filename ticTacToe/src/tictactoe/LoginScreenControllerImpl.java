@@ -7,6 +7,7 @@ package tictactoe;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import tictactoe.network.NetworkLayer;
@@ -71,8 +72,8 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
 
     @Override
     public void onErrorReceived(String errorMsg) {
-        
-        System.out.println("onErrorReceived"+errorMsg);
+
+        System.out.println("onErrorReceived" + errorMsg);
         switch (errorMsg) {
             case ErrorConstants.COULD_NOT_CONNECT_TO_SERVER:
                 UIHelper.showAlertMessage("Ouhh!", errorMsg, Alert.AlertType.ERROR);
@@ -90,10 +91,12 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
 
     @Override
     public void onMsgReceived(String receivedMsg) {
-        System.out.println("onMsgReceived"+receivedMsg);
+        System.out.println("onMsgReceived" + receivedMsg);
         switch (receivedMsg) {
             case AuthenticationConstants.SUCCESS_LOGIN:
-                UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
+                Platform.runLater(() -> {
+                    UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
+                });
                 break;
             case AuthenticationConstants.ALEARDY_LOGINED_ON_ANOTHER_DEVICE:
                 UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);

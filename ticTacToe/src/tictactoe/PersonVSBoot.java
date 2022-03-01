@@ -195,7 +195,6 @@ public class PersonVSBoot extends AnchorPane {
         b3.setPrefHeight(95.0);
         b3.setPrefWidth(133.0);
         b3.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b3.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b3.setFont(new Font("Berlin Sans FB", 42.0));
         b3.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
@@ -203,6 +202,7 @@ public class PersonVSBoot extends AnchorPane {
                 System.out.println("YES");
                 
                 b3.setDisable(true);
+                b3.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b3.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -216,13 +216,13 @@ public class PersonVSBoot extends AnchorPane {
         b6.setPrefHeight(95.0);
         b6.setPrefWidth(133.0);
         b6.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b6.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b6.setFont(new Font("Berlin Sans FB", 42.0));
         b6.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(6, 1) && GO == 0) {
                 System.out.println("YES");
                 b6.setDisable(true);
+                b6.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b6.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -235,13 +235,13 @@ public class PersonVSBoot extends AnchorPane {
         b2.setPrefHeight(95.0);
         b2.setPrefWidth(133.0);
         b2.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b2.setFont(new Font("Berlin Sans FB", 42.0));
         b2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(2, 1) && GO == 0) {
                 System.out.println("YES");
-                b2.setDisable(true);
+                b2.setDisable(true); 
+                b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b2.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -253,13 +253,13 @@ public class PersonVSBoot extends AnchorPane {
         b1.setPrefHeight(95.0);
         b1.setPrefWidth(133.0);
         b1.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b1.setFont(new Font("Berlin Sans FB", 42.0));
         b1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(1, 1) && GO == 0) {
                 System.out.println("YES");
                 b1.setDisable(true);
+                b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b1.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -273,13 +273,13 @@ public class PersonVSBoot extends AnchorPane {
         b5.setPrefHeight(95.0);
         b5.setPrefWidth(133.0);
         b5.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b5.setFont(new Font("Berlin Sans FB", 42.0));
         b5.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(5, 1) && GO == 0) {
                 System.out.println("YES");
                 b5.setDisable(true);
+                b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b5.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -293,13 +293,13 @@ public class PersonVSBoot extends AnchorPane {
         b8.setPrefHeight(95.0);
         b8.setPrefWidth(133.0);
         b8.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b8.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b8.setFont(new Font("Berlin Sans FB", 42.0));
         b8.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(8, 1) && GO == 0) {
                 System.out.println("YES");
                 b8.setDisable(true);
+                b8.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b8.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -313,13 +313,13 @@ public class PersonVSBoot extends AnchorPane {
         b9.setPrefHeight(95.0);
         b9.setPrefWidth(133.0);
         b9.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b9.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b9.setFont(new Font("Berlin Sans FB", 42.0));
         b9.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(9, 1) && GO == 0) {
                 System.out.println("YES");
                 b9.setDisable(true);
+                b9.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b9.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -332,13 +332,13 @@ public class PersonVSBoot extends AnchorPane {
         b4.setPrefHeight(95.0);
         b4.setPrefWidth(133.0);
         b4.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b4.setFont(new Font("Berlin Sans FB", 42.0));
         b4.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(4, 1) && GO == 0) {
                 System.out.println("YES");
                 b4.setDisable(true);
+                b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b4.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -351,13 +351,13 @@ public class PersonVSBoot extends AnchorPane {
         b7.setPrefHeight(95.0);
         b7.setPrefWidth(133.0);
         b7.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b7.setFont(new Font("Berlin Sans FB", 42.0));
         b7.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
             if (TTT.Move(7, 1) && GO == 0) {
                 System.out.println("YES");
                 b7.setDisable(true);
+                b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b7.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
@@ -580,13 +580,13 @@ public class PersonVSBoot extends AnchorPane {
 		switch (move) {
 		case 1:
                         b1.setDisable(true);
-                         b1.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+                        b1.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b1.setText(PText);
 			TTT.Move(move, player);
 			break;
 		case 2:
 			b2.setDisable(true);
-			 b2.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+			b2.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b2.setText(PText);
 			TTT.Move(move, player);
 			break;

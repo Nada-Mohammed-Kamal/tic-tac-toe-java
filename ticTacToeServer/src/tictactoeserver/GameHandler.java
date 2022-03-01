@@ -62,6 +62,8 @@ public class GameHandler extends Thread {
                             case "signup":
                                 registerNewPlayer(recievedMsg);
                                 break;
+                            case "login":
+                                
                             default:
                                 closeStream();
                         }

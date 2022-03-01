@@ -32,12 +32,12 @@ public class LoginScreenControllerImpl implements LoginScreenController {
 
     @Override
     public void onPressSignupBtn(Stage stage) {
-        Navigation.navigateToSignUp(stage);
+        //Navigation.navigateToSignUp(stage);
     }
 
     @Override
     public void onPressPressBackBtn(Stage stage) {
-        Navigation.navigateToHome(stage);
+       // Navigation.navigateToHome(stage);
     }
     private void validateInputs(String username, String password){
         if(isNotEmpty(username,password))

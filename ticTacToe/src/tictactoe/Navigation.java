@@ -8,6 +8,7 @@ package tictactoe;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.Constants;
 
 /**
  *
@@ -21,5 +22,13 @@ public class Navigation {
         stage.setScene(scene);
         stage.setTitle(title);
         stage.show();
+    }
+    
+    public static void navigateToSignUp(Stage stage){
+        navigateTo(stage, new SignUp(stage), Constants.SIGN_UP);
+    }
+        
+    public static void navigateToHome(Stage stage){
+        navigateTo(stage, new HomeScreen(stage), Constants.HOME);
     }
 }

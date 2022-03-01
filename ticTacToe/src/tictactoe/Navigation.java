@@ -21,6 +21,7 @@ public class Navigation {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle(title);
+        stage.setResizable(false);
         stage.show();
     }
     

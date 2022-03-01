@@ -382,9 +382,7 @@ public class PersonVSBoot extends AnchorPane {
                 playAgainFunction(stage);
                  }
         });
-        PlayAgainButtonid.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
+
         gridPane.setPadding(new Insets(10.0, 0.0, 10.0, 10.0));
 
         anchorPane0.setLayoutX(49.0);
@@ -476,11 +474,7 @@ public class PersonVSBoot extends AnchorPane {
         button.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    Parent root = new HomeScreen(stage);
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.show();
+                    Navigation.navigateTo(stage, new HomeScreen(stage), "Home Screen");
                  }
         });
         imageView1.setFitHeight(50.0);

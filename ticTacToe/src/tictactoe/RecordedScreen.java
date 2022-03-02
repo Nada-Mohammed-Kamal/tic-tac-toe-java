@@ -18,8 +18,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
-public abstract class RecordedScreen extends AnchorPane {
+public class RecordedScreen extends AnchorPane {
+
+    
+
+    ArrayList<String> returnedFilesNames;
 
     protected final AnchorPane anchorPane;
     protected final Label label;
@@ -32,14 +37,7 @@ public abstract class RecordedScreen extends AnchorPane {
     protected final ScrollPane scrollPane;
     protected final VBox vBox;
 
-    ArrayList<String> returnedFilesNames;
-
-    protected final AnchorPane UserDetails;
-    protected final Label fileName;
-    protected final Button showRecordedGame;
-
-
-    public RecordedScreen() {
+    public RecordedScreen(Stage stage) {
 
         anchorPane = new AnchorPane();
         label = new Label();
@@ -51,10 +49,7 @@ public abstract class RecordedScreen extends AnchorPane {
         anchorPane1 = new AnchorPane();
         scrollPane = new ScrollPane();
         vBox = new VBox();
-        UserDetails = new AnchorPane();
-        fileName = new Label();
-        showRecordedGame = new Button();
-
+        
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
@@ -109,20 +104,12 @@ public abstract class RecordedScreen extends AnchorPane {
                 //Navigation.navigateTo(stage,new ReplayingTheChosenRecodrdedGame("kamalVSahmed2022-03-02-18-24-35"),"ReplayingTheChosenRecodrdedGame");
             }
         });
-        imageView.setFitHeight(52.0);
-        imageView.setFitWidth(52.0);
-        imageView.setLayoutX(20.0);
-        imageView.setLayoutY(9.0);
-        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
-        
-
-       /* imageView.setFitHeight(62.0);
+        imageView.setFitHeight(62.0);
         imageView.setFitWidth(62.0);
         imageView.setLayoutX(13.0);
         imageView.setLayoutY(3.0);
-        imageView.setImage(new Image(getClass().getResource("../../../../../../Desktop/back%20button.png").toExternalForm()));*/
-
-        anchorPane1.setAccessibleRole(javafx.scene.AccessibleRole.BUTTON);
+        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
+        
         anchorPane1.setLayoutX(283.0);
         anchorPane1.setLayoutY(29.0);
         anchorPane1.setMinHeight(USE_PREF_SIZE);
@@ -144,21 +131,7 @@ public abstract class RecordedScreen extends AnchorPane {
         vBox.setPrefHeight(543.0);
         vBox.setPrefWidth(682.0);
 
-        UserDetails.setMinHeight(USE_PREF_SIZE);
-        UserDetails.setMinWidth(USE_PREF_SIZE);
-        UserDetails.setPrefHeight(78.0);
-        UserDetails.setPrefWidth(682.0);
-        UserDetails.setStyle("-fx-background-color: #8596A0; -fx-background-radius: 10;");
-
-        AnchorPane.setLeftAnchor(fileName, 11.0);
-        AnchorPane.setTopAnchor(fileName, 26.0);
-        fileName.setLayoutX(11.0);
-        fileName.setLayoutY(26.0);
-        fileName.setPrefHeight(23.0);
-        fileName.setPrefWidth(554.0);
-        fileName.setText("File Name");
-        fileName.setTextFill(javafx.scene.paint.Color.WHITE);
-        fileName.setFont(new Font("Arial", 24.0));
+        scrollPane.setContent(vBox);
 
         anchorPane.getChildren().add(label);
         anchorPane.getChildren().add(label0);
@@ -172,7 +145,8 @@ public abstract class RecordedScreen extends AnchorPane {
         getChildren().add(anchorPane1);
         
         vBox.setSpacing(8);
-        returnedFilesNames = new ArrayList<>();
+        
+         returnedFilesNames = new ArrayList<>();
          returnedFilesNames = getRecordedFilesNames();
          for(int i = 0 ; i < returnedFilesNames.size() ; i++)
          {
@@ -205,23 +179,18 @@ public abstract class RecordedScreen extends AnchorPane {
         showRecordedGame.setText("Show");
         showRecordedGame.setTextFill(javafx.scene.paint.Color.WHITE);
         showRecordedGame.setFont(new Font("System Bold", 22.0));
-        scrollPane.setContent(vBox);
+        
+        AnchorPane UserDetails = new AnchorPane();
+        UserDetails.setMinHeight(USE_PREF_SIZE);
+        UserDetails.setMinWidth(USE_PREF_SIZE);
+        UserDetails.setPrefHeight(78.0);
+        UserDetails.setPrefWidth(682.0);
+        UserDetails.setStyle("-fx-background-color: #8596A0; -fx-background-radius: 10;");
 
-        anchorPane.getChildren().add(label);
-        anchorPane.getChildren().add(label0);
-        anchorPane.getChildren().add(label1);
-        getChildren().add(anchorPane);
-        anchorPane0.getChildren().add(backButtonid);
-        anchorPane0.getChildren().add(imageView);
-        getChildren().add(anchorPane0);
-        UserDetails.getChildren().add(fileName);
+        UserDetails.getChildren().add(fileNameLabel);
         UserDetails.getChildren().add(showRecordedGame);
         vBox.getChildren().add(UserDetails);
-        anchorPane1.getChildren().add(scrollPane);
-        getChildren().add(anchorPane1);
-
     }
-    
     ArrayList<String> getRecordedFilesNames(){
         File f = new File(System.getProperty("user.dir"));
         ArrayList<String> filesNames = new ArrayList<>();
@@ -239,8 +208,8 @@ public abstract class RecordedScreen extends AnchorPane {
                 System.out.print("     file:");
             }
             try {
-                System.out.println(file.getCanonicalPath().substring(68));
-                filesNames.add(file.getCanonicalPath().substring(68));
+                System.out.println(file.getCanonicalPath().substring(file.getCanonicalPath().indexOf("VS")+1));
+                filesNames.add(file.getCanonicalPath().substring(file.getCanonicalPath().indexOf("VS")+2));
             } catch (IOException ex) {
                 Logger.getLogger(RecordedScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -248,3 +217,6 @@ public abstract class RecordedScreen extends AnchorPane {
         return filesNames;
     } 
 }
+   
+        
+    

@@ -1,9 +1,5 @@
 package tictactoe;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -12,9 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
-public class RecordedScreen extends AnchorPane {
+public abstract class RecordedScreen extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final Label label;
@@ -26,8 +21,11 @@ public class RecordedScreen extends AnchorPane {
     protected final AnchorPane anchorPane1;
     protected final ScrollPane scrollPane;
     protected final VBox vBox;
+    protected final AnchorPane UserDetails;
+    protected final Label fileName;
+    protected final Button showRecordedGame;
 
-    public RecordedScreen(Stage stage) {
+    public RecordedScreen() {
 
         anchorPane = new AnchorPane();
         label = new Label();
@@ -39,6 +37,9 @@ public class RecordedScreen extends AnchorPane {
         anchorPane1 = new AnchorPane();
         scrollPane = new ScrollPane();
         vBox = new VBox();
+        UserDetails = new AnchorPane();
+        fileName = new Label();
+        showRecordedGame = new Button();
 
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
@@ -81,24 +82,20 @@ public class RecordedScreen extends AnchorPane {
 
         backButtonid.setLayoutX(4.0);
         backButtonid.setMnemonicParsing(false);
-        backButtonid.setPrefHeight(70.0);
-        backButtonid.setPrefWidth(200.0);
+        backButtonid.setPrefHeight(90.0);
+        backButtonid.setPrefWidth(219.0);
         backButtonid.setStyle("-fx-background-radius: 17; -fx-background-color: #e7ffdb;");
         backButtonid.setText("       Back");
         backButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonid.setFont(new Font("Berlin Sans FB", 33.0));
-        backButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation.navigateTo(stage,new HomeScreen(stage), "Home screen");
-            }
-        });
-        imageView.setFitHeight(52.0);
-        imageView.setFitWidth(52.0);
-        imageView.setLayoutX(20.0);
-        imageView.setLayoutY(9.0);
-        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
-        
+
+        imageView.setFitHeight(62.0);
+        imageView.setFitWidth(62.0);
+        imageView.setLayoutX(13.0);
+        imageView.setLayoutY(3.0);
+        imageView.setImage(new Image(getClass().getResource("../../../../../../Desktop/back%20button.png").toExternalForm()));
+
+        anchorPane1.setAccessibleRole(javafx.scene.AccessibleRole.BUTTON);
         anchorPane1.setLayoutX(283.0);
         anchorPane1.setLayoutY(29.0);
         anchorPane1.setMinHeight(USE_PREF_SIZE);
@@ -120,40 +117,22 @@ public class RecordedScreen extends AnchorPane {
         vBox.setPrefHeight(543.0);
         vBox.setPrefWidth(682.0);
 
-        scrollPane.setContent(vBox);
+        UserDetails.setMinHeight(USE_PREF_SIZE);
+        UserDetails.setMinWidth(USE_PREF_SIZE);
+        UserDetails.setPrefHeight(78.0);
+        UserDetails.setPrefWidth(682.0);
+        UserDetails.setStyle("-fx-background-color: #8596A0; -fx-background-radius: 10;");
 
-        anchorPane.getChildren().add(label);
-        anchorPane.getChildren().add(label0);
-        anchorPane.getChildren().add(label1);
-        getChildren().add(anchorPane);
-        anchorPane0.getChildren().add(backButtonid);
-        anchorPane0.getChildren().add(imageView);
-        getChildren().add(anchorPane0);
-       
-        anchorPane1.getChildren().add(scrollPane);
-        getChildren().add(anchorPane1);
-        
-        vBox.setSpacing(8);
-        
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-    }
-    void addRecordedGame(String fileName)
-    {
-        Label fileNameLabel = new Label();
-        AnchorPane.setLeftAnchor(fileNameLabel, 11.0);
-        AnchorPane.setTopAnchor(fileNameLabel, 26.0);
-        fileNameLabel.setLayoutX(11.0);
-        fileNameLabel.setLayoutY(26.0);
-        fileNameLabel.setPrefHeight(23.0);
-        fileNameLabel.setPrefWidth(554.0);
-        fileNameLabel.setText(fileName);
-        fileNameLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        fileNameLabel.setFont(new Font("Arial", 24.0));
-        
-        Button showRecordedGame = new Button();
+        AnchorPane.setLeftAnchor(fileName, 11.0);
+        AnchorPane.setTopAnchor(fileName, 26.0);
+        fileName.setLayoutX(11.0);
+        fileName.setLayoutY(26.0);
+        fileName.setPrefHeight(23.0);
+        fileName.setPrefWidth(554.0);
+        fileName.setText("File Name");
+        fileName.setTextFill(javafx.scene.paint.Color.WHITE);
+        fileName.setFont(new Font("Arial", 24.0));
+
         AnchorPane.setRightAnchor(showRecordedGame, 16.0);
         showRecordedGame.setLayoutX(580.0);
         showRecordedGame.setLayoutY(15.0);
@@ -166,16 +145,20 @@ public class RecordedScreen extends AnchorPane {
         showRecordedGame.setText("Show");
         showRecordedGame.setTextFill(javafx.scene.paint.Color.WHITE);
         showRecordedGame.setFont(new Font("System Bold", 22.0));
-        
-        AnchorPane UserDetails = new AnchorPane();
-        UserDetails.setMinHeight(USE_PREF_SIZE);
-        UserDetails.setMinWidth(USE_PREF_SIZE);
-        UserDetails.setPrefHeight(78.0);
-        UserDetails.setPrefWidth(682.0);
-        UserDetails.setStyle("-fx-background-color: #8596A0; -fx-background-radius: 10;");
+        scrollPane.setContent(vBox);
 
-        UserDetails.getChildren().add(fileNameLabel);
+        anchorPane.getChildren().add(label);
+        anchorPane.getChildren().add(label0);
+        anchorPane.getChildren().add(label1);
+        getChildren().add(anchorPane);
+        anchorPane0.getChildren().add(backButtonid);
+        anchorPane0.getChildren().add(imageView);
+        getChildren().add(anchorPane0);
+        UserDetails.getChildren().add(fileName);
         UserDetails.getChildren().add(showRecordedGame);
         vBox.getChildren().add(UserDetails);
+        anchorPane1.getChildren().add(scrollPane);
+        getChildren().add(anchorPane1);
+
     }
 }

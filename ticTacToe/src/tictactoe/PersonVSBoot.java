@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.Vector;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -58,7 +59,7 @@ public class PersonVSBoot extends AnchorPane {
     protected final AnchorPane saveAchorPane;
     protected final ImageView playAgainIcon;
       
-     protected final AnchorPane anchorPanePlayAgain;
+    protected final AnchorPane anchorPanePlayAgain;
         
     private int XWins = 0;
     private int OWins = 0;
@@ -66,11 +67,11 @@ public class PersonVSBoot extends AnchorPane {
     private int newXResult = 0;
     private int newYResult = 0;
     private TicTacToeAI TTT;
-    
+    Vector<Integer> vc;
     public PersonVSBoot(Stage stage) {
         TTT = new TicTacToeAI();
         TTT.NewGame();
-        
+        vc = new Vector();
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -106,6 +107,7 @@ public class PersonVSBoot extends AnchorPane {
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                      SaveButtonid.setDisable(false);
                   }
         });
         SaveButtonid.setOnMouseEntered((event) -> {
@@ -551,18 +553,21 @@ public class PersonVSBoot extends AnchorPane {
                     GameResultId.setText("Congratulations you won");
                     newXResult = 0;
                     newYResult = 0;
+                    PlayVideo.displayVideo("winner");
                 }
                 else  if(newXResult < newYResult)
                 {
                     GameResultId.setText("Unfortunately, the computer won");
                     newXResult = 0;
                     newYResult = 0;
+                    PlayVideo.displayVideo("winner");
                 }
                 else 
                 {
                     GameResultId.setText("Game over,no one won");
                     newXResult = 0;
                     newYResult = 0;
+                    PlayVideo.displayVideo("winner");
                 }
 	        
 	}
@@ -631,31 +636,14 @@ public class PersonVSBoot extends AnchorPane {
 	}
         void hideAllXOButton()
         {
-            b1.setVisible(false);
-            b2.setVisible(false);
-            b3.setVisible(false);
-            b4.setVisible(false);
-            b5.setVisible(false);
-            b6.setVisible(false);
-            b7.setVisible(false);
-            b8.setVisible(false);
-            b9.setVisible(false);
+            gridPane.setVisible(false);
             anchorPanePlayAgain.setVisible(true);
             GameResultId.setVisible(true);
             saveAchorPane.setVisible(true);
         }
         void playAgainFunction(Stage stage)
         {
-            b1.setVisible(true);
-            b2.setVisible(true);
-            b3.setVisible(true);
-            b4.setVisible(true);
-            b5.setVisible(true);
-            b6.setVisible(true);
-            b7.setVisible(true);
-            b8.setVisible(true);
-            b9.setVisible(true);
-            
+            gridPane.setVisible(true);
             b1.setDisable(false);
             b2.setDisable(false);
             b3.setDisable(false);
@@ -675,11 +663,16 @@ public class PersonVSBoot extends AnchorPane {
             b7.setText("");
             b8.setText("");
             b9.setText("");
-            
+            vc.clear();
             TTT.NewGame();
+            SaveButtonid.setDisable(true);
             anchorPanePlayAgain.setVisible(false);
             GameResultId.setVisible(false);
             saveAchorPane.setVisible(false);
             stage.getScene().setCursor(Cursor.DEFAULT);
+        }
+        void addMovesPlayers(int x)
+        {
+            vc.add(x);
         }
 }

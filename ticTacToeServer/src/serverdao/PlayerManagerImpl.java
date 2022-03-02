@@ -12,6 +12,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.AttributeConstants;
+import utils.AuthenticationConstants;
 import utils.ResultConstants;
 import utils.SQLQueriesConstants;
 
@@ -19,31 +20,56 @@ import utils.SQLQueriesConstants;
  *
  * @author AhmedAli
  */
-public class PlayerManagerImpl implements PlayerManager{
+public class PlayerManagerImpl implements PlayerManager {
     
     private ConnectionDB con;
     private static PlayerManager playerManager;
     
-    private PlayerManagerImpl() { }
+    private PlayerManagerImpl(ConnectionDB con) {
+        this.con = con;
+    }
     
-    public synchronized static PlayerManager getInstance() {
-        if(playerManager == null) {
-            playerManager = new PlayerManagerImpl();
+    public synchronized static PlayerManager getInstance(ConnectionDB con) {
+        if (playerManager == null) {
+            playerManager = new PlayerManagerImpl(con);
         }
         return playerManager;
     }
     
     @Override
-    public boolean addNewPlayer(String username, String password, int score, boolean isOnline) {
+    public int addNewPlayer(String username, String password, int score, boolean isOnline) {
+        int result = -1;
+        if (!isAlreadyRegistered(username)) {
+            try {
+                PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.ADD_NEW_PLAYER);
+                
+                ps.setString(1, username);
+                ps.setString(2, password);
+                ps.setInt(3, score);
+                ps.setBoolean(4, isOnline);
+                if(ps.executeUpdate()>0)
+                    result = ResultConstants.SUCCESSFULLY_REGISTERED;
+                ps.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+                result = ResultConstants.DB_ERROR;
+            }
+        }else{
+            result = ResultConstants.ALREADY_REGISTERED;
+        }
+       
+        return result;
+    }
+    
+    @Override
+    public boolean updatePlayerScore(String username, int score) {
         
         boolean result = true;
-        try {    
-            PreparedStatement ps = con.getConnection().prepareStatement(AttributeConstants.ADD_NEW_PLAYER);
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_PLAYER_SCORE);
             
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ps.setInt(3, score);
-            ps.setBoolean(4, isOnline);
+            ps.setInt(1, score);
+            ps.setString(2, username);
             
             ps.executeUpdate();
             ps.close();
@@ -56,30 +82,10 @@ public class PlayerManagerImpl implements PlayerManager{
     }
     
     @Override
-    public boolean updatePlayerScore(String username, int score) {
-        
-        boolean result = true;
-        try{
-            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_PLAYER_SCORE);
-            
-            ps.setInt(1, score);
-            ps.setString(2, username);
-            
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException ex){
-            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
-            result = false;
-        }
-        
-        return result;
-    }
-    
-    @Override
     public boolean updatePlayerState(String username, boolean isOnline) {
         
         boolean result = true;
-        try{
+        try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_PLAYER_STATE);
             
             ps.setBoolean(1, isOnline);
@@ -87,7 +93,7 @@ public class PlayerManagerImpl implements PlayerManager{
             
             ps.executeUpdate();
             ps.close();
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
         }
@@ -96,8 +102,9 @@ public class PlayerManagerImpl implements PlayerManager{
     }
     
     private ResultSet rs;
+    
     @Override
-    public Vector<PLayerDAO> selectAllPlayers(){
+    public Vector<PLayerDAO> selectAllPlayers() {
         
         rs = null;
         Vector<PLayerDAO> allPlayers = new Vector<>();
@@ -120,7 +127,7 @@ public class PlayerManagerImpl implements PlayerManager{
     }
     
     @Override
-    public Vector<PLayerDAO> selectOnlinePlayers(){
+    public Vector<PLayerDAO> selectOnlinePlayers() {
         
         rs = null;
         Vector<PLayerDAO> onlinePlayers = new Vector<>();
@@ -143,38 +150,60 @@ public class PlayerManagerImpl implements PlayerManager{
     }
     
     @Override
-    public int login(String userName, String password){
+    public int login(String userName, String password) {
         rs = null;
-        int result = ResultConstants.DB_ERROR; 
+        int result = ResultConstants.DB_ERROR;
         
-        try{
+        try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.LOGIN_QUERY, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, userName);
             ps.setString(2, password);
             rs = ps.executeQuery();
-            if(rs.next())
-                if(rs.getString(1).equals(userName) && rs.getString(2).equals(password)) {
+            if (rs.next()) {
+                if (rs.getString(1).equals(userName) && rs.getString(2).equals(password)) {
                     if (rs.getBoolean(4)) {
-                        result = ResultConstants.IS_ALREADY_LOGGINED;
+                        result = ResultConstants.ALREADY_LOGGINED;
                     } else {
                         result = ResultConstants.SUCCESSFULLY_LOGGINED;
+                        updatePlayerState(userName, true);
                     }
+                } else {
+                    result = ResultConstants.WRONG_USERNAME_OR_PASSWORD;
                 }
+            }
             
             ps.close();
             rs.close();
         } catch (SQLException ex) {
-            result = ResultConstants.DB_ERROR; 
+            result = ResultConstants.DB_ERROR;
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return result;
     }
-
+    
     @Override
     public void releaseResources() {
         // server close => release data
         con.close();
         playerManager = null;
+    }
+    
+    @Override
+    public boolean isAlreadyRegistered(String username) {
+        boolean result = true;
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.IS_ALREADY_REGISTERED_QUERY, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                result = true;
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 }

@@ -1,5 +1,11 @@
 package tictactoe;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -26,6 +32,7 @@ public class RecordedScreen extends AnchorPane {
     protected final AnchorPane anchorPane1;
     protected final ScrollPane scrollPane;
     protected final VBox vBox;
+    ArrayList<String> returnedFilesNames;
 
     public RecordedScreen(Stage stage) {
 
@@ -91,6 +98,7 @@ public class RecordedScreen extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation.navigateTo(stage,new HomeScreen(stage), "Home screen");
+                //Navigation.navigateTo(stage,new ReplayingTheChosenRecodrdedGame("kamalVSahmed2022-03-02-18-24-35"),"ReplayingTheChosenRecodrdedGame");
             }
         });
         imageView.setFitHeight(52.0);
@@ -134,11 +142,12 @@ public class RecordedScreen extends AnchorPane {
         getChildren().add(anchorPane1);
         
         vBox.setSpacing(8);
-        
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
+        returnedFilesNames = new ArrayList<>();
+         returnedFilesNames = getRecordedFilesNames();
+         for(int i = 0 ; i < returnedFilesNames.size() ; i++)
+         {
+             addRecordedGame(returnedFilesNames.get(i));
+         }
     }
     void addRecordedGame(String fileName)
     {
@@ -178,4 +187,30 @@ public class RecordedScreen extends AnchorPane {
         UserDetails.getChildren().add(showRecordedGame);
         vBox.getChildren().add(UserDetails);
     }
+    
+    ArrayList<String> getRecordedFilesNames(){
+        File f = new File(System.getProperty("user.dir"));
+        ArrayList<String> filesNames = new ArrayList<>();
+        FilenameFilter textFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith(".txt");
+            }
+        };
+
+        File[] files = f.listFiles(textFilter);
+        for (File file : files) {
+            if (file.isDirectory()) {
+                System.out.print("directory:");
+            } else {
+                System.out.print("     file:");
+            }
+            try {
+                System.out.println(file.getCanonicalPath().substring(68));
+                filesNames.add(file.getCanonicalPath().substring(68));
+            } catch (IOException ex) {
+                Logger.getLogger(RecordedScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return filesNames;
+    } 
 }

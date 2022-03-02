@@ -1,12 +1,7 @@
 package tictactoe;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +14,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -34,7 +27,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -44,9 +36,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Pair;
-
 public class GameLocalMultiPlayersScreenBase extends AnchorPane {
-
     protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
@@ -98,8 +88,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     int playingCount = 0;
     int playerOneNumberOfWins = 0;
     int playerTwoNumberOfWins = 0;
-    
-    //newVars for savingandretrivingFromFiles
     Vector<Integer> vc;
     int numberofGameMovesInTheGame;
     ArrayList<Integer> playersRecorderMoves;
@@ -113,9 +101,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     String getSubStringForNames = "";
     String nameOfPlayerOneRecorder = "";
     String nameOfPlayerTwoRecorder = "";
-    
-    
-
     public GameLocalMultiPlayersScreenBase(Stage stage) {
         allWinningLists = new ArrayList<>();
         List topRow = Arrays.asList(1,2,3);
@@ -134,7 +119,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         allWinningLists.add(rightcol);
         allWinningLists.add(diagonalOne);
         allWinningLists.add(diagonalTwo);
-
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -167,7 +151,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         anchorPane4 = new AnchorPane();
         backButtonId = new Button();
         imageView = new ImageView();
-
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
@@ -179,30 +162,22 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         anchorPane.setLayoutY(101.0);
         anchorPane.setPrefHeight(375.0);
         anchorPane.setPrefWidth(463.0);
-
         gridPane.setHgap(10.0);
         gridPane.setPrefHeight(375.0);
         gridPane.setPrefWidth(458.0);
         gridPane.setVgap(10.0);
-
         columnConstraints.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints.setMinWidth(10.0);
-
         columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints0.setMinWidth(10.0);
-
         columnConstraints1.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints1.setMinWidth(10.0);
-
         rowConstraints.setMinHeight(10.0);
         rowConstraints.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
         rowConstraints0.setMinHeight(10.0);
         rowConstraints0.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
         rowConstraints1.setMinHeight(10.0);
         rowConstraints1.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
         GridPane.setColumnIndex(button3id, 2);
         button3id.setMnemonicParsing(false);
         button3id.setPrefHeight(95.0);
@@ -210,7 +185,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button3id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button3id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button3id.setFont(new Font("Berlin Sans FB", 42.0));
-
         GridPane.setColumnIndex(button6id, 2);
         GridPane.setRowIndex(button6id, 1);
         button6id.setMnemonicParsing(false);
@@ -219,7 +193,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button6id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button6id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button6id.setFont(new Font("Berlin Sans FB", 42.0));
-
         GridPane.setColumnIndex(button2id, 1);
         button2id.setMnemonicParsing(false);
         button2id.setPrefHeight(95.0);
@@ -227,14 +200,12 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button2id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button2id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button2id.setFont(new Font("Berlin Sans FB", 42.0));
-
         button1id.setMnemonicParsing(false);
         button1id.setPrefHeight(95.0);
         button1id.setPrefWidth(133.0);
         button1id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button1id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button1id.setFont(new Font("Berlin Sans FB", 42.0));
-
         GridPane.setColumnIndex(button5id, 1);
         GridPane.setRowIndex(button5id, 1);
         button5id.setMnemonicParsing(false);
@@ -243,7 +214,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button5id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button5id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button5id.setFont(new Font("Berlin Sans FB", 42.0));
-
         GridPane.setColumnIndex(button8id, 1);
         GridPane.setRowIndex(button8id, 2);
         button8id.setMnemonicParsing(false);
@@ -252,7 +222,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button8id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button8id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button8id.setFont(new Font("Berlin Sans FB", 42.0));
-
         GridPane.setColumnIndex(button9id, 2);
         GridPane.setRowIndex(button9id, 2);
         button9id.setMnemonicParsing(false);
@@ -261,7 +230,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button9id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button9id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button9id.setFont(new Font("Berlin Sans FB", 42.0));
-
         GridPane.setRowIndex(button4id, 1);
         button4id.setMnemonicParsing(false);
         button4id.setPrefHeight(95.0);
@@ -269,7 +237,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button4id.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         button4id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button4id.setFont(new Font("Berlin Sans FB", 42.0));
-
         GridPane.setRowIndex(button7id, 2);
         button7id.setMnemonicParsing(false);
         button7id.setPrefHeight(95.0);
@@ -278,10 +245,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button7id.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         button7id.setFont(new Font("Berlin Sans FB", 42.0));
         gridPane.setPadding(new Insets(10.0, 0.0, 10.0, 10.0));
-
         anchorPane0.setLayoutX(49.0);
         anchorPane0.setLayoutY(101.0);
-
         player1img.setFitHeight(142.0);
         player1img.setFitWidth(154.0);
         player1img.setLayoutX(9.0);
@@ -289,20 +254,17 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player1img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
         player1img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/male.jfif")));
         //player1img.setImage(new Image(getClass().getResource("../../../../../../Desktop/male.jfif").toExternalForm()));
-
         label.setLayoutX(144.0);
         label.setLayoutY(222.0);
         label.setText("X");
         label.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         label.setFont(new Font("Berlin Sans FB", 68.0));
-
         player1name.setLayoutX(5.0);
         player1name.setPrefHeight(75.0);
         player1name.setPrefWidth(193.0);
         player1name.setText(playerOneName);
         player1name.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         player1name.setFont(new Font("Berlin Sans FB", 36.0));
-
         player1result.setLayoutX(32.0);
         player1result.setLayoutY(297.0);
         player1result.setPrefHeight(54.0);
@@ -310,33 +272,27 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player1result.setText(Integer.toString(playerOneNumberOfWins));
         player1result.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         player1result.setFont(new Font("Berlin Sans FB", 50.0));
-
         anchorPane2.setLayoutX(763.0);
         anchorPane2.setLayoutY(104.0);
-
         anchorPane3.setPrefHeight(305.0);
         anchorPane3.setPrefWidth(196.0);
-
         player2img.setFitHeight(142.0);
         player2img.setFitWidth(154.0);
         player2img.setLayoutX(9.0);
         player2img.setLayoutY(94.0);
         player2img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
         player2img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/female.jfif")));
-        
         label0.setLayoutX(144.0);
         label0.setLayoutY(222.0);
         label0.setText("O");
         label0.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         label0.setFont(new Font("Berlin Sans FB", 68.0));
-
         player2name.setLayoutX(3.0);
         player2name.setPrefHeight(64.0);
         player2name.setPrefWidth(210.0);
         player2name.setText(playerTwoName);
         player2name.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         player2name.setFont(new Font("Berlin Sans FB", 36.0));
-
         player2result.setLayoutX(44.0);
         player2result.setLayoutY(294.0);
         player2result.setPrefHeight(54.0);
@@ -344,10 +300,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player2result.setText(Integer.toString(playerTwoNumberOfWins));
         player2result.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         player2result.setFont(new Font("Berlin Sans FB", 50.0));
-
         anchorPane4.setLayoutX(29.0);
         anchorPane4.setLayoutY(501.0);
-
         backButtonId.setMnemonicParsing(false);
         backButtonId.setPrefHeight(75.0);
         backButtonId.setPrefWidth(185.0);
@@ -360,7 +314,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             public void handle(ActionEvent event) {
                    
                     Navigation.navigateTo(stage, new HomeScreen(stage), "Home Screen");
-                 
                  }
         });
         imageView.setFitHeight(54.0);
@@ -369,7 +322,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         imageView.setLayoutY(11.0);
         imageView.setOpacity(0.47);
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
-        
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
         gridPane.getColumnConstraints().add(columnConstraints1);
@@ -412,11 +364,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 numberOfTheButtonClicked = 1;
                 addTheButtonNumberToThePlayerList();
                 winnerName = detectWin();
-                //System.out.println(winnerName);
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-
         button2id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -427,11 +377,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 numberOfTheButtonClicked = 2;
                 addTheButtonNumberToThePlayerList();
                 winnerName = detectWin();
-                //System.out.println(winnerName);
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        
         button3id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -446,7 +394,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        
         button4id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -457,11 +404,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 numberOfTheButtonClicked = 4;
                 addTheButtonNumberToThePlayerList();
                 winnerName = detectWin();
-                //System.out.println(winnerName);
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        
         button5id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -472,11 +417,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 numberOfTheButtonClicked = 5;
                 addTheButtonNumberToThePlayerList();
                 winnerName = detectWin();
-                //System.out.println(winnerName);
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        
         button6id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -487,11 +430,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 numberOfTheButtonClicked = 6;
                 addTheButtonNumberToThePlayerList();
                 winnerName = detectWin();
-                //System.out.println(winnerName);
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        
         button7id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -502,11 +443,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 numberOfTheButtonClicked = 7;
                 addTheButtonNumberToThePlayerList();
                 winnerName = detectWin();
-                //System.out.println(winnerName);
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        
         button8id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -521,7 +460,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        
         button9id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -560,10 +498,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                         SaveButtonid.setDisable(false);
                  }
         });
-
-
 	GameResultId = new Label();
-        //*************************** hide GameResultId **********************//
         GameResultId.setVisible(false);
         GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
         GameResultId.setLayoutX(339.0);
@@ -576,9 +511,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         GameResultId.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         GameResultId.setTextOverrun(javafx.scene.control.OverrunStyle.CENTER_ELLIPSIS);
         GameResultId.setFont(new Font("Berlin Sans FB", 50.0));
-        
-
-
         SaveButtonid = new Button();SaveButtonid.setMnemonicParsing(false);
         SaveButtonid.setPrefHeight(75.0);
         SaveButtonid.setPrefWidth(195.0);
@@ -613,7 +545,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                         System.out.println("");
                       }
         });
-       
        savImageIcon = new ImageView();
        savImageIcon.setFitHeight(40.0);
        savImageIcon.setFitWidth(48.0);
@@ -621,42 +552,31 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
        savImageIcon.setLayoutY(16.0);
        savImageIcon.setOpacity(0.47);
        savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
- 
-	saveAchorPane = new AnchorPane();
-        //*************************** hide saveAchorPane Save button and it's image **********************//
-	saveAchorPane.setVisible(false);
-	saveAchorPane.setLayoutX(779.0);
-        saveAchorPane.setLayoutY(500.0);
-
-        playAgainIcon = new ImageView();
-        playAgainIcon.setFitHeight(54.0);
-        playAgainIcon.setFitWidth(62.0);
-        playAgainIcon.setLayoutX(13.0);
-        playAgainIcon.setLayoutY(11.0);
-        playAgainIcon.setOpacity(0.47);
-        playAgainIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/refresh.png")));
-       
-        anchorPanePlayAgain = new AnchorPane();
-        anchorPanePlayAgain.setLayoutX(378.0);
-        anchorPanePlayAgain.setLayoutY(300.0);
-        anchorPanePlayAgain.setPrefHeight(75.0);
-        anchorPanePlayAgain.setPrefWidth(259.0);
-        //*************************** hide anchorPanePlayAgain playAgain button and it's image **********************//
-        anchorPanePlayAgain.setVisible(false);
-        
-
-
-        anchorPanePlayAgain.getChildren().add(PlayAgainButtonid);
-        anchorPanePlayAgain.getChildren().add(playAgainIcon);
-        getChildren().add(anchorPanePlayAgain);   
-        getChildren().add(GameResultId);
-        
-        saveAchorPane.getChildren().add(SaveButtonid);
-        saveAchorPane.getChildren().add(savImageIcon);
-        getChildren().add(saveAchorPane);
-        
+       saveAchorPane = new AnchorPane();
+       saveAchorPane.setVisible(false);
+       saveAchorPane.setLayoutX(779.0);
+       saveAchorPane.setLayoutY(500.0);
+       playAgainIcon = new ImageView();
+       playAgainIcon.setFitHeight(54.0);
+       playAgainIcon.setFitWidth(62.0);
+       playAgainIcon.setLayoutX(13.0);
+       playAgainIcon.setLayoutY(11.0);
+       playAgainIcon.setOpacity(0.47);
+       playAgainIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/refresh.png")));
+       anchorPanePlayAgain = new AnchorPane();
+       anchorPanePlayAgain.setLayoutX(378.0);
+       anchorPanePlayAgain.setLayoutY(300.0);
+       anchorPanePlayAgain.setPrefHeight(75.0);
+       anchorPanePlayAgain.setPrefWidth(259.0);
+       anchorPanePlayAgain.setVisible(false);
+       anchorPanePlayAgain.getChildren().add(PlayAgainButtonid);
+       anchorPanePlayAgain.getChildren().add(playAgainIcon);
+       getChildren().add(anchorPanePlayAgain);   
+       getChildren().add(GameResultId);
+       saveAchorPane.getChildren().add(SaveButtonid);
+       saveAchorPane.getChildren().add(savImageIcon);
+       getChildren().add(saveAchorPane);
     }
-    
     public void player1wins(){
         playerOneNumberOfWins++;
         //show winning dialog
@@ -685,10 +605,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         GameResultId.setText(playerOneName + " Wins");
         GameResultId.setVisible(true);
         hideGameButtons();
-        //////////////////////////////////////////////////////////here
           
     }
-    
     public void restart()
     {
         player1Moves.clear();
@@ -697,7 +615,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         playingCount = 0;
         winnerName = "";
     }
-    
     public void enableButtons()
     {
         button1id.setDisable(false);
@@ -709,8 +626,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button7id.setDisable(false);
         button8id.setDisable(false);
         button9id.setDisable(false);
-    }
-    
+    } 
     public void addTheButtonNumberToThePlayerList()
     {
         if(player1Turn)
@@ -725,8 +641,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         
     }
-
-    
     public void player2wins(){
         playerTwoNumberOfWins++;
         //show winning dialog
@@ -756,10 +670,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         GameResultId.setText(playerTwoName + " Wins");
         GameResultId.setVisible(true);
         hideGameButtons();
-        //////////////////////////////////////////////////////////here
       
     }
-    
     public void tie()
     {
         final Stage dialog = new Stage();
@@ -787,13 +699,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         GameResultId.setText("It's a tie");
         GameResultId.setVisible(true);
         hideGameButtons();
-        //////////////////////////////////////////////////////////////////here
         
-    }
-    
+    }   
     public String detectWin(){
-        //declaring winning lists
-        
         if(playingCount >= 5)
         {
             for(List l : allWinningLists)
@@ -814,7 +722,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         return "";
     }
-    
     public void cleartextFromButtons()
     {
         button1id.setText("");
@@ -827,7 +734,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button8id.setText("");
         button9id.setText("");
     }
-    
     public void actionPerformedDependingOnTheWinner(String nameOfTheWinner){
         if(nameOfTheWinner.equals("player1"))
         {
@@ -846,7 +752,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         
     }
-    
     public void mainfunc(){
         //player1 turn
         if(player1Turn)
@@ -859,10 +764,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             symbol = "O";
         }
     }
-    
-    
-    
-    //new functions
     Vector<Integer> convertToVector(ArrayList<Integer> arr1 ,ArrayList<Integer> arr2 ){
         arr1Index = 0;
         arr2Index = 0;
@@ -888,41 +789,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             }
         }
         return vc;
-    }
-    
-    //just for checking////////////////////////////////////////////////
-    void printPlayer1Moves(ArrayList<Integer> arr1){
-        System.out.print("player1   ");
-        for(int i = 0 ; i < arr1.size() ; i++)
-        {
-            System.out.print(arr1.get(i));
-        }
-        System.out.println("");
-    }
-    
-    void printPlayer2Moves(ArrayList<Integer> arr2){
-        System.out.print("player2   ");
-        for(int i = 0 ; i < arr2.size() ; i++)
-        {
-            System.out.print(arr2.get(i));
-        }
-        System.out.println("");
-    }
- 
-    void printVector(Vector<Integer> vec){
-        System.out.print("vector     ");
-        for(int i = 0 ; i < vec.size() ; i++)
-        {
-            System.out.println(vec.get(i));
-        }
-        System.out.println("");
-    }
-    
-        
-    /////////////////////////////////////////////////////////////////
-    
-   
-    
+    } 
     String convertVectorOfIntToString(Vector<Integer> vector){
         String str = "";
         for(int i = 0 ; i < vector.size() ; i++)
@@ -932,18 +799,14 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         return str;
     }
-    
     void concatenateNameInStringToSaveInFile(String name1 , String name2){
         movesAsAString += "&";
         movesAsAString += name1;
         movesAsAString += "&";
         movesAsAString += name2;
-    }
-    
+    }    
     void convertStringFromFileToArrayListOfIntsAndPlayerNames(String strDatawithRecordedGameInfo){
-        //al i de batba3 beha bs
         int i = 0;
-        
         int res = strDatawithRecordedGameInfo.indexOf(",&");
         System.out.println(res);
         getSubStringForNames = strDatawithRecordedGameInfo.substring(res + 2);
@@ -958,104 +821,18 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
               System.out.println(playersRecorderMoves.get(i));
               i++;
         }
-        //keda ma3aya al moves f playersRecorderMoves
-        //wal2asamy f getsubStringForNames Bs MshMt2asam
-    }
-    
+    } 
     void seperateTheTwoPlayersNames(String concatenatedNames)
-    {
-        
+    { 
         int res = concatenatedNames.indexOf("&");
         nameOfPlayerOneRecorder = concatenatedNames.substring(0,res);
         nameOfPlayerTwoRecorder = concatenatedNames.substring(res+1);
         System.out.println(nameOfPlayerOneRecorder);
         System.out.println(nameOfPlayerTwoRecorder);
     }
-    
-    
-    void replayTheMoves(String player1 , String player2 , ArrayList<Integer> PlayersMoves){
-        String symbol1 = "X";
-        String symbol2 = "O";
-        int currentPlayerNumber = 1;
-        Thread thread1 = new Thread(new Runnable() {
-        @Override
-        public void run(){
-            int currentPlayerNumber = 1;
-                for(int i = 0 ; i < PlayersMoves.size() ; i++)
-                {
-                  try {
-                    //thread1.wait(500);
-                    if(currentPlayerNumber == 1)
-                    {
-                        switch (PlayersMoves.get(i)){
-                            case 1:
-                               button1id.setText(symbol1);
-                            case 2:
-                               button2id.setText(symbol1);
-                            case 3:
-                               button3id.setText(symbol1);
-                            case 4:
-                               button4id.setText(symbol1);  
-                            case 5:
-                               button5id.setText(symbol1);
-                            case 6:
-                               button6id.setText(symbol1);
-                            case 7:
-                               button7id.setText(symbol1);
-                            case 8:
-                               button8id.setText(symbol1);
-                            case 9:
-                               button9id.setText(symbol1);
-                        }
-                        //System.out.println("name of player" + player1 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol1);
-                        currentPlayerNumber = 2;
-                    }else{
-                        switch (PlayersMoves.get(i)){
-                            case 1:
-                               button1id.setText(symbol2);
-                            case 2:
-                               button2id.setText(symbol2);
-                            case 3:
-                               button3id.setText(symbol2);
-                            case 4:
-                               button4id.setText(symbol2);  
-                            case 5:
-                               button5id.setText(symbol2);
-                            case 6:
-                               button6id.setText(symbol2);
-                            case 7:
-                               button7id.setText(symbol2);
-                            case 8:
-                               button8id.setText(symbol2);
-                            case 9:
-                               button9id.setText(symbol2);
-                        }
-                        //System.out.println("name of player" + player2 + " index(button number) " + PlayersMoves.get(i) + " : " + symbol2);
-                        currentPlayerNumber = 1;
-                    }
-                    }catch (Exception ex) {
-                        Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
-        thread1.start();
-    }
-    
-    void viewResultScreenComponents(){
-        
-    }
-    
     void dialogWithTwoTextBoxes(){
-        
-        //important a3adel hena a refactor de fal canel matwadenesh ll screen al ba3daha w al code maloosh lazma ashoof
-        //bs haktb al playerOneName = plyer1.getText(); playerTwoName = plyer1.getText();   
-        
-        // Create the custom dialog.
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Players");
-
-        // Set the button types.
         ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
         ButtonType cancelBtnType = new ButtonType("Cancel" , ButtonData.CANCEL_CLOSE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
@@ -1063,22 +840,15 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(20, 150, 10, 10));
-
         TextField plyer1 = new TextField();
         plyer1.setPromptText("Player1");
         TextField plyer2 = new TextField();
         plyer2.setPromptText("Player2");
-
         gridPane.add(plyer1, 0, 0);
         gridPane.add(new Label("VS"), 1, 0);
         gridPane.add(plyer2, 2, 0);
-
         dialog.getDialogPane().setContent(gridPane);
-
-        // Request focus on the username field by default.
         Platform.runLater(() -> plyer1.requestFocus());
-
-        // Convert the result to a username-password-pair when the login button is clicked.
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == loginButtonType) {
                 return new Pair<>(plyer1.getText(), plyer2.getText());
@@ -1093,90 +863,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             playerTwoName = pair.getValue();   
         });
     }
-    
-    void theMainFuncForSavingAndRetrivingFromFiles(){
-        arr1Index = 0;
-        arr2Index = 0;
-        nameOfPlayer1 = playerOneName;
-        nameOfPlayer2 = playerTwoName;
-        numberofGameMovesInTheGame = vc.size();
-        playersRecorderMoves =new ArrayList<>();
-        Button btn = new Button();
-        // a replace bal button alhancaryato al howa save 
-        btn.setText("WriteToFile");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    vc = new Vector<>(numberofGameMovesInTheGame);
-                    //print the content of the file
-                    //String fileDirectory = System.getProperty("user.dir");
-                    //File file = new File(fileDirectory);
-                    //if(file.mkdirs()){System.out.println("true");};
-                    BufferedWriter writer = new BufferedWriter(new FileWriter( nameOfPlayer1 +"VS" + nameOfPlayer2+ ".txt"));
-                    writer.write(movesAsAString);
-                    writer.close();
-                } catch (Exception ex) {
-                    Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("");
-                
-            }
-        });
-        Button btn1 = new Button();
-        btn1.setText("convert To String");
-        btn1.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                    vc = new Vector<>(numberofGameMovesInTheGame);
-                    convertToVector(player1Moves, player2Moves);
-                    printPlayer1Moves(player1Moves);
-                    printPlayer2Moves(player2Moves);
-                    printVector(vc);
-                    movesAsAString = convertVectorOfIntToString(vc);
-                    concatenateNameInStringToSaveInFile(nameOfPlayer1 , nameOfPlayer2);
-                    System.out.println(movesAsAString);
-                    //print the content of the file
-                    
-                System.out.println("");
-            }
-        });
-        Button btn3 = new Button();
-        btn3.setText("getTextFromFile");
-        btn3.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                  try {
-                    BufferedReader writer = new BufferedReader(new FileReader(nameOfPlayer1 +"VS" + nameOfPlayer2+ ".txt"));
-                    readedTextFromFile = writer.readLine();
-                    System.out.println(readedTextFromFile);
-                    writer.close();
-                    convertStringFromFileToArrayListOfIntsAndPlayerNames(readedTextFromFile);
-                    seperateTheTwoPlayersNames(getSubStringForNames);
-                    replayTheMoves(nameOfPlayerOneRecorder , nameOfPlayerTwoRecorder , playersRecorderMoves );
-                    //convertStringFromFileToPlayerNames(readedTextFromFile);
-                } catch (Exception ex) {
-                    Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("");
-            }
-        });
- 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        root.getChildren().add(btn1);
-        root.getChildren().add(btn3);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        //primaryStage.setTitle("Hello World!");
-        //primaryStage.setScene(scene);
-        //primaryStage.show();
-    }
-    
     void hideGameButtons(){
         button1id.setVisible(false);
         button2id.setVisible(false);
@@ -1188,7 +874,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button8id.setVisible(false);
         button9id.setVisible(false);  
     }
-    
     void viewGameButtons(){
         button1id.setVisible(true);
         button2id.setVisible(true);
@@ -1200,8 +885,4 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         button8id.setVisible(true);
         button9id.setVisible(true);  
     }
-
-    
-    
-
 }

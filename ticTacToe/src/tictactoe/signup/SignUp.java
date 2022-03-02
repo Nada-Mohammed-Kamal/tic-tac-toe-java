@@ -1,5 +1,6 @@
-package tictactoe;
+package tictactoe.signup;
 
+import tictactoe.login.LoginScreenBase;
 import MediaPlayer.VideoFXMLBase;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -29,6 +30,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import tictactoe.HomeScreen;
+import tictactoe.Navigation;
 
 public class SignUp extends AnchorPane {
 
@@ -56,10 +59,7 @@ public class SignUp extends AnchorPane {
     protected final Label label2;
     protected final Button btnLogin;
     
-    Socket mySocket;
-    DataInputStream dis;
-    PrintStream ps;
-    boolean connectedToServer = true;
+    private SignUpScreenController controller;
     
     public SignUp(Stage stage) {
 
@@ -175,13 +175,7 @@ public class SignUp extends AnchorPane {
         btnRegister.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnRegister.setFont(new Font("Berlin Sans FB", 30.0));
         btnRegister.setOnAction((action) -> {
-            if(validateUserData()) {
-                if(connectedToServer) {
-                    sendDataToServer();
-                } else {
-                    showAlertMessage("Error", "Server is not found or turned off.", Alert.AlertType.ERROR);
-                }
-            }
+            
         });
         btnRegister.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -299,10 +293,10 @@ public class SignUp extends AnchorPane {
         getChildren().add(anchorPane2);
 
         try {
-            mySocket = new Socket("127.0.0.1", 5555);
-            dis = new DataInputStream(mySocket.getInputStream());
-            ps = new PrintStream(mySocket.getOutputStream());
-            
+//            mySocket = new Socket("127.0.0.1", 5555);
+//            dis = new DataInputStream(mySocket.getInputStream());
+//            ps = new PrintStream(mySocket.getOutputStream());
+//            
             stage.setOnCloseRequest((WindowEvent event) -> {
                 closeWindow(stage);
             });
@@ -366,42 +360,14 @@ public class SignUp extends AnchorPane {
     }
     
     private void closeWindow(Stage stage) {
-        if(connectedToServer){
-            closeConnectionToServer();
-        }
+//        if(connectedToServer){
+//            closeConnectionToServer();
+//        }
         Navigation.navigateTo(stage, new HomeScreen(stage), "XO Game");
     }
     
-    private void closeConnectionToServer() {
-        try {
-            ps.println("closedNormally");
-            ps.close();
-            dis.close();
-            mySocket.close();
-            System.out.println("closed");
-        } catch (IOException ex) {
-            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
         
-    private boolean validateUserData() {
-        boolean isValidData = true;
-        if (txtFieldName.getText().trim().isEmpty()) {
-            showAlertMessage("Warning", "Name is Empty!\nPlease, type your name.", Alert.AlertType.WARNING);
-            isValidData = false;
-        } else if(txtFieldPassword.getText().trim().isEmpty()){
-            showAlertMessage("Warning", "Password is Empty!\nPlease, type your password.", Alert.AlertType.WARNING);
-            isValidData = false;
-        } else if(txtFieldRePassword.getText().trim().isEmpty()){
-            showAlertMessage("Warning", "Re-Password is Empty!\nPlease, confirm your password.", Alert.AlertType.WARNING);
-            isValidData = false;
-        } else if (!txtFieldPassword.getText().trim().equals(txtFieldRePassword.getText().trim())) {
-            showAlertMessage("Warning", "Password and Re-Password isn't the same!\nPlease, type your password and Confirm password correct.", Alert.AlertType.WARNING);
-            isValidData = false;
-        }
-        
-        return isValidData;
-    }
+
     
     private void sendDataToServer() {
         String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  

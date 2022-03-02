@@ -12,11 +12,12 @@ import java.util.Vector;
  * @author AhmedAli
  */
 public interface PlayerManager {
-    boolean addNewPlayer(String username, String password, int score, boolean isOnline);
+    int addNewPlayer(String username, String password, int score, boolean isOnline);
     boolean updatePlayerScore(String username, int score);
     boolean updatePlayerState(String username, boolean isOnline);
     Vector<PLayerDAO> selectAllPlayers();
     Vector<PLayerDAO> selectOnlinePlayers();
     int login(String userName, String password);
+    boolean isAlreadyRegistered(String username);
     void releaseResources();
 }

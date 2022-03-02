@@ -5,9 +5,11 @@
  */
 package tictactoe;
 
+import tictactoe.signup.SignUp;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tictactoe.login.LoginScreenBase;
 import utils.Constants;
 
 /**
@@ -31,5 +33,9 @@ public class Navigation {
         
     public static void navigateToHome(Stage stage){
         navigateTo(stage, new HomeScreen(stage), Constants.HOME);
+    }
+    
+    public static void navigateToLogin(Stage stage){
+        navigateTo(stage, new LoginScreenBase(stage), Constants.LOGIN);
     }
 }

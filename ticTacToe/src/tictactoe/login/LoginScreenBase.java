@@ -1,11 +1,6 @@
-package tictactoe;
+package tictactoe.login;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,8 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tictactoe.network.NetworkLayerImpl;
-import utils.UIHelper;
 
 public class LoginScreenBase extends AnchorPane {
 
@@ -35,10 +28,14 @@ public class LoginScreenBase extends AnchorPane {
     protected final Button signUpHere;
     protected final TextField nameTextBoxid;
     protected final TextField passwordtextboxid;
+    
     private LoginScreenController controller;
+    
     public LoginScreenBase(Stage stage) {
+        
         controller = new LoginScreenControllerImpl(this);
         controller.setNetworkLayer();
+        
         anchorPane = new AnchorPane();
         label = new Label();
         label0 = new Label();

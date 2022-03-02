@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.login;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import tictactoe.Navigation;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
 import utils.AuthenticationConstants;
 import utils.ErrorConstants;
+import utils.ServerQueries;
 import utils.UIHelper;
 
 interface LoginScreenController {
@@ -59,8 +61,8 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
 
     private void validateInputs(String username, String password) {
         if (isNotEmpty(username, password)) {
-            System.out.println(AuthenticationConstants.LOGIN.concat(";").concat(username).concat(";").concat(password));
-            networkLayer.printStream(AuthenticationConstants.LOGIN.concat(";").concat(username).concat(";").concat(password));
+            System.out.println(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password));
+            networkLayer.printStream(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password));
         } else {
             UIHelper.showAlertMessage("You can't let fields empty!", "Error", Alert.AlertType.ERROR);
         }
@@ -70,24 +72,7 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
         return !username.isEmpty() && !password.isEmpty();
     }
 
-    @Override
-    public void onErrorReceived(String errorMsg) {
 
-        System.out.println("onErrorReceived" + errorMsg);
-        switch (errorMsg) {
-            case ErrorConstants.COULD_NOT_CONNECT_TO_SERVER:
-                UIHelper.showAlertMessage("Ouhh!", errorMsg, Alert.AlertType.ERROR);
-                break;
-            case ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER:
-                UIHelper.showAlertMessage("Ouhh!", errorMsg, Alert.AlertType.ERROR);
-                break;
-            case ErrorConstants.PROBLEM_WHILE_CLOSING_CONNECTION:
-                UIHelper.showAlertMessage("Ouhh!", errorMsg, Alert.AlertType.ERROR);
-                break;
-            default:
-                Logger.getLogger(LoginScreenControllerImpl.class.getName()).log(Level.SEVERE, errorMsg);
-        }
-    }
 
     @Override
     public void onMsgReceived(String receivedMsg) {

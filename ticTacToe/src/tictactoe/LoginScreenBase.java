@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import tictactoe.network.NetworkLayerImpl;
+import utils.UIHelper;
 
 public class LoginScreenBase extends AnchorPane {
 
@@ -32,9 +35,10 @@ public class LoginScreenBase extends AnchorPane {
     protected final Button signUpHere;
     protected final TextField nameTextBoxid;
     protected final TextField passwordtextboxid;
-
+    private LoginScreenController controller;
     public LoginScreenBase(Stage stage) {
-
+        controller = new LoginScreenControllerImpl(this);
+        controller.setNetworkLayer();
         anchorPane = new AnchorPane();
         label = new Label();
         label0 = new Label();
@@ -95,7 +99,9 @@ public class LoginScreenBase extends AnchorPane {
         backButtonid.setText("       Back");
         backButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonid.setFont(new Font("Berlin Sans FB", 33.0));
-
+        backButtonid.setOnAction(action -> {
+            controller.onPressPressBackBtn(stage);
+        });
         imageView.setFitHeight(62.0);
         imageView.setFitWidth(62.0);
         imageView.setLayoutX(13.0);
@@ -113,7 +119,9 @@ public class LoginScreenBase extends AnchorPane {
         loginId.setText("      LogIn");
         loginId.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         loginId.setFont(new Font("Berlin Sans FB", 33.0));
-
+        loginId.setOnAction(action -> {
+            controller.onPressLoginBtn(nameTextBoxid.getText(), passwordtextboxid.getText());
+        });
         imageView0.setFitHeight(62.0);
         imageView0.setFitWidth(62.0);
         imageView0.setLayoutX(13.0);
@@ -148,14 +156,8 @@ public class LoginScreenBase extends AnchorPane {
         signUpHere.setText("Sign up here");
         signUpHere.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         signUpHere.setFont(new Font("Berlin Sans FB Bold", 33.0));
-        signUpHere.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Parent root = new SignUp(stage);
-                Scene scene1 = new Scene(root);
-                stage.setScene(scene1);
-                stage.show();
-            }
+        signUpHere.setOnAction(action ->{
+            controller.onPressSignupBtn(stage);
         });
         signUpHere.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -195,4 +197,6 @@ public class LoginScreenBase extends AnchorPane {
         getChildren().add(passwordtextboxid);
 
     }
+   
+
 }

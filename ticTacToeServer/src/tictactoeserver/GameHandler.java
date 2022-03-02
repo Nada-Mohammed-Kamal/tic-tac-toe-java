@@ -5,8 +5,10 @@
  */
 package tictactoeserver;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
@@ -17,15 +19,18 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import serverdao.PlayerManagerImpl;
+import utils.AuthenticationConstants;
 
 /**
  *
  * @author AhmedAli
  */
 public class GameHandler extends Thread {
-    DataInputStream dis = null;
+    InputStreamReader dis = null;
     PrintStream ps = null;
     Socket s;
+    BufferedReader bufferReader;
+    
     
     static Vector<GameHandler> onlinePlayers = new Vector<>();
     static Vector<GameHandler> allPlayers = new Vector<>();
@@ -33,8 +38,9 @@ public class GameHandler extends Thread {
     public GameHandler(Socket cs, Stage stage){
         try {
             this.s = cs;
-            dis = new DataInputStream(s.getInputStream());
+            dis = new InputStreamReader(s.getInputStream());
             ps = new PrintStream(s.getOutputStream());
+            bufferReader = new BufferedReader(dis);
             //GameHandler.onlinePlayers.add(this);
             start();
         } catch (IOException ex) {
@@ -50,9 +56,9 @@ public class GameHandler extends Thread {
     public void run() {
         while (true) {
             try {
-                String msg = dis.readLine();
+                String msg = bufferReader.readLine();
                 String[] recievedMsg = msg.split(";");
-                
+                System.out.println(msg);
                 if (recievedMsg != null) {
                     if (recievedMsg[0] == null || recievedMsg[0].equals("closedNormally")) {
                         System.out.println("Client closed normally");
@@ -62,8 +68,11 @@ public class GameHandler extends Thread {
                             case "signup":
                                 registerNewPlayer(recievedMsg);
                                 break;
+                            case AuthenticationConstants.LOGIN:
+                                playerLogin(recievedMsg);
+                                break;
                             default:
-                                closeStream();
+                                //closeStream();
                         }
                     }
                 }
@@ -102,6 +111,20 @@ public class GameHandler extends Thread {
         } else {
             ps.println("exist before"); 
         }
+    }
+    
+    
+    private void playerLogin(String[] loginQuery){
+        new Thread() {
+            @Override
+            public void run() {
+                if(playerMgr.login(loginQuery[1], loginQuery[2])){
+                    ps.println(AuthenticationConstants.SUCCESS_LOGIN);
+                }else{
+                    ps.println(AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD);
+                }
+            }
+        }.start();
     }
 
     private void handleClosingServer(Stage stage) {

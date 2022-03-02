@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -16,6 +19,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -75,6 +79,13 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     protected final AnchorPane anchorPane4;
     protected final Button backButtonId;
     protected final ImageView imageView;
+    protected final Button PlayAgainButtonid;
+    protected final Label GameResultId;
+    protected final Button SaveButtonid;
+    protected final ImageView savImageIcon;
+    protected final AnchorPane saveAchorPane;
+    protected final ImageView playAgainIcon;    
+    protected final AnchorPane anchorPanePlayAgain;
     String playerOneName = "";
     String playerTwoName = "";
     List<List> allWinningLists;
@@ -347,11 +358,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         backButtonId.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    Parent root = new HomeScreen(stage);
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.show();
+                   
+                    Navigation.navigateTo(stage, new HomeScreen(stage), "Home Screen");
+                 
                  }
         });
         imageView.setFitHeight(54.0);
@@ -527,6 +536,125 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
+        PlayAgainButtonid = new Button();
+        AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
+        AnchorPane.setLeftAnchor(PlayAgainButtonid, 0.0);
+        AnchorPane.setRightAnchor(PlayAgainButtonid, 0.0);
+        AnchorPane.setTopAnchor(PlayAgainButtonid, 0.0);
+        PlayAgainButtonid.setMnemonicParsing(false);
+        PlayAgainButtonid.setPrefHeight(75.0);
+        PlayAgainButtonid.setPrefWidth(216.0);
+        PlayAgainButtonid.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
+        PlayAgainButtonid.setText("       Play Again");
+        PlayAgainButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
+        PlayAgainButtonid.setFont(new Font("Berlin Sans FB", 33.0));
+        PlayAgainButtonid.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                        cleartextFromButtons();
+                        restart();
+                        viewGameButtons();
+                        saveAchorPane.setVisible(false);
+                        anchorPanePlayAgain.setVisible(false);
+                        GameResultId.setVisible(false); 
+                        SaveButtonid.setDisable(false);
+                 }
+        });
+
+
+	GameResultId = new Label();
+        //*************************** hide GameResultId **********************//
+        GameResultId.setVisible(false);
+        GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
+        GameResultId.setLayoutX(339.0);
+        GameResultId.setLayoutY(219.0);
+        GameResultId.setMinHeight(USE_PREF_SIZE);
+        GameResultId.setMinWidth(USE_PREF_SIZE);
+        GameResultId.setPrefHeight(54.0);
+        GameResultId.setPrefWidth(342.0);
+        GameResultId.setText("game Result");
+        GameResultId.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        GameResultId.setTextOverrun(javafx.scene.control.OverrunStyle.CENTER_ELLIPSIS);
+        GameResultId.setFont(new Font("Berlin Sans FB", 50.0));
+        
+
+
+        SaveButtonid = new Button();SaveButtonid.setMnemonicParsing(false);
+        SaveButtonid.setPrefHeight(75.0);
+        SaveButtonid.setPrefWidth(195.0);
+        SaveButtonid.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
+        SaveButtonid.setText("       Save");
+        SaveButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
+        SaveButtonid.setFont(new Font("Berlin Sans FB", 33.0));
+        SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                        try {
+                        numberofGameMovesInTheGame = player1Moves.size() + player2Moves.size();
+                        vc = new Vector<>(numberofGameMovesInTheGame);
+                        Date date = new Date();
+                        Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                        String s = formatter.format(date);
+                        BufferedWriter writer = new BufferedWriter(new FileWriter( playerOneName +"VS" + playerTwoName + s+".txt"));
+                            System.out.println(player1Moves);
+                            System.out.println(player2Moves);
+                        vc = convertToVector(player1Moves, player2Moves);
+                            System.out.println(vc);
+                        movesAsAString = convertVectorOfIntToString(vc);
+                            System.out.println(movesAsAString);
+                        concatenateNameInStringToSaveInFile(playerOneName , playerTwoName);
+                        writer.write(movesAsAString);
+                        writer.close();
+                        System.out.println("saved successfully");
+                        SaveButtonid.setDisable(true);
+                        } catch (Exception ex) {
+                            Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        System.out.println("");
+                      }
+        });
+       
+       savImageIcon = new ImageView();
+       savImageIcon.setFitHeight(40.0);
+       savImageIcon.setFitWidth(48.0);
+       savImageIcon.setLayoutX(16.0);
+       savImageIcon.setLayoutY(16.0);
+       savImageIcon.setOpacity(0.47);
+       savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
+ 
+	saveAchorPane = new AnchorPane();
+        //*************************** hide saveAchorPane Save button and it's image **********************//
+	saveAchorPane.setVisible(false);
+	saveAchorPane.setLayoutX(779.0);
+        saveAchorPane.setLayoutY(500.0);
+
+        playAgainIcon = new ImageView();
+        playAgainIcon.setFitHeight(54.0);
+        playAgainIcon.setFitWidth(62.0);
+        playAgainIcon.setLayoutX(13.0);
+        playAgainIcon.setLayoutY(11.0);
+        playAgainIcon.setOpacity(0.47);
+        playAgainIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/refresh.png")));
+       
+        anchorPanePlayAgain = new AnchorPane();
+        anchorPanePlayAgain.setLayoutX(378.0);
+        anchorPanePlayAgain.setLayoutY(300.0);
+        anchorPanePlayAgain.setPrefHeight(75.0);
+        anchorPanePlayAgain.setPrefWidth(259.0);
+        //*************************** hide anchorPanePlayAgain playAgain button and it's image **********************//
+        anchorPanePlayAgain.setVisible(false);
+        
+
+
+        anchorPanePlayAgain.getChildren().add(PlayAgainButtonid);
+        anchorPanePlayAgain.getChildren().add(playAgainIcon);
+        getChildren().add(anchorPanePlayAgain);   
+        getChildren().add(GameResultId);
+        
+        saveAchorPane.getChildren().add(SaveButtonid);
+        saveAchorPane.getChildren().add(savImageIcon);
+        getChildren().add(saveAchorPane);
+        
     }
     
     public void player1wins(){
@@ -552,9 +680,13 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
         dialog.show();
-        cleartextFromButtons();
-        
-        restart();  
+        saveAchorPane.setVisible(true);
+        anchorPanePlayAgain.setVisible(true);
+        GameResultId.setText(playerOneName + " Wins");
+        GameResultId.setVisible(true);
+        hideGameButtons();
+        //////////////////////////////////////////////////////////here
+          
     }
     
     public void restart()
@@ -619,8 +751,13 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
         dialog.show();
-        cleartextFromButtons();
-        restart();
+        saveAchorPane.setVisible(true);
+        anchorPanePlayAgain.setVisible(true);
+        GameResultId.setText(playerTwoName + " Wins");
+        GameResultId.setVisible(true);
+        hideGameButtons();
+        //////////////////////////////////////////////////////////here
+      
     }
     
     public void tie()
@@ -645,8 +782,13 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         Scene dialogScene = new Scene(dialogVbox, 300, 200);
         dialog.setScene(dialogScene);
         dialog.show();
-        cleartextFromButtons();
-        restart();
+        saveAchorPane.setVisible(true);
+        anchorPanePlayAgain.setVisible(true);
+        GameResultId.setText("It's a tie");
+        GameResultId.setVisible(true);
+        hideGameButtons();
+        //////////////////////////////////////////////////////////////////here
+        
     }
     
     public String detectWin(){
@@ -718,8 +860,21 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
     }
     
+    
+    
     //new functions
     Vector<Integer> convertToVector(ArrayList<Integer> arr1 ,ArrayList<Integer> arr2 ){
+        arr1Index = 0;
+        arr2Index = 0;
+        nameOfPlayer1 = playerOneName;
+        nameOfPlayer2 = playerTwoName;
+        numberofGameMovesInTheGame = vc.size();
+        playersRecorderMoves =new ArrayList<>();arr1Index = 0;
+        arr2Index = 0;
+        nameOfPlayer1 = playerOneName;
+        nameOfPlayer2 = playerTwoName;
+        numberofGameMovesInTheGame = vc.size();
+        playersRecorderMoves =new ArrayList<>();
         for(int i = 0 ; i < (arr1.size() + arr2.size()) ; i++)
         {
             if(i%2 == 0 || i==0)
@@ -1022,6 +1177,29 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         //primaryStage.show();
     }
     
+    void hideGameButtons(){
+        button1id.setVisible(false);
+        button2id.setVisible(false);
+        button3id.setVisible(false);
+        button4id.setVisible(false);
+        button5id.setVisible(false);
+        button6id.setVisible(false);
+        button7id.setVisible(false);
+        button8id.setVisible(false);
+        button9id.setVisible(false);  
+    }
+    
+    void viewGameButtons(){
+        button1id.setVisible(true);
+        button2id.setVisible(true);
+        button3id.setVisible(true);
+        button4id.setVisible(true);
+        button5id.setVisible(true);
+        button6id.setVisible(true);
+        button7id.setVisible(true);
+        button8id.setVisible(true);
+        button9id.setVisible(true);  
+    }
 
     
     

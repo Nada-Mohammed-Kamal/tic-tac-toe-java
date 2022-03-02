@@ -290,85 +290,85 @@ public class SignUp extends AnchorPane {
         anchorPane2.getChildren().add(btnLogin);
         getChildren().add(anchorPane2);
 
-        try {
-//            mySocket = new Socket("127.0.0.1", 5555);
-//            dis = new DataInputStream(mySocket.getInputStream());
-//            ps = new PrintStream(mySocket.getOutputStream());
+//        try {
+////            mySocket = new Socket("127.0.0.1", 5555);
+////            dis = new DataInputStream(mySocket.getInputStream());
+////            ps = new PrintStream(mySocket.getOutputStream());
+////            
+//            stage.setOnCloseRequest((WindowEvent event) -> {
+//                closeWindow(stage);
+//            });
 //            
-            stage.setOnCloseRequest((WindowEvent event) -> {
-                closeWindow(stage);
-            });
-            
-            new Thread() {
-                @Override
-                public void run() {
-                    while (connectedToServer) {
-                        try {
-                            String s = dis.readLine();
-                            System.out.println("respond: " + s);
-                            
-                            if ("success".equals(s)) {
-                                Platform.runLater(() -> {
-                                    showAlertMessage("Register", "Registered Successfully.", Alert.AlertType.INFORMATION);
-                                
-                                    Navigation.navigateTo(stage, new LoginScreenBase(stage), "Login");
-                                });
-                                stop();
-                            } else {
-                                Platform.runLater(() -> {
-                                    showAlertMessage("Warning", "User Exist before!", Alert.AlertType.WARNING);
-                                });
-                            }
-                        } catch (SocketException ex) {
-                            connectedToServer = false;
-                            
-                            Platform.runLater(() -> {
-                                showAlertMessage("Alert", "Sorry!\nServer down!", Alert.AlertType.INFORMATION);
-                            });
-                            System.out.println("hello");
-                            try {
-                                mySocket.close();
-                                dis.close();
-                            } catch (IOException ex1) {
-                                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex1);
-                                showAlertMessage("Error", "Can't close the Socket or DataInputStream!", Alert.AlertType.ERROR);
-                            }
-                            ps.close();
-                            stop();
-                        } catch (IOException ex) {
-                            connectedToServer = false;
-                            stop();
-                            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-                            showAlertMessage("Error", "Can't read data from server!\nMay be Server Down or there exist an enhancement.", Alert.AlertType.ERROR);
-                        } 
-                    }
-                }
-            }.start();
-        } catch (IOException ex) {
-            connectedToServer = false;
-            showAlertMessage("Error", "Server is not found or turned off.", Alert.AlertType.ERROR);
-        }
-    }
-    
-    private void showAlertMessage(String header, String msg, Alert.AlertType type) {
-        Alert a = new Alert(type);
-        a.setHeaderText(header);
-        a.setContentText(msg);
-        a.show();
-    }
-    
-    private void closeWindow(Stage stage) {
-//        if(connectedToServer){
-//            closeConnectionToServer();
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    while (connectedToServer) {
+//                        try {
+//                            String s = dis.readLine();
+//                            System.out.println("respond: " + s);
+//                            
+//                            if ("success".equals(s)) {
+//                                Platform.runLater(() -> {
+//                                    showAlertMessage("Register", "Registered Successfully.", Alert.AlertType.INFORMATION);
+//                                
+//                                    Navigation.navigateTo(stage, new LoginScreenBase(stage), "Login");
+//                                });
+//                                stop();
+//                            } else {
+//                                Platform.runLater(() -> {
+//                                    showAlertMessage("Warning", "User Exist before!", Alert.AlertType.WARNING);
+//                                });
+//                            }
+//                        } catch (SocketException ex) {
+//                            connectedToServer = false;
+//                            
+//                            Platform.runLater(() -> {
+//                                showAlertMessage("Alert", "Sorry!\nServer down!", Alert.AlertType.INFORMATION);
+//                            });
+//                            System.out.println("hello");
+//                            try {
+//                                mySocket.close();
+//                                dis.close();
+//                            } catch (IOException ex1) {
+//                                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex1);
+//                                showAlertMessage("Error", "Can't close the Socket or DataInputStream!", Alert.AlertType.ERROR);
+//                            }
+//                            ps.close();
+//                            stop();
+//                        } catch (IOException ex) {
+//                            connectedToServer = false;
+//                            stop();
+//                            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+//                            showAlertMessage("Error", "Can't read data from server!\nMay be Server Down or there exist an enhancement.", Alert.AlertType.ERROR);
+//                        } 
+//                    }
+//                }
+//            }.start();
+//        } catch (IOException ex) {
+//            connectedToServer = false;
+//            showAlertMessage("Error", "Server is not found or turned off.", Alert.AlertType.ERROR);
 //        }
-        Navigation.navigateTo(stage, new HomeScreen(stage), "XO Game");
-    }
-    
-        
-
-    
-    private void sendDataToServer() {
-        String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  
-        ps.println(data);
+//    }
+//    
+//    private void showAlertMessage(String header, String msg, Alert.AlertType type) {
+//        Alert a = new Alert(type);
+//        a.setHeaderText(header);
+//        a.setContentText(msg);
+//        a.show();
+//    }
+//    
+//    private void closeWindow(Stage stage) {
+////        if(connectedToServer){
+////            closeConnectionToServer();
+////        }
+//        Navigation.navigateTo(stage, new HomeScreen(stage), "XO Game");
+//    }
+//    
+//        
+//
+//    
+//    private void sendDataToServer() {
+//        String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  
+//        ps.println(data);
     }
 }

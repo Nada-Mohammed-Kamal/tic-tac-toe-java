@@ -100,7 +100,7 @@ public class GameHandler extends Thread {
         if(playerMgr.addNewPlayer(recievedMsg[1], recievedMsg[2], 0, false)) {
             ps.println("success"); 
         } else {
-            ps.println("DB Error"); 
+            ps.println("exist before"); 
         }
     }
 

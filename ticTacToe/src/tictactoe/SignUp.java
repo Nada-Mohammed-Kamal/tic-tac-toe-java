@@ -1,5 +1,6 @@
 package tictactoe;
 
+import MediaPlayer.VideoFXMLBase;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -7,8 +8,12 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,8 +25,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 public class SignUp extends AnchorPane {
 
@@ -128,7 +135,10 @@ public class SignUp extends AnchorPane {
         btnBack.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnBack.setFont(new Font("Berlin Sans FB", 30.0));
         btnBack.setOnAction((action) -> {
-            closeWindow(stage);
+            //Navigation.navigateTo(stage, new LoginScreenBase(stage), "XO Game");
+            // winner - loser - draw
+            // win    - lose  - Tie
+            displayVideo("winner", "Win", "/MediaPlayer/VideoFXML.fxml");
         });
         btnBack.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -311,13 +321,12 @@ public class SignUp extends AnchorPane {
                                 
                                     Navigation.navigateTo(stage, new LoginScreenBase(stage), "Login");
                                 });
+                                stop();
                             } else {
-                                connectedToServer = false;
                                 Platform.runLater(() -> {
-                                    showAlertMessage("Warning", "Sorry!\nServer down!", Alert.AlertType.WARNING);
+                                    showAlertMessage("Warning", "User Exist before!", Alert.AlertType.WARNING);
                                 });
                             }
-                            stop();
                         } catch (SocketException ex) {
                             connectedToServer = false;
                             
@@ -397,5 +406,46 @@ public class SignUp extends AnchorPane {
     private void sendDataToServer() {
         String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  
         ps.println(data);
+    }
+    
+    public void displayVideo(String playerWinnerOrNot, String title, String source){
+        try {
+            //get scene
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(source));
+            Parent root = (Parent)fxmlLoader.load(); 
+            
+            
+            VideoFXMLBase controller = new VideoFXMLBase();
+            controller.setType(playerWinnerOrNot);
+            //generate new scene
+            Scene registerScene = new Scene(root);
+            fxmlLoader.setController(controller);
+            
+            //get stage information
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle(title);
+            window.setScene(registerScene);
+            window.setMinHeight(280);
+            window.setMinWidth(500);
+            
+            window.setResizable(false);
+            window.show();
+            
+                PauseTransition wait = new PauseTransition(Duration.seconds(7));
+                wait.setOnFinished((e) -> {
+                    window.close();
+                    //btn.setDisable(false);
+                    wait.playFromStart();
+                });
+                wait.play();
+                            
+                window.setOnCloseRequest((event) -> {
+                    System.out.println("closing vid");
+                    VideoFXMLBase.mp.stop();
+                });
+        } catch (IOException ex) {
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

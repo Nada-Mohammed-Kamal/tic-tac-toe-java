@@ -138,7 +138,7 @@ public class SignUp extends AnchorPane {
         btnBack.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnBack.setFont(new Font("Berlin Sans FB", 30.0));
         btnBack.setOnAction((action) -> {
-            controller.onPressPressBackBtn(stage);
+            controller.onPressBackBtn(stage);
         });
         btnBack.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);

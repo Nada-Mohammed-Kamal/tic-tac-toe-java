@@ -5,15 +5,14 @@
  */
 package tictactoe.network;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import utils.ErrorConstants;
 
 /**
@@ -36,7 +35,6 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
             listenToServer();
 
         } catch (IOException ex) {
-            //UIHelper.showAlertMessage("Ouhh!" , "Could't connect to server!", Alert.AlertType.ERROR);
             networkUser.onErrorReceived(ErrorConstants.COULD_NOT_CONNECT_TO_SERVER);
         }
     }
@@ -80,7 +78,9 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
                 String msg = bufferReader.readLine();
                 System.out.println("msg == " + msg);
                 if (msg != null && !msg.isEmpty()) {
-                    networkUser.onMsgReceived(msg);
+                    Platform.runLater(()->{
+                        networkUser.onMsgReceived(msg);
+                    });
                 }
             } catch (IOException ex) {
                 networkUser.onErrorReceived(ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER);

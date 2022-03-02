@@ -12,7 +12,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.AttributeConstants;
-import utils.AuthenticationConstants;
 import utils.ResultConstants;
 import utils.SQLQueriesConstants;
 
@@ -160,16 +159,15 @@ public class PlayerManagerImpl implements PlayerManager {
             ps.setString(2, password);
             rs = ps.executeQuery();
             if (rs.next()) {
-                if (rs.getString(1).equals(userName) && rs.getString(2).equals(password)) {
-                    if (rs.getBoolean(4)) {
-                        result = ResultConstants.ALREADY_LOGGINED;
-                    } else {
-                        result = ResultConstants.SUCCESSFULLY_LOGGINED;
-                        updatePlayerState(userName, true);
-                    }
+                if (rs.getBoolean(4)) {
+                    result = ResultConstants.ALREADY_LOGGINED;
                 } else {
-                    result = ResultConstants.WRONG_USERNAME_OR_PASSWORD;
+                    result = ResultConstants.SUCCESSFULLY_LOGGINED;
+                    updatePlayerState(userName, true);
                 }
+            } else {
+                // should be handeled as ResultConstants.UNREGISTERED_USER
+                result = ResultConstants.WRONG_USERNAME_OR_PASSWORD;
             }
             
             ps.close();
@@ -198,6 +196,8 @@ public class PlayerManagerImpl implements PlayerManager {
             rs = ps.executeQuery();
             if (rs.next()) {
                 result = true;
+            } else {
+                result = false;
             }
             ps.close();
             rs.close();

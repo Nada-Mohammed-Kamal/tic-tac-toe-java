@@ -5,6 +5,8 @@
  */
 package tictactoe.signup;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
@@ -26,23 +28,23 @@ interface SignupScreenController {
 
     void onPressLoginBtn(Stage stage);
 
-    void onPressPressBackBtn(Stage stage);
+    void onPressBackBtn(Stage stage);
 
     void setNetworkLayer();
 }
 
-public class SignUpScreenController implements SignupScreenController, NetworkUser {
+public class SignUpScreenControllerImpl implements SignupScreenController, NetworkUser {
 
     SignUp view;
     NetworkLayer networkLayer;
 
-    public SignUpScreenController(SignUp view) {
+    public SignUpScreenControllerImpl(SignUp view) {
         this.view = view;
     }
 
     @Override
-    public void onPressPressBackBtn(Stage stage) {
-        Navigation.navigateToLogin(stage);
+    public void onPressBackBtn(Stage stage) {
+        Navigation.navigateToHome(stage);
     }
 
     @Override
@@ -56,12 +58,14 @@ public class SignUpScreenController implements SignupScreenController, NetworkUs
             case AuthenticationConstants.SUCCESS_REGISTERED:
                 UIHelper.showAlertMessage("Congrats!", "Successfully registered!", Alert.AlertType.INFORMATION);
                 break;
-            case AuthenticationConstants.REGISTER_FAILD_ALEARDY_REGISTERED:
-                 UIHelper.showAlertMessage("Alery!", AuthenticationConstants.REGISTER_FAILD_ALEARDY_REGISTERED, Alert.AlertType.WARNING);
+            case AuthenticationConstants.REGISTER_FAILED_ALREADY_REGISTERED:
+                 UIHelper.showAlertMessage("Alery!", AuthenticationConstants.REGISTER_FAILED_ALREADY_REGISTERED, Alert.AlertType.WARNING);
                 break;
             case AuthenticationConstants.PROBLEM_IN_SERVER:
-                UIHelper.showAlertMessage("Alery!", AuthenticationConstants.REGISTER_FAILD_ALEARDY_REGISTERED, Alert.AlertType.WARNING);
+                UIHelper.showAlertMessage("Alery!", AuthenticationConstants.REGISTER_FAILED_ALREADY_REGISTERED, Alert.AlertType.WARNING);
                 break;
+            default:
+                Logger.getLogger(SignUpScreenControllerImpl.class.getName()).log(Level.SEVERE, receivedMsg);
         }
     }
 

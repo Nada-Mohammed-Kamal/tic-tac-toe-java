@@ -11,7 +11,7 @@ package utils;
  */
 public class Constants {
     public static final String SIGN_UP = "Signup";
-    public static final String HOME = "Home";
+    public static final String HOME = "XO Game";
     public static final String LOGIN = "Login";
     public static final String WARNING = "Warning!";
 

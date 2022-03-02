@@ -15,7 +15,6 @@ import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
 import utils.AuthenticationConstants;
-import utils.ErrorConstants;
 import utils.ServerQueries;
 import utils.UIHelper;
 
@@ -79,20 +78,17 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
         System.out.println("onMsgReceived" + receivedMsg);
         switch (receivedMsg) {
             case AuthenticationConstants.SUCCESS_LOGIN:
-                Platform.runLater(() -> {
-                    UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
-                });
+                UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
                 break;
-            case AuthenticationConstants.ALEARDY_LOGINED_ON_ANOTHER_DEVICE:
-                Platform.runLater(() -> {
-                    UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
-                });
+            case AuthenticationConstants.ALREADY_LOGINED_ON_ANOTHER_DEVICE:
+                UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
                 break;
             case AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD:
-               Platform.runLater(() -> {
-                   UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
-               });
+                UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
                 break;
+            case AuthenticationConstants.PROBLEM_IN_SERVER:
+               UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.WARNING);
+               break;
             default:
                 Logger.getLogger(LoginScreenControllerImpl.class.getName()).log(Level.SEVERE, receivedMsg);
         }

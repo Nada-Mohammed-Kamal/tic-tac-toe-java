@@ -124,13 +124,13 @@ public class GameHandler extends Thread {
                         ps.println(AuthenticationConstants.SUCCESS_REGISTERED);
                         break;
                     case ResultConstants.ALREADY_REGISTERED:
-                        ps.println(AuthenticationConstants.REGISTER_FAILD_ALEARDY_REGISTERED);
+                        ps.println(AuthenticationConstants.REGISTER_FAILED_ALREADY_REGISTERED);
                         break;
                     case ResultConstants.DB_ERROR:
                         ps.println(AuthenticationConstants.PROBLEM_IN_SERVER);
                         break;
                     default:
-                        System.out.println("ERORR UNKOWN VALUE == "+result);
+                        System.out.println("ERORR UNKOWN VALUE == " + result);
                 }
             }
             
@@ -139,6 +139,8 @@ public class GameHandler extends Thread {
     }
 
     private void playerLogin(String username, String password) {
+        System.out.println("USERNAME: " + username);
+        System.out.println("PASSWORD: " + password);
         new Thread() {
             @Override
             public void run() {
@@ -150,12 +152,13 @@ public class GameHandler extends Thread {
                         ps.println(AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD);
                         break;
                     case ResultConstants.ALREADY_LOGGINED:
-                        ps.println(AuthenticationConstants.ALEARDY_LOGINED_ON_ANOTHER_DEVICE);
+                        ps.println(AuthenticationConstants.ALREADY_LOGINED_ON_ANOTHER_DEVICE);
                         break;
                     case ResultConstants.DB_ERROR:
-                        ps.println(AuthenticationConstants.ALEARDY_LOGINED_ON_ANOTHER_DEVICE);
+                        ps.println(AuthenticationConstants.PROBLEM_IN_SERVER);
                         break;
                     default:
+                        System.out.println("ERROR: Unknown message");
                     //ps.println(AuthenticationConstants.ALEARDY_LOGINED_ON_ANOTHER_DEVICE);
                 }
             }

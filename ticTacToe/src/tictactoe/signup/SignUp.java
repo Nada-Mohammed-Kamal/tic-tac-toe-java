@@ -59,9 +59,12 @@ public class SignUp extends AnchorPane {
     protected final Label label2;
     protected final Button btnLogin;
     
-    private SignUpScreenController controller;
+    private SignUpScreenControllerImpl controller;
     
     public SignUp(Stage stage) {
+        
+        controller = new SignUpScreenControllerImpl(this);
+        controller.setNetworkLayer();
 
         anchorPane = new AnchorPane();
         label = new Label();
@@ -135,7 +138,7 @@ public class SignUp extends AnchorPane {
         btnBack.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnBack.setFont(new Font("Berlin Sans FB", 30.0));
         btnBack.setOnAction((action) -> {
-            //Navigation.navigateTo(stage, new LoginScreenBase(stage), "XO Game");
+            //controller.onPressPressBackBtn(stage);
             // winner - loser - draw
             // win    - lose  - Tie
             displayVideo("winner", "Win", "/MediaPlayer/VideoFXML.fxml");
@@ -175,7 +178,7 @@ public class SignUp extends AnchorPane {
         btnRegister.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnRegister.setFont(new Font("Berlin Sans FB", 30.0));
         btnRegister.setOnAction((action) -> {
-            
+            controller.onPressSignupBtn(txtFieldName.getText(), txtFieldPassword.getText(), txtFieldRePassword.getText());
         });
         btnRegister.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -259,7 +262,7 @@ public class SignUp extends AnchorPane {
         btnLogin.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         btnLogin.setFont(new Font("Berlin Sans FB Bold", 33.0));
         btnLogin.setOnAction((action) -> {
-            Navigation.navigateTo(stage, new LoginScreenBase(stage), "Login");
+            controller.onPressLoginBtn(stage);
         });
         btnLogin.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -292,86 +295,9 @@ public class SignUp extends AnchorPane {
         anchorPane2.getChildren().add(btnLogin);
         getChildren().add(anchorPane2);
 
-        try {
-//            mySocket = new Socket("127.0.0.1", 5555);
-//            dis = new DataInputStream(mySocket.getInputStream());
-//            ps = new PrintStream(mySocket.getOutputStream());
-//            
-            stage.setOnCloseRequest((WindowEvent event) -> {
-                closeWindow(stage);
-            });
-            
-            new Thread() {
-                @Override
-                public void run() {
-                    while (connectedToServer) {
-                        try {
-                            String s = dis.readLine();
-                            System.out.println("respond: " + s);
-                            
-                            if ("success".equals(s)) {
-                                Platform.runLater(() -> {
-                                    showAlertMessage("Register", "Registered Successfully.", Alert.AlertType.INFORMATION);
-                                
-                                    Navigation.navigateTo(stage, new LoginScreenBase(stage), "Login");
-                                });
-                                stop();
-                            } else {
-                                Platform.runLater(() -> {
-                                    showAlertMessage("Warning", "User Exist before!", Alert.AlertType.WARNING);
-                                });
-                            }
-                        } catch (SocketException ex) {
-                            connectedToServer = false;
-                            
-                            Platform.runLater(() -> {
-                                showAlertMessage("Alert", "Sorry!\nServer down!", Alert.AlertType.INFORMATION);
-                            });
-                            System.out.println("hello");
-                            try {
-                                mySocket.close();
-                                dis.close();
-                            } catch (IOException ex1) {
-                                Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex1);
-                                showAlertMessage("Error", "Can't close the Socket or DataInputStream!", Alert.AlertType.ERROR);
-                            }
-                            ps.close();
-                            stop();
-                        } catch (IOException ex) {
-                            connectedToServer = false;
-                            stop();
-                            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-                            showAlertMessage("Error", "Can't read data from server!\nMay be Server Down or there exist an enhancement.", Alert.AlertType.ERROR);
-                        } 
-                    }
-                }
-            }.start();
-        } catch (IOException ex) {
-            connectedToServer = false;
-            showAlertMessage("Error", "Server is not found or turned off.", Alert.AlertType.ERROR);
-        }
-    }
-    
-    private void showAlertMessage(String header, String msg, Alert.AlertType type) {
-        Alert a = new Alert(type);
-        a.setHeaderText(header);
-        a.setContentText(msg);
-        a.show();
-    }
-    
-    private void closeWindow(Stage stage) {
-//        if(connectedToServer){
-//            closeConnectionToServer();
-//        }
-        Navigation.navigateTo(stage, new HomeScreen(stage), "XO Game");
-    }
-    
-        
-
-    
-    private void sendDataToServer() {
-        String data = "signup;" + txtFieldName.getText().trim() + ";" + txtFieldPassword.getText().trim();  
-        ps.println(data);
+        stage.setOnCloseRequest((WindowEvent event) -> {
+            controller.onPressBackBtn(stage);
+        });
     }
     
     public void displayVideo(String playerWinnerOrNot, String title, String source){

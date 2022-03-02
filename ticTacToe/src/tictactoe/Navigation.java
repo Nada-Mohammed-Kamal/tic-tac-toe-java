@@ -27,15 +27,15 @@ public class Navigation {
         stage.show();
     }
     
-    public static void navigateToSignUp(Stage stage){
+    public static void navigateToSignUp(Stage stage) {
         navigateTo(stage, new SignUp(stage), Constants.SIGN_UP);
     }
         
-    public static void navigateToHome(Stage stage){
+    public static void navigateToHome(Stage stage) {
         navigateTo(stage, new HomeScreen(stage), Constants.HOME);
     }
     
-    public static void navigateToLogin(Stage stage){
+    public static void navigateToLogin(Stage stage) {
         navigateTo(stage, new LoginScreenBase(stage), Constants.LOGIN);
     }
 }

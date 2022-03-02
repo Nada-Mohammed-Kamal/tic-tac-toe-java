@@ -16,4 +16,5 @@ public class ResultConstants {
     public static final int SUCCESSFULLY_LOGGINED = 2;
     public static final int SUCCESSFULLY_REGISTERED = 2;
     public static final int WRONG_USERNAME_OR_PASSWORD = 3;
+    public static final int UNREGISTERED_USER = 4;
 }

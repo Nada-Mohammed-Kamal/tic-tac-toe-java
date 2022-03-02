@@ -210,7 +210,7 @@ public class RecordedScreen extends AnchorPane {
             try {
                 
                 System.out.println(file.getCanonicalPath().substring(file.getCanonicalPath().lastIndexOf("\\")+1));
-                filesNames.add(file.getCanonicalPath().substring(file.getCanonicalPath().indexOf("VS")+2));
+                filesNames.add(file.getCanonicalPath().substring(file.getCanonicalPath().lastIndexOf("\\")+1));
             } catch (IOException ex) {
                 Logger.getLogger(RecordedScreen.class.getName()).log(Level.SEVERE, null, ex);
             }

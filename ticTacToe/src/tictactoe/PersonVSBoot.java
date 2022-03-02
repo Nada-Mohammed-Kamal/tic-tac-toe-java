@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.Vector;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -58,7 +59,7 @@ public class PersonVSBoot extends AnchorPane {
     protected final AnchorPane saveAchorPane;
     protected final ImageView playAgainIcon;
       
-     protected final AnchorPane anchorPanePlayAgain;
+    protected final AnchorPane anchorPanePlayAgain;
         
     private int XWins = 0;
     private int OWins = 0;
@@ -66,11 +67,11 @@ public class PersonVSBoot extends AnchorPane {
     private int newXResult = 0;
     private int newYResult = 0;
     private TicTacToeAI TTT;
-    
+    Vector<Integer> vc;
     public PersonVSBoot(Stage stage) {
         TTT = new TicTacToeAI();
         TTT.NewGame();
-        
+        vc = new Vector();
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -106,6 +107,7 @@ public class PersonVSBoot extends AnchorPane {
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                      SaveButtonid.setDisable(false);
                   }
         });
         SaveButtonid.setOnMouseEntered((event) -> {
@@ -200,7 +202,7 @@ public class PersonVSBoot extends AnchorPane {
             int GO = TTT.isGameOver();
             if (TTT.Move(3, 1) && GO == 0) {
                 System.out.println("YES");
-                
+                addMovesPlayers(3);
                 b3.setDisable(true);
                 b3.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b3.setText("X");
@@ -222,6 +224,7 @@ public class PersonVSBoot extends AnchorPane {
             if (TTT.Move(6, 1) && GO == 0) {
                 System.out.println("YES");
                 b6.setDisable(true);
+                addMovesPlayers(6);
                 b6.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b6.setText("X");
                 ComputerMove(-1,0);
@@ -241,6 +244,7 @@ public class PersonVSBoot extends AnchorPane {
             if (TTT.Move(2, 1) && GO == 0) {
                 System.out.println("YES");
                 b2.setDisable(true); 
+                addMovesPlayers(2);
                 b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b2.setText("X");
                 ComputerMove(-1,0);
@@ -261,6 +265,7 @@ public class PersonVSBoot extends AnchorPane {
                 b1.setDisable(true);
                 b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b1.setText("X");
+                addMovesPlayers(1);
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
@@ -279,6 +284,7 @@ public class PersonVSBoot extends AnchorPane {
             if (TTT.Move(5, 1) && GO == 0) {
                 System.out.println("YES");
                 b5.setDisable(true);
+                addMovesPlayers(5);
                 b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b5.setText("X");
                 ComputerMove(-1,0);
@@ -301,6 +307,7 @@ public class PersonVSBoot extends AnchorPane {
                 b8.setDisable(true);
                 b8.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b8.setText("X");
+                addMovesPlayers(8);
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
@@ -321,6 +328,7 @@ public class PersonVSBoot extends AnchorPane {
                 b9.setDisable(true);
                 b9.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b9.setText("X");
+                addMovesPlayers(9);
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
@@ -340,6 +348,7 @@ public class PersonVSBoot extends AnchorPane {
                 b4.setDisable(true);
                 b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b4.setText("X");
+                addMovesPlayers(4);
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
@@ -357,6 +366,7 @@ public class PersonVSBoot extends AnchorPane {
             if (TTT.Move(7, 1) && GO == 0) {
                 System.out.println("YES");
                 b7.setDisable(true);
+                addMovesPlayers(7);
                 b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b7.setText("X");
                 ComputerMove(-1,0);
@@ -551,18 +561,25 @@ public class PersonVSBoot extends AnchorPane {
                     GameResultId.setText("Congratulations you won");
                     newXResult = 0;
                     newYResult = 0;
+                    PlayVideo.displayVideo("winner");
                 }
                 else  if(newXResult < newYResult)
                 {
                     GameResultId.setText("Unfortunately, the computer won");
                     newXResult = 0;
                     newYResult = 0;
+                    PlayVideo.displayVideo("winner");
                 }
                 else 
                 {
                     GameResultId.setText("Game over,no one won");
                     newXResult = 0;
                     newYResult = 0;
+                    PlayVideo.displayVideo("winner");
+                }
+                for(int i=0;i<vc.size();i++)
+                {
+                    System.out.print(" "+ vc.get(i));
                 }
 	        
 	}
@@ -631,31 +648,14 @@ public class PersonVSBoot extends AnchorPane {
 	}
         void hideAllXOButton()
         {
-            b1.setVisible(false);
-            b2.setVisible(false);
-            b3.setVisible(false);
-            b4.setVisible(false);
-            b5.setVisible(false);
-            b6.setVisible(false);
-            b7.setVisible(false);
-            b8.setVisible(false);
-            b9.setVisible(false);
+            gridPane.setVisible(false);
             anchorPanePlayAgain.setVisible(true);
             GameResultId.setVisible(true);
             saveAchorPane.setVisible(true);
         }
         void playAgainFunction(Stage stage)
         {
-            b1.setVisible(true);
-            b2.setVisible(true);
-            b3.setVisible(true);
-            b4.setVisible(true);
-            b5.setVisible(true);
-            b6.setVisible(true);
-            b7.setVisible(true);
-            b8.setVisible(true);
-            b9.setVisible(true);
-            
+            gridPane.setVisible(true);
             b1.setDisable(false);
             b2.setDisable(false);
             b3.setDisable(false);
@@ -675,11 +675,16 @@ public class PersonVSBoot extends AnchorPane {
             b7.setText("");
             b8.setText("");
             b9.setText("");
-            
+            vc.clear();
             TTT.NewGame();
+            SaveButtonid.setDisable(true);
             anchorPanePlayAgain.setVisible(false);
             GameResultId.setVisible(false);
             saveAchorPane.setVisible(false);
             stage.getScene().setCursor(Cursor.DEFAULT);
+        }
+        void addMovesPlayers(int x)
+        {
+            vc.add(x);
         }
 }

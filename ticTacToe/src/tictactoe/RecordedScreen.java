@@ -1,5 +1,11 @@
 package tictactoe;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -15,6 +21,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class RecordedScreen extends AnchorPane {
+
+    
+
+    ArrayList<String> returnedFilesNames;
 
     protected final AnchorPane anchorPane;
     protected final Label label;
@@ -39,7 +49,7 @@ public class RecordedScreen extends AnchorPane {
         anchorPane1 = new AnchorPane();
         scrollPane = new ScrollPane();
         vBox = new VBox();
-
+        
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
@@ -81,8 +91,8 @@ public class RecordedScreen extends AnchorPane {
 
         backButtonid.setLayoutX(4.0);
         backButtonid.setMnemonicParsing(false);
-        backButtonid.setPrefHeight(70.0);
-        backButtonid.setPrefWidth(200.0);
+        backButtonid.setPrefHeight(90.0);
+        backButtonid.setPrefWidth(219.0);
         backButtonid.setStyle("-fx-background-radius: 17; -fx-background-color: #e7ffdb;");
         backButtonid.setText("       Back");
         backButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
@@ -91,12 +101,13 @@ public class RecordedScreen extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation.navigateTo(stage,new HomeScreen(stage), "Home screen");
+                //Navigation.navigateTo(stage,new ReplayingTheChosenRecodrdedGame("kamalVSahmed2022-03-02-18-24-35"),"ReplayingTheChosenRecodrdedGame");
             }
         });
-        imageView.setFitHeight(52.0);
-        imageView.setFitWidth(52.0);
-        imageView.setLayoutX(20.0);
-        imageView.setLayoutY(9.0);
+        imageView.setFitHeight(62.0);
+        imageView.setFitWidth(62.0);
+        imageView.setLayoutX(13.0);
+        imageView.setLayoutY(3.0);
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
         
         anchorPane1.setLayoutX(283.0);
@@ -135,10 +146,12 @@ public class RecordedScreen extends AnchorPane {
         
         vBox.setSpacing(8);
         
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
-         addRecordedGame("EsraaVsAhmed12/1/2022");
+         returnedFilesNames = new ArrayList<>();
+         returnedFilesNames = getRecordedFilesNames();
+         for(int i = 0 ; i < returnedFilesNames.size() ; i++)
+         {
+             addRecordedGame(returnedFilesNames.get(i));
+         }
     }
     void addRecordedGame(String fileName)
     {
@@ -178,4 +191,33 @@ public class RecordedScreen extends AnchorPane {
         UserDetails.getChildren().add(showRecordedGame);
         vBox.getChildren().add(UserDetails);
     }
+    ArrayList<String> getRecordedFilesNames(){
+        File f = new File(System.getProperty("user.dir"));
+        ArrayList<String> filesNames = new ArrayList<>();
+        FilenameFilter textFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith(".txt");
+            }
+        };
+
+        File[] files = f.listFiles(textFilter);
+        for (File file : files) {
+            if (file.isDirectory()) {
+                System.out.print("directory:");
+            } else {
+                System.out.print("     file:");
+            }
+            try {
+                
+                System.out.println(file.getCanonicalPath().substring(file.getCanonicalPath().lastIndexOf("\\")+1));
+                filesNames.add(file.getCanonicalPath().substring(file.getCanonicalPath().lastIndexOf("\\")+1));
+            } catch (IOException ex) {
+                Logger.getLogger(RecordedScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return filesNames;
+    } 
 }
+   
+        
+    

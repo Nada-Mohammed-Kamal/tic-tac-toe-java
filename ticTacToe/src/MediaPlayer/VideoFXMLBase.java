@@ -1,6 +1,8 @@
 package MediaPlayer;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -10,31 +12,23 @@ import javafx.stage.Stage;
 
 public class VideoFXMLBase extends AnchorPane {
 
-    protected final VBox vBox;
     protected final MediaView mediaView;
-    
-    Stage thisStage;
     private String typePlayer;
     public static MediaPlayer mp;
 
-    public VideoFXMLBase() {
+    public VideoFXMLBase(String stringTypePlayer) {
 
-        vBox = new VBox();
         mediaView = new MediaView();
 
         setId("AnchorPane");
         setPrefHeight(400.0);
-        setPrefWidth(600.0);
-
-        vBox.setLayoutY(-1.0);
-        vBox.setPrefHeight(400.0);
-        vBox.setPrefWidth(600.0);
+        setPrefWidth(400.0);
 
         mediaView.setFitHeight(400.0);
         mediaView.setFitWidth(400.0);
 
-        vBox.getChildren().add(mediaView);
-        getChildren().add(vBox);
+        getChildren().add(mediaView);
+        setType(stringTypePlayer);
 
     }
     
@@ -55,9 +49,17 @@ public class VideoFXMLBase extends AnchorPane {
 
         mp = new MediaPlayer(media);
         mediaView.setMediaPlayer(mp);
+        DoubleProperty width =  mediaView.fitWidthProperty();
+        DoubleProperty height =  mediaView.fitHeightProperty();
+        width.bind(Bindings.selectDouble( mediaView.parentProperty(), "width"));
+        height.bind(Bindings.selectDouble( mediaView.parentProperty(), "height"));
+        mediaView.setPreserveRatio(true);
         Platform.runLater(() -> {
             mp.play();
         });
+        
+                        
+                      
     }
 
     public void setType(String stringTypePlayer) {

@@ -138,10 +138,7 @@ public class SignUp extends AnchorPane {
         btnBack.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnBack.setFont(new Font("Berlin Sans FB", 30.0));
         btnBack.setOnAction((action) -> {
-            //controller.onPressPressBackBtn(stage);
-            // winner - loser - draw
-            // win    - lose  - Tie
-            displayVideo("winner", "Win", "/MediaPlayer/VideoFXML.fxml");
+            controller.onPressPressBackBtn(stage);
         });
         btnBack.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -298,46 +295,5 @@ public class SignUp extends AnchorPane {
         stage.setOnCloseRequest((WindowEvent event) -> {
             controller.onPressBackBtn(stage);
         });
-    }
-    
-    public void displayVideo(String playerWinnerOrNot, String title, String source){
-        try {
-            //get scene
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(source));
-            Parent root = (Parent)fxmlLoader.load(); 
-            
-            
-            VideoFXMLBase controller = new VideoFXMLBase();
-            controller.setType(playerWinnerOrNot);
-            //generate new scene
-            Scene registerScene = new Scene(root);
-            fxmlLoader.setController(controller);
-            
-            //get stage information
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle(title);
-            window.setScene(registerScene);
-            window.setMinHeight(280);
-            window.setMinWidth(500);
-            
-            window.setResizable(false);
-            window.show();
-            
-                PauseTransition wait = new PauseTransition(Duration.seconds(7));
-                wait.setOnFinished((e) -> {
-                    window.close();
-                    //btn.setDisable(false);
-                    wait.playFromStart();
-                });
-                wait.play();
-                            
-                window.setOnCloseRequest((event) -> {
-                    System.out.println("closing vid");
-                    VideoFXMLBase.mp.stop();
-                });
-        } catch (IOException ex) {
-            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

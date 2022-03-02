@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.AttributeConstants;
+import utils.ResultConstants;
+import utils.SQLQueriesConstants;
 
 /**
  *
@@ -19,9 +22,15 @@ import java.util.logging.Logger;
 public class PlayerManagerImpl implements PlayerManager{
     
     private ConnectionDB con;
+    private static PlayerManager playerManager;
     
-    public PlayerManagerImpl() {
-        con = ConnectionDB.getInstance();
+    private PlayerManagerImpl() { }
+    
+    public synchronized static PlayerManager getInstance() {
+        if(playerManager == null) {
+            playerManager = new PlayerManagerImpl();
+        }
+        return playerManager;
     }
     
     @Override
@@ -29,7 +38,7 @@ public class PlayerManagerImpl implements PlayerManager{
         
         boolean result = true;
         try {    
-            PreparedStatement ps = con.getConnection().prepareStatement("INSERT INTO PLAYERS (USERNAME, PASSWORD, SCORE, ISONLINE) VALUES (?, ?, ?, ?)");
+            PreparedStatement ps = con.getConnection().prepareStatement(AttributeConstants.ADD_NEW_PLAYER);
             
             ps.setString(1, username);
             ps.setString(2, password);
@@ -41,8 +50,6 @@ public class PlayerManagerImpl implements PlayerManager{
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
-        } finally {
-            con.close();
         }
         
         return result;
@@ -53,7 +60,7 @@ public class PlayerManagerImpl implements PlayerManager{
         
         boolean result = true;
         try{
-            PreparedStatement ps = con.getConnection().prepareStatement("UPDATE PLAYERS SET " + "SCORE = ? " + "WHERE USERNAME = ?");
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_PLAYER_SCORE);
             
             ps.setInt(1, score);
             ps.setString(2, username);
@@ -63,8 +70,6 @@ public class PlayerManagerImpl implements PlayerManager{
         } catch (SQLException ex){
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
-        } finally {
-            con.close();
         }
         
         return result;
@@ -75,7 +80,7 @@ public class PlayerManagerImpl implements PlayerManager{
         
         boolean result = true;
         try{
-            PreparedStatement ps = con.getConnection().prepareStatement("UPDATE PLAYERS SET " + "ISONLINE = ? " + "WHERE USERNAME = ?");
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_PLAYER_STATE);
             
             ps.setBoolean(1, isOnline);
             ps.setString(2, username);
@@ -85,8 +90,6 @@ public class PlayerManagerImpl implements PlayerManager{
         } catch (SQLException ex){
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
-        } finally {
-            con.close();
         }
         
         return result;
@@ -100,19 +103,17 @@ public class PlayerManagerImpl implements PlayerManager{
         Vector<PLayerDAO> allPlayers = new Vector<>();
         
         try {
-            PreparedStatement ps = con.getConnection().prepareStatement("SELECT * FROM PLAYERS", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
             
             while (rs.next()) {
-                allPlayers.add(new PLayerDAO(rs.getString("USERNAME"), rs.getString("PASSWORD"), rs.getInt("SCORE"), rs.getBoolean("ISONLINE")));
+                allPlayers.add(new PLayerDAO(rs.getString(AttributeConstants.USERNAME), rs.getString(AttributeConstants.PASSWORD), rs.getInt(AttributeConstants.SCORE), rs.getBoolean(AttributeConstants.ISONLINE)));
             }
             
             ps.close();
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            con.close();
         }
         
         return allPlayers;
@@ -125,46 +126,55 @@ public class PlayerManagerImpl implements PlayerManager{
         Vector<PLayerDAO> onlinePlayers = new Vector<>();
         
         try {
-            PreparedStatement ps = con.getConnection().prepareStatement("SELECT * FROM PLAYERS WHERE ISONLINE = true", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
             
             while (rs.next()) {
-                onlinePlayers.add(new PLayerDAO(rs.getString("USERNAME"), rs.getString("PASSWORD"), rs.getInt("SCORE"), rs.getBoolean("ISONLINE")));
+                onlinePlayers.add(new PLayerDAO(rs.getString(AttributeConstants.USERNAME), rs.getString(AttributeConstants.PASSWORD), rs.getInt(AttributeConstants.SCORE), rs.getBoolean(AttributeConstants.ISONLINE)));
             }
             
             ps.close();
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            con.close();
         }
         
         return onlinePlayers;
     }
     
     @Override
-    public boolean login(String userName, String password){
+    public int login(String userName, String password){
         rs = null;
-        boolean result = false; 
+        int result = ResultConstants.DB_ERROR; 
         
         try{
-            PreparedStatement ps = con.getConnection().prepareStatement("SELECT * FROM PLAYERS WHERE USERNAME = ? AND PASSWORD = ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.LOGIN_QUERY, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, userName);
             ps.setString(2, password);
             rs = ps.executeQuery();
             if(rs.next())
-                if(rs.getString(1).equals(userName) && rs.getString(2).equals(password))
-                    result = true;
+                if(rs.getString(1).equals(userName) && rs.getString(2).equals(password)) {
+                    if (rs.getBoolean(4)) {
+                        result = ResultConstants.IS_ALREADY_LOGGINED;
+                    } else {
+                        result = ResultConstants.SUCCESSFULLY_LOGGINED;
+                    }
+                }
             
             ps.close();
             rs.close();
         } catch (SQLException ex) {
+            result = ResultConstants.DB_ERROR; 
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            con.close();
         }
         
         return result;
+    }
+
+    @Override
+    public void releaseResources() {
+        // server close => release data
+        con.close();
+        playerManager = null;
     }
 }

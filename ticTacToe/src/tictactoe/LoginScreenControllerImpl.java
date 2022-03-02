@@ -99,10 +99,14 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
                 });
                 break;
             case AuthenticationConstants.ALEARDY_LOGINED_ON_ANOTHER_DEVICE:
-                UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
+                Platform.runLater(() -> {
+                    UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
+                });
                 break;
             case AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD:
-                UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
+               Platform.runLater(() -> {
+                   UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);
+               });
                 break;
             default:
                 Logger.getLogger(LoginScreenControllerImpl.class.getName()).log(Level.SEVERE, receivedMsg);

@@ -17,5 +17,6 @@ public interface PlayerManager {
     boolean updatePlayerState(String username, boolean isOnline);
     Vector<PLayerDAO> selectAllPlayers();
     Vector<PLayerDAO> selectOnlinePlayers();
-    boolean login(String userName, String password);
+    int login(String userName, String password);
+    void releaseResources();
 }

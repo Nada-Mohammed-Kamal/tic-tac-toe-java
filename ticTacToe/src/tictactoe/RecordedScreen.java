@@ -127,8 +127,8 @@ public class RecordedScreen extends AnchorPane {
         scrollPane.setStyle("-fx-background-color: transparent; -fx-background-radius: 10;");
         scrollPane.setVbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS);
 
-        vBox.setMinHeight(USE_PREF_SIZE);
-        vBox.setMinWidth(USE_PREF_SIZE);
+        vBox.setMinHeight(USE_COMPUTED_SIZE);
+        vBox.setMinWidth(USE_COMPUTED_SIZE);
         vBox.setPrefHeight(543.0);
         vBox.setPrefWidth(682.0);
 
@@ -190,8 +190,8 @@ public class RecordedScreen extends AnchorPane {
             });
         
         AnchorPane UserDetails = new AnchorPane();
-        UserDetails.setMinHeight(USE_PREF_SIZE);
-        UserDetails.setMinWidth(USE_PREF_SIZE);
+        UserDetails.setMinHeight(USE_COMPUTED_SIZE);
+        UserDetails.setMinWidth(USE_COMPUTED_SIZE);
         UserDetails.setPrefHeight(78.0);
         UserDetails.setPrefWidth(682.0);
         UserDetails.setStyle("-fx-background-color: #8596A0; -fx-background-radius: 10;");

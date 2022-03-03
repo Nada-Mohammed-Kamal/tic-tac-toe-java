@@ -340,7 +340,7 @@ public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
                 {
                   
                   try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                     if(currentPlayerNumber == 1)
                     {
                         switch (PlayersMoves.get(i)){

@@ -1,6 +1,15 @@
 package tictactoe;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -58,7 +67,11 @@ public class PersonVSBoot extends AnchorPane {
     protected final ImageView savImageIcon;
     protected final AnchorPane saveAchorPane;
     protected final ImageView playAgainIcon;
-      
+    ArrayList<Integer> playersRecorderMoves;
+    String movesAsAString;
+    String getSubStringForNames = "";
+     String nameOfPlayerOneRecorder = "";
+    String nameOfPlayerTwoRecorder = "";
     protected final AnchorPane anchorPanePlayAgain;
         
     private int XWins = 0;
@@ -107,7 +120,25 @@ public class PersonVSBoot extends AnchorPane {
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                      SaveButtonid.setDisable(false);
+                         try {
+                        Date date = new Date();
+                        Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                        String s = formatter.format(date);
+                        BufferedWriter writer = new BufferedWriter(new FileWriter( "You" +"VS" + "Computer" + s+".txt"));
+             
+                            System.out.println(vc);
+                        movesAsAString = convertVectorOfIntToString(vc);
+                            System.out.println(movesAsAString);
+                        concatenateNameInStringToSaveInFile("You" , "Computer");
+                        writer.write(movesAsAString);
+                        writer.close();
+                        System.out.println("saved successfully");
+                        SaveButtonid.setDisable(true);
+                        } catch (Exception ex) {
+                            Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        System.out.println("");
+                     
                   }
         });
         SaveButtonid.setOnMouseEntered((event) -> {
@@ -687,7 +718,7 @@ public class PersonVSBoot extends AnchorPane {
             b9.setText("");
             vc.clear();
             TTT.NewGame();
-            SaveButtonid.setDisable(true);
+            SaveButtonid.setDisable(false);
             anchorPanePlayAgain.setVisible(false);
             GameResultId.setVisible(false);
             saveAchorPane.setVisible(false);
@@ -697,4 +728,20 @@ public class PersonVSBoot extends AnchorPane {
         {
             vc.add(x);
         }
+        String convertVectorOfIntToString(Vector<Integer> vector){
+        String str = "";
+        for(int i = 0 ; i < vector.size() ; i++)
+        {
+            str += vector.get(i);
+            str += ",";
+        }
+        return str;
+    }
+    void concatenateNameInStringToSaveInFile(String name1 , String name2){
+        movesAsAString += "&";
+        movesAsAString += name1;
+        movesAsAString += "&";
+        movesAsAString += name2;
+    }    
+    
 }

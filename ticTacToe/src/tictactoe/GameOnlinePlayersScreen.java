@@ -323,7 +323,7 @@ public class GameOnlinePlayersScreen extends AnchorPane {
         imageView.setLayoutX(9.0);
         imageView.setLayoutY(94.0);
         imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Gamer.png")));
+        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
        
         label.setLayoutX(144.0);
         label.setLayoutY(222.0);
@@ -369,7 +369,7 @@ public class GameOnlinePlayersScreen extends AnchorPane {
         imageView0.setLayoutX(9.0);
         imageView0.setLayoutY(94.0);
         imageView0.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/com.jpg")));
+        imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
 
         label1.setLayoutX(144.0);
         label1.setLayoutY(222.0);

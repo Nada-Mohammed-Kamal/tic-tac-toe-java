@@ -129,11 +129,16 @@ public class SignUp extends AnchorPane {
         AnchorPane.setLeftAnchor(btnBack, 0.0);
         AnchorPane.setRightAnchor(btnBack, 0.0);
         AnchorPane.setTopAnchor(btnBack, 0.0);
-        btnBack.setLayoutY(4.0);
+        
+        
+     
+        
+       
+        
         btnBack.setMnemonicParsing(false);
         btnBack.setPrefHeight(75.0);
         btnBack.setPrefWidth(185.0);
-        btnBack.setStyle("-fx-background-radius: 17;");
+        btnBack.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
         btnBack.setText("       Back");
         btnBack.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnBack.setFont(new Font("Berlin Sans FB", 30.0));
@@ -146,11 +151,12 @@ public class SignUp extends AnchorPane {
         btnBack.setOnMouseExited((event) -> {
             stage.getScene().setCursor(Cursor.DEFAULT);
         });
-
-        imageView.setFitHeight(48.0);
-        imageView.setFitWidth(62.0);
-        imageView.setLayoutX(13.0);
-        imageView.setLayoutY(17.0);
+        
+        imageView.setFitHeight(50.0);
+        imageView.setFitWidth(52.0);
+        imageView.setLayoutX(16.0);
+        imageView.setLayoutY(11.0);
+        imageView.setOpacity(0.47);
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
 
         AnchorPane.setBottomAnchor(anchorPane1, 21.0);
@@ -166,11 +172,14 @@ public class SignUp extends AnchorPane {
         AnchorPane.setLeftAnchor(btnRegister, 0.0);
         AnchorPane.setRightAnchor(btnRegister, 0.0);
         AnchorPane.setTopAnchor(btnRegister, 0.0);
+        
+        
+    
         btnRegister.setLayoutX(-4.0);
         btnRegister.setMnemonicParsing(false);
         btnRegister.setPrefHeight(75.0);
-        btnRegister.setPrefWidth(200.0);
-        btnRegister.setStyle("-fx-background-radius: 17;");
+        btnRegister.setPrefWidth(185.0);
+        btnRegister.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
         btnRegister.setText("        Register");
         btnRegister.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         btnRegister.setFont(new Font("Berlin Sans FB", 30.0));
@@ -183,11 +192,11 @@ public class SignUp extends AnchorPane {
         btnRegister.setOnMouseExited((event) -> {
             stage.getScene().setCursor(Cursor.DEFAULT);
         });
-
-        imageView0.setFitHeight(48.0);
-        imageView0.setFitWidth(62.0);
-        imageView0.setLayoutX(14.0);
-        imageView0.setLayoutY(14.0);
+        imageView0.setFitHeight(50.0);
+        imageView0.setFitWidth(52.0);
+        imageView0.setLayoutX(16.0);
+        imageView0.setLayoutY(11.0);
+        imageView0.setOpacity(0.47);
         imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/signup.png")));
        
         imageView1.setFitHeight(185.0);

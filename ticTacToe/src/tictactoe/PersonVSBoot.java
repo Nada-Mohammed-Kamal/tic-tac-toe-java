@@ -403,7 +403,7 @@ public class PersonVSBoot extends AnchorPane {
         imageView.setLayoutX(9.0);
         imageView.setLayoutY(94.0);
         imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Gamer.png")));
+        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
        
         label.setLayoutX(144.0);
         label.setLayoutY(222.0);
@@ -449,7 +449,7 @@ public class PersonVSBoot extends AnchorPane {
         imageView0.setLayoutX(9.0);
         imageView0.setLayoutY(94.0);
         imageView0.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/com.jpg")));
+        imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play2.png")));
 
         label1.setLayoutX(144.0);
         label1.setLayoutY(222.0);
@@ -487,6 +487,7 @@ public class PersonVSBoot extends AnchorPane {
                     Navigation.navigateTo(stage, new HomeScreen(stage), "Home Screen");
                  }
         });
+        
         imageView1.setFitHeight(50.0);
         imageView1.setFitWidth(52.0);
         imageView1.setLayoutX(16.0);
@@ -593,54 +594,63 @@ public class PersonVSBoot extends AnchorPane {
                         b1.setDisable(true);
                         b1.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b1.setText(PText);
+                        addMovesPlayers(1);
 			TTT.Move(move, player);
 			break;
 		case 2:
 			b2.setDisable(true);
 			b2.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b2.setText(PText);
+                        addMovesPlayers(2);
 			TTT.Move(move, player);
 			break;
 		case 3:
 			b3.setDisable(true);
 			 b3.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b3.setText(PText);
+                        addMovesPlayers(3);
 			TTT.Move(move, player);
 			break;
 		case 4:
 			b4.setDisable(true);
 			b4.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b4.setText(PText);
+                        addMovesPlayers(4);
 			TTT.Move(move, player);
 			break;
 		case 5:
 			b5.setDisable(true);
 			b5.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b5.setText(PText);
+                        addMovesPlayers(5);
 			TTT.Move(move, player);
 			break;
 		case 6:
 			b6.setDisable(true);
 			b6.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b6.setText(PText);
+                        addMovesPlayers(6);
 			TTT.Move(move, player);
 			break;
 		case 7:
 			b7.setDisable(true);
 			b7.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b7.setText(PText);
+                        addMovesPlayers(7);
 			TTT.Move(move, player);
 			break;
 		case 8:
 			b8.setDisable(true);
                         b8.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b8.setText(PText);
+                        addMovesPlayers(8);
 			TTT.Move(move, player);
 			break;
 		case 9:
 			b9.setDisable(true);
 		        b9.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
 			b9.setText(PText);
+                        addMovesPlayers(9);
 			TTT.Move(move, player);
 			break;
 		}

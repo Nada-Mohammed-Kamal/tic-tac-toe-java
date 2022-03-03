@@ -36,9 +36,11 @@ public class RecordedScreen extends AnchorPane {
     protected final AnchorPane anchorPane1;
     protected final ScrollPane scrollPane;
     protected final VBox vBox;
+    Stage stage;
 
     public RecordedScreen(Stage stage) {
 
+        this.stage = stage;
         anchorPane = new AnchorPane();
         label = new Label();
         label0 = new Label();
@@ -89,11 +91,10 @@ public class RecordedScreen extends AnchorPane {
         anchorPane0.setPrefHeight(89.0);
         anchorPane0.setPrefWidth(219.0);
 
-        backButtonid.setLayoutX(4.0);
         backButtonid.setMnemonicParsing(false);
-        backButtonid.setPrefHeight(90.0);
-        backButtonid.setPrefWidth(219.0);
-        backButtonid.setStyle("-fx-background-radius: 17; -fx-background-color: #e7ffdb;");
+        backButtonid.setPrefHeight(75.0);
+        backButtonid.setPrefWidth(185.0);
+        backButtonid.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
         backButtonid.setText("       Back");
         backButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonid.setFont(new Font("Berlin Sans FB", 33.0));
@@ -101,13 +102,13 @@ public class RecordedScreen extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation.navigateTo(stage,new HomeScreen(stage), "Home screen");
-                //Navigation.navigateTo(stage,new ReplayingTheChosenRecodrdedGame("kamalVSahmed2022-03-02-18-24-35"),"ReplayingTheChosenRecodrdedGame");
-            }
+                 }
         });
-        imageView.setFitHeight(62.0);
-        imageView.setFitWidth(62.0);
-        imageView.setLayoutX(13.0);
-        imageView.setLayoutY(3.0);
+        imageView.setFitHeight(50.0);
+        imageView.setFitWidth(52.0);
+        imageView.setLayoutX(16.0);
+        imageView.setLayoutY(11.0);
+        imageView.setOpacity(0.47);
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
         
         anchorPane1.setLayoutX(283.0);
@@ -152,6 +153,7 @@ public class RecordedScreen extends AnchorPane {
          {
              addRecordedGame(returnedFilesNames.get(i));
          }
+         
     }
     void addRecordedGame(String fileName)
     {
@@ -179,6 +181,13 @@ public class RecordedScreen extends AnchorPane {
         showRecordedGame.setText("Show");
         showRecordedGame.setTextFill(javafx.scene.paint.Color.WHITE);
         showRecordedGame.setFont(new Font("System Bold", 22.0));
+        showRecordedGame.setOnAction(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent e) {
+                    System.out.println(fileNameLabel.getText() + "      **********showRecordedGame.setOnAction");
+                    Navigation.navigateTo(stage,new ReplayingTheChosenRecodrdedGame(fileNameLabel.getText(),stage),"ReplayingTheChosenRecodrdedGame");
+           
+                }
+            });
         
         AnchorPane UserDetails = new AnchorPane();
         UserDetails.setMinHeight(USE_PREF_SIZE);

@@ -36,7 +36,7 @@ public class VideoFXMLBase extends AnchorPane {
 
         if (typePlayer.equals("winner")) {
             //get video file and set it to media
-            setMedia("/videos/winner.mp4");
+            setMedia("/videos/win.mp4");
         } else if (typePlayer.equals("loser")) {
             setMedia("/videos/loser.mp4");
         }else if (typePlayer.equals("draw")) {

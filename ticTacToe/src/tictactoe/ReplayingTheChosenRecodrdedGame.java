@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +16,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
 
@@ -51,8 +54,8 @@ public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
     protected final ImageView imageView;
     ReplayGameService service;
 
-    public ReplayingTheChosenRecodrdedGame(String filename) {
-        service = new ReplayGameService();
+    public ReplayingTheChosenRecodrdedGame(String filename,Stage stage) {
+        service = new ReplayGameService(filename);
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -205,7 +208,7 @@ public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
         player1img.setLayoutX(9.0);
         player1img.setLayoutY(94.0);
         player1img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        //player1img.setImage(new Image(getClass().getResource("../../../../../../Desktop/male.jfif").toExternalForm()));
+        player1img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
 
         label.setLayoutX(144.0);
         label.setLayoutY(222.0);
@@ -239,7 +242,7 @@ public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
         player2img.setLayoutX(9.0);
         player2img.setLayoutY(94.0);
         player2img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        //player2img.setImage(new Image(getClass().getResource("../../../../../../Desktop/female.jfif").toExternalForm()));
+        player2img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play2.png")));
 
         label0.setLayoutX(144.0);
         label0.setLayoutY(222.0);
@@ -268,18 +271,23 @@ public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
         backButtonId.setMnemonicParsing(false);
         backButtonId.setPrefHeight(75.0);
         backButtonId.setPrefWidth(185.0);
-        backButtonId.setStyle("-fx-background-radius: 17;");
+        backButtonId.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
         backButtonId.setText("       Back");
         backButtonId.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonId.setFont(new Font("Berlin Sans FB", 33.0));
-
-        imageView.setFitHeight(54.0);
-        imageView.setFitWidth(62.0);
-        imageView.setLayoutX(13.0);
+        backButtonId.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation.navigateTo(stage, new RecordedScreen(stage), "Recorded screen");
+            }
+        });        
+        imageView.setFitHeight(50.0);
+        imageView.setFitWidth(52.0);
+        imageView.setLayoutX(16.0);
         imageView.setLayoutY(11.0);
         imageView.setOpacity(0.47);
-        //imageView.setImage(new Image(getClass().getResource("../../../../../../Desktop/back%20button.png").toExternalForm()));
-
+        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
+        
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
         gridPane.getColumnConstraints().add(columnConstraints1);

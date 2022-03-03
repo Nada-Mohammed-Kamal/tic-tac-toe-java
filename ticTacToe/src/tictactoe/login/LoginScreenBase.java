@@ -87,40 +87,42 @@ public class LoginScreenBase extends AnchorPane {
 
         anchorPane0.setLayoutX(39.0);
         anchorPane0.setLayoutY(504.0);
-
+        
         backButtonid.setLayoutY(-14.0);
         backButtonid.setMnemonicParsing(false);
-        backButtonid.setPrefHeight(89.0);
+        backButtonid.setPrefHeight(75.0);
         backButtonid.setPrefWidth(185.0);
-        backButtonid.setStyle("-fx-background-radius: 17;");
+        backButtonid.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
         backButtonid.setText("       Back");
         backButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonid.setFont(new Font("Berlin Sans FB", 33.0));
         backButtonid.setOnAction(action -> {
             controller.onPressPressBackBtn(stage);
         });
-        imageView.setFitHeight(62.0);
-        imageView.setFitWidth(62.0);
-        imageView.setLayoutX(13.0);
-        imageView.setLayoutY(3.0);
+
+        imageView.setFitHeight(50.0);
+        imageView.setFitWidth(52.0);
+        imageView.setLayoutX(16.0);
+        imageView.setLayoutY(1.0);
+        imageView.setOpacity(0.47);
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
         
         anchorPane1.setLayoutX(396.0);
         anchorPane1.setLayoutY(504.0);
-
+        
         loginId.setLayoutY(-14.0);
         loginId.setMnemonicParsing(false);
-        loginId.setPrefHeight(89.0);
+        loginId.setPrefHeight(75.0);
         loginId.setPrefWidth(185.0);
-        loginId.setStyle("-fx-background-radius: 17;");
+        loginId.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
         loginId.setText("      LogIn");
         loginId.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         loginId.setFont(new Font("Berlin Sans FB", 33.0));
         loginId.setOnAction(action -> {
             controller.onPressLoginBtn(nameTextBoxid.getText(), passwordtextboxid.getText());
         });
-        imageView0.setFitHeight(62.0);
-        imageView0.setFitWidth(62.0);
+        imageView0.setFitHeight(50.0);
+        imageView0.setFitWidth(52.0);
         imageView0.setLayoutX(13.0);
         imageView0.setLayoutY(3.0);
         imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/login.png")));

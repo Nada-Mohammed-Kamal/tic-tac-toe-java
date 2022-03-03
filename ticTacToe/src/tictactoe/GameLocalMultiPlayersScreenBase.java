@@ -252,8 +252,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player1img.setLayoutX(9.0);
         player1img.setLayoutY(94.0);
         player1img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        player1img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/male.jfif")));
-        //player1img.setImage(new Image(getClass().getResource("../../../../../../Desktop/male.jfif").toExternalForm()));
+        player1img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
         label.setLayoutX(144.0);
         label.setLayoutY(222.0);
         label.setText("X");
@@ -281,7 +280,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player2img.setLayoutX(9.0);
         player2img.setLayoutY(94.0);
         player2img.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        player2img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/female.jfif")));
+        player2img.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play2.png")));
         label0.setLayoutX(144.0);
         label0.setLayoutY(222.0);
         label0.setText("O");

@@ -6,7 +6,10 @@
 package tictactoe;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -23,15 +26,19 @@ public class ReplayGameService {
     public String nameOfPlayerOneRecorder = "";
     public String nameOfPlayerTwoRecorder = "";
     ArrayList<Integer> playersRecorderMoves;
+    String fileName;
     
-    public ReplayGameService(){
+    public ReplayGameService(String fileName){
         playersRecorderMoves =new ArrayList<>();
+        this.fileName = fileName;
     }
     
     public void viewFileData()
     {
         try {
-                    BufferedReader writer = new BufferedReader(new FileReader("C:\\Users\\nados\\OneDrive\\Documents\\GitHub\\tic-tac-toe-java\\ticTacToe\\kamalVSahmed2022-03-02-18-24-35.txt"));
+                   System.out.println(getFilePathFromName(fileName) + "    *****FileReader");
+                    
+                    BufferedReader writer = new BufferedReader(new FileReader(getFilePathFromName(fileName)));
                     readedTextFromFile = writer.readLine();
                     System.out.println(readedTextFromFile);
                     writer.close();
@@ -117,6 +124,35 @@ public class ReplayGameService {
         }
     }
         
+  String getFilePathFromName(String filsName)
+    {
+        File f = new File(System.getProperty("user.dir"));
+       String path = new String();
+        FilenameFilter textFilter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith(".txt");
+            }
+        };
+
+        File[] files = f.listFiles(textFilter);
         
+        for (File file : files) {
+            if (file.isDirectory()) {
+                System.out.print("directory:");
+            } else {
+                System.out.print("     file:");
+            }
+            try {
+               if(file.getName().equals(filsName))
+                {
+                    path = file.getCanonicalPath().toString();
+                    break;
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(RecordedScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return path;
+    }      
     
 }

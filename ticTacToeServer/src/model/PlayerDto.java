@@ -3,24 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serverdao;
+package model;
+
+import tictactoeserver.GameHandler;
 
 /**
  *
  * @author AhmedAli
  */
-public class PLayerDAO {
+public class PlayerDto  {
     
     private String username;
     private String password;
     private int score;
     private boolean isOnline;
+    private GameHandler handler;
 
-    public PLayerDAO(String username, String password, int score, boolean isOnline) {
+    public PlayerDto(String username, String password, int score, boolean isOnline) {
         this.username = username;
         this.password = password;
         this.score = score;
         this.isOnline = isOnline;
+    }
+
+    public PlayerDto(String username, String password, int score, boolean isOnline, GameHandler handler) {
+        this.username = username;
+        this.password = password;
+        this.score = score;
+        this.isOnline = isOnline;
+        this.handler = handler;
     }
 
     public String getUsername() {
@@ -54,6 +65,15 @@ public class PLayerDAO {
     public void setIsOnline(boolean isOnline) {
         this.isOnline = isOnline;
     }
+
+    public GameHandler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(GameHandler handler) {
+        this.handler = handler;
+    }
+
     
     
 }

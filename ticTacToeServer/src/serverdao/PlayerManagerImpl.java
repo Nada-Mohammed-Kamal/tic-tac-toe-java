@@ -5,6 +5,7 @@
  */
 package serverdao;
 
+import model.PlayerDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,7 +82,7 @@ public class PlayerManagerImpl implements PlayerManager {
     }
     
     @Override
-    public boolean updatePlayerState(String username, boolean isOnline) {
+    public boolean updateIsPlayerOnline(String username, boolean isOnline) {
         
         boolean result = true;
         try {
@@ -103,17 +104,17 @@ public class PlayerManagerImpl implements PlayerManager {
     private ResultSet rs;
     
     @Override
-    public Vector<PLayerDAO> selectAllPlayers() {
+    public Vector<PlayerDto> selectAllPlayers() {
         
         rs = null;
-        Vector<PLayerDAO> allPlayers = new Vector<>();
+        Vector<PlayerDto> allPlayers = new Vector<>();
         
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
             
             while (rs.next()) {
-                allPlayers.add(new PLayerDAO(rs.getString(AttributeConstants.USERNAME), rs.getString(AttributeConstants.PASSWORD), rs.getInt(AttributeConstants.SCORE), rs.getBoolean(AttributeConstants.ISONLINE)));
+                allPlayers.add(new PlayerDto(rs.getString(AttributeConstants.USERNAME), rs.getString(AttributeConstants.PASSWORD), rs.getInt(AttributeConstants.SCORE), rs.getBoolean(AttributeConstants.ISONLINE)));
             }
             
             ps.close();
@@ -126,17 +127,17 @@ public class PlayerManagerImpl implements PlayerManager {
     }
     
     @Override
-    public Vector<PLayerDAO> selectOnlinePlayers() {
+    public Vector<String> getOnlinePlayers() {
         
         rs = null;
-        Vector<PLayerDAO> onlinePlayers = new Vector<>();
+        Vector<String> onlinePlayers = new Vector<>();
         
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
             
             while (rs.next()) {
-                onlinePlayers.add(new PLayerDAO(rs.getString(AttributeConstants.USERNAME), rs.getString(AttributeConstants.PASSWORD), rs.getInt(AttributeConstants.SCORE), rs.getBoolean(AttributeConstants.ISONLINE)));
+                onlinePlayers.add(rs.getString(AttributeConstants.USERNAME));
             }
             
             ps.close();
@@ -149,7 +150,7 @@ public class PlayerManagerImpl implements PlayerManager {
     }
     
     @Override
-    public int login(String userName, String password) {
+    public int login(String userName, String password, Integer scoreRefrence) {
         rs = null;
         int result = ResultConstants.DB_ERROR;
         
@@ -159,11 +160,12 @@ public class PlayerManagerImpl implements PlayerManager {
             ps.setString(2, password);
             rs = ps.executeQuery();
             if (rs.next()) {
+                scoreRefrence = rs.getInt(3);
                 if (rs.getBoolean(4)) {
                     result = ResultConstants.ALREADY_LOGGINED;
                 } else {
                     result = ResultConstants.SUCCESSFULLY_LOGGINED;
-                    updatePlayerState(userName, true);
+                    updateIsPlayerOnline(userName, true);
                 }
             } else {
                 // should be handeled as ResultConstants.UNREGISTERED_USER
@@ -204,6 +206,26 @@ public class PlayerManagerImpl implements PlayerManager {
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return result;
+    }
+
+    @Override
+    public boolean updatePlayerStatus(String username, int state) {
+                
+        boolean result = true;
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_PLAYER_STATUS);
+            
+            ps.setInt(1, state);
+            ps.setString(2, username);
+            
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+            result = false;
+        }
+        
         return result;
     }
 }

@@ -5,6 +5,7 @@
  */
 package serverdao;
 
+import model.PlayerDto;
 import java.util.Vector;
 
 /**
@@ -14,10 +15,11 @@ import java.util.Vector;
 public interface PlayerManager {
     int addNewPlayer(String username, String password, int score, boolean isOnline);
     boolean updatePlayerScore(String username, int score);
-    boolean updatePlayerState(String username, boolean isOnline);
-    Vector<PLayerDAO> selectAllPlayers();
-    Vector<PLayerDAO> selectOnlinePlayers();
-    int login(String userName, String password);
+    boolean updateIsPlayerOnline(String username, boolean isOnline);
+    boolean updatePlayerStatus(String username, int state);
+    Vector<PlayerDto> selectAllPlayers();
+    Vector<String> getOnlinePlayers();
+    int login(String userName, String password, Integer scoreRefrence);
     boolean isAlreadyRegistered(String username);
     void releaseResources();
 }

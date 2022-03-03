@@ -11,13 +11,16 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import model.Game;
+import model.PlayerDto;
 import serverdao.ConnectionDB;
 import serverdao.PlayerManager;
 import serverdao.PlayerManagerImpl;
@@ -36,9 +39,11 @@ public class GameHandler extends Thread {
     Socket s;
     BufferedReader bufferReader;
     StringTokenizer stringTokenizer;
-
-    static Vector<GameHandler> onlinePlayers = new Vector<>();
-    static Vector<GameHandler> allPlayers = new Vector<>();
+    PlayerManager playerMgr = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
+    
+    
+    static Map<String,PlayerDto> sessions = Collections.synchronizedMap(new HashMap());
+    static Vector<Game> onlinePlayers = new Vector<>();
 
     public GameHandler(Socket cs, Stage stage) {
         try {
@@ -56,7 +61,6 @@ public class GameHandler extends Thread {
         handleClosingServer(stage);
     }
 
-    PlayerManager playerMgr = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
 
     @Override
     public void run() {
@@ -144,8 +148,10 @@ public class GameHandler extends Thread {
         new Thread() {
             @Override
             public void run() {
-                switch (playerMgr.login(username, password)) {
+                Integer scoreRefrence= null;
+                switch (playerMgr.login(username, password, scoreRefrence)) {
                     case ResultConstants.SUCCESSFULLY_LOGGINED:
+                        sessions.put(username, new PlayerDto(username, password, scoreRefrence, true));
                         ps.println(AuthenticationConstants.SUCCESS_LOGIN);
                         break;
                     case ResultConstants.WRONG_USERNAME_OR_PASSWORD:

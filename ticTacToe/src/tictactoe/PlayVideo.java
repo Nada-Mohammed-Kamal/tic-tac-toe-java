@@ -9,6 +9,7 @@ import MediaPlayer.VideoFXMLBase;
 import javafx.animation.PauseTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,8 +21,8 @@ import javafx.util.Duration;
  */
 public class PlayVideo {
     //winner .. loser .. draw
-    public static void displayVideo(String playerWinnerOrNot){
-            Parent root = new VideoFXMLBase(playerWinnerOrNot);
+    public static void displayVideo(String playerWinnerOrNot,String WinnerName){
+            Parent root = new VideoFXMLBase(playerWinnerOrNot,WinnerName);
             Scene registerScene = new Scene(root);
             //get stage information
             Stage window = new Stage();

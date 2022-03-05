@@ -14,7 +14,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -432,46 +431,37 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 actionPerformedDependingOnTheWinner(winnerName);
             }
         });
-        button7id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                playingCount++;
-                mainfunc();
-                button7id.setText(symbol);
-                button7id.setDisable(true);
-                numberOfTheButtonClicked = 7;
-                addTheButtonNumberToThePlayerList();
-                winnerName = detectWin();
-                actionPerformedDependingOnTheWinner(winnerName);
-            }
+        button7id.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            playingCount++;
+            mainfunc();
+            button7id.setText(symbol);
+            button7id.setDisable(true);
+            numberOfTheButtonClicked = 7;
+            addTheButtonNumberToThePlayerList();
+            winnerName = detectWin();
+            actionPerformedDependingOnTheWinner(winnerName);
         });
-        button8id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                playingCount++;
-                mainfunc();
-                button8id.setText(symbol);
-                button8id.setDisable(true);
-                numberOfTheButtonClicked = 8;
-                addTheButtonNumberToThePlayerList();
-                winnerName = detectWin();
-                //System.out.println(winnerName);
-                actionPerformedDependingOnTheWinner(winnerName);
-            }
+        button8id.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            playingCount++;
+            mainfunc();
+            button8id.setText(symbol);
+            button8id.setDisable(true);
+            numberOfTheButtonClicked = 8;
+            addTheButtonNumberToThePlayerList();
+            winnerName = detectWin();
+            //System.out.println(winnerName);
+            actionPerformedDependingOnTheWinner(winnerName);
         });
-        button9id.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                playingCount++;
-                mainfunc();
-                button9id.setText(symbol);
-                button9id.setDisable(true);
-                numberOfTheButtonClicked = 9;
-                addTheButtonNumberToThePlayerList();
-                winnerName = detectWin();
-                //System.out.println(winnerName);
-                actionPerformedDependingOnTheWinner(winnerName);
-            }
+        button9id.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            playingCount++;
+            mainfunc();
+            button9id.setText(symbol);
+            button9id.setDisable(true);
+            numberOfTheButtonClicked = 9;
+            addTheButtonNumberToThePlayerList();
+            winnerName = detectWin();
+            //System.out.println(winnerName);
+            actionPerformedDependingOnTheWinner(winnerName);
         });
         PlayAgainButtonid = new Button();
         AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
@@ -576,34 +566,24 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
        saveAchorPane.getChildren().add(savImageIcon);
        getChildren().add(saveAchorPane);
     }
-    public void player1wins(){
-        playerOneNumberOfWins++;
-        //show winning dialog
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        Window primaryStage = null;
-        dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        Text t = new Text("Congratulations");
-        t.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-        t.setTextAlignment(TextAlignment.CENTER);
-        dialogVbox.getChildren().add(t);
-        dialogVbox.getChildren().add(new Text(playerOneName + " won:" + playerOneNumberOfWins));
-        player1result.setText(Integer.toString(playerOneNumberOfWins));
-        Button btn = new Button("     OK     ");
-        btn.setOnAction((ActionEvent event1) -> {
-            dialog.close();
-        });
-        dialogVbox.getChildren().add(btn);
+    public void playerwins(String playerName){
 
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
+        if(playerName.equals("No one"))
+        {
+            PlayVideo.displayVideo("draw","");
+            GameResultId.setText("It's a tie");
+        }
+        else
+        {
+             GameResultId.setText(playerName + " Wins");
+             PlayVideo.displayVideo("winner",playerName);
+        }
         saveAchorPane.setVisible(true);
         anchorPanePlayAgain.setVisible(true);
-        GameResultId.setText(playerOneName + " Wins");
         GameResultId.setVisible(true);
         hideGameButtons();
+        
+        
           
     }
     public void restart()
@@ -640,66 +620,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         
     }
-    public void player2wins(){
-        playerTwoNumberOfWins++;
-        //show winning dialog
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        Window primaryStage = null;
-        dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        Text t = new Text("Congratulations");
-        t.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-        t.setTextAlignment(TextAlignment.CENTER);
-        dialogVbox.getChildren().add(t);
-        dialogVbox.getChildren().add(new Text(playerTwoName + " won :" + playerTwoNumberOfWins));
-        player2result.setText(Integer.toString(playerTwoNumberOfWins));
-        Button btn = new Button("     OK     ");
-
-        btn.setOnAction((ActionEvent event1) -> {
-            dialog.close();
-        });
-        dialogVbox.getChildren().add(btn);
-
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
-        saveAchorPane.setVisible(true);
-        anchorPanePlayAgain.setVisible(true);
-        GameResultId.setText(playerTwoName + " Wins");
-        GameResultId.setVisible(true);
-        hideGameButtons();
-      
-    }
-    public void tie()
-    {
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        Window primaryStage = null;
-        dialog.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        Text t = new Text("OOPS");
-        t.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-        t.setTextAlignment(TextAlignment.CENTER);
-        dialogVbox.getChildren().add(t);
-        dialogVbox.getChildren().add(new Text("It's a tie"));
-        Button btn = new Button("     OK     ");
-
-        btn.setOnAction((ActionEvent event1) -> {
-            dialog.close();
-        });
-        dialogVbox.getChildren().add(btn);
-
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
-        saveAchorPane.setVisible(true);
-        anchorPanePlayAgain.setVisible(true);
-        GameResultId.setText("It's a tie");
-        GameResultId.setVisible(true);
-        hideGameButtons();
-        
-    }   
     public String detectWin(){
         if(playingCount >= 5)
         {
@@ -736,17 +656,17 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     public void actionPerformedDependingOnTheWinner(String nameOfTheWinner){
         if(nameOfTheWinner.equals("player1"))
         {
-            player1wins();
+            playerwins(playerOneName);
             enableButtons();
         }
         else if(nameOfTheWinner.equals("player2"))
         {
-            player2wins();
+            playerwins(playerTwoName);
             enableButtons();
         }
         else if(nameOfTheWinner.equals("tie"))
         {
-            tie();
+            playerwins("No one");
             enableButtons();
         }
         

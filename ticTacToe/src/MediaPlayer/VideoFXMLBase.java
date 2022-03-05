@@ -3,31 +3,42 @@ package MediaPlayer;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
+import javafx.scene.text.Font;
 
-public class VideoFXMLBase extends AnchorPane {
+public class VideoFXMLBase extends BorderPane {
 
     protected final MediaView mediaView;
     private String typePlayer;
     public static MediaPlayer mp;
-
-    public VideoFXMLBase(String stringTypePlayer) {
+    protected final Label label;
+    public VideoFXMLBase(String stringTypePlayer,String playerWinName) {
 
         mediaView = new MediaView();
-
-        setId("AnchorPane");
+        label = new Label();
+        setMaxHeight(USE_COMPUTED_SIZE);
+        setMaxWidth(USE_COMPUTED_SIZE);
+        setMinHeight(USE_COMPUTED_SIZE);
+        setMinWidth(USE_COMPUTED_SIZE);
         setPrefHeight(400.0);
         setPrefWidth(400.0);
-
-        mediaView.setFitHeight(400.0);
-        mediaView.setFitWidth(400.0);
-
-        getChildren().add(mediaView);
+        if(!playerWinName.isEmpty())
+        {
+            BorderPane.setAlignment(label, javafx.geometry.Pos.CENTER);
+            label.setText(playerWinName + " wins");
+            label.setTextFill(javafx.scene.paint.Color.valueOf("#287149"));
+            label.setFont(new Font("Berlin Sans FB Demi Bold", 40.0));
+            setTop(label);
+        }
+        
+        BorderPane.setAlignment(mediaView, javafx.geometry.Pos.CENTER);
+        mediaView.setFitHeight(USE_COMPUTED_SIZE);
+        mediaView.setFitWidth(USE_COMPUTED_SIZE);
+        setCenter(mediaView);
         setType(stringTypePlayer);
 
     }
@@ -38,9 +49,9 @@ public class VideoFXMLBase extends AnchorPane {
             //get video file and set it to media
             setMedia("/videos/win.mp4");
         } else if (typePlayer.equals("loser")) {
-            setMedia("/videos/loser.mp4");
+            setMedia("/videos/win.mp4");
         }else if (typePlayer.equals("draw")) {
-            setMedia("/videos/draw.mp4");
+            setMedia("/videos/win.mp4");
         }
     }
     

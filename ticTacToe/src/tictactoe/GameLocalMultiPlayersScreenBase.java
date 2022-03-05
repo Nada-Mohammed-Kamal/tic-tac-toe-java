@@ -101,6 +101,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     String nameOfPlayerOneRecorder = "";
     String nameOfPlayerTwoRecorder = "";
     public GameLocalMultiPlayersScreenBase(Stage stage) {
+        //PlayersNames names = DisplayAlertToTakeNamesOfLocalPlayers.getPlayersName();
+       // nameOfPlayer1 = names.getPlayer1();
+       // nameOfPlayer2 = names.getPlayer2();
         allWinningLists = new ArrayList<>();
         List topRow = Arrays.asList(1,2,3);
         List midRow = Arrays.asList(4,5,6);

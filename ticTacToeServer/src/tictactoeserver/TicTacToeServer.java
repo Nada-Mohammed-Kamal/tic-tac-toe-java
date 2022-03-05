@@ -22,7 +22,7 @@ public class TicTacToeServer extends Application {
         Parent root = new FXMLDocumentBase(stage);
         
         Scene scene = new Scene(root);
-        
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

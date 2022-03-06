@@ -151,7 +151,7 @@ public class GameHandler extends Thread {
                 Integer scoreRefrence= null;
                 switch (playerMgr.login(username, password, scoreRefrence)) {
                     case ResultConstants.SUCCESSFULLY_LOGGINED:
-                        sessions.put(username, new PlayerDto(username, password, scoreRefrence, true));
+                        //sessions.put(username, new PlayerDto(username, password, scoreRefrence, true));
                         ps.println(AuthenticationConstants.SUCCESS_LOGIN);
                         break;
                     case ResultConstants.WRONG_USERNAME_OR_PASSWORD:

@@ -9,9 +9,13 @@ import model.PlayerDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import tictactoeserver.OnPlayerCountChangeListener;
 import utils.AttributeConstants;
 import utils.ResultConstants;
 import utils.SQLQueriesConstants;
@@ -21,7 +25,7 @@ import utils.SQLQueriesConstants;
  * @author AhmedAli
  */
 public class PlayerManagerImpl implements PlayerManager {
-    
+    private OnPlayerCountChangeListener onPlayerCountChangeListener;
     private ConnectionDB con;
     private static PlayerManager playerManager;
     
@@ -47,8 +51,10 @@ public class PlayerManagerImpl implements PlayerManager {
                 ps.setString(2, password);
                 ps.setInt(3, score);
                 ps.setBoolean(4, isOnline);
-                if(ps.executeUpdate()>0)
+                if(ps.executeUpdate()>0){  
                     result = ResultConstants.SUCCESSFULLY_REGISTERED;
+                    updateServerStatistics();
+                }
                 ps.close();
             } catch (SQLException ex) {
                 Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,6 +98,7 @@ public class PlayerManagerImpl implements PlayerManager {
             ps.setString(2, username);
             
             ps.executeUpdate();
+            updateServerStatistics();
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,7 +111,30 @@ public class PlayerManagerImpl implements PlayerManager {
     private ResultSet rs;
     
     @Override
-    public Vector<PlayerDto> selectAllPlayers() {
+    public int getAllPlayersCount() {
+        
+        rs = null;
+        int sum = 0;
+        
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                sum++;
+            }
+            
+            ps.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return sum;
+    }
+    
+        @Override
+    public int getOnlinePlayersCount() {
         
         rs = null;
         Vector<PlayerDto> allPlayers = new Vector<>();
@@ -123,14 +153,14 @@ public class PlayerManagerImpl implements PlayerManager {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return allPlayers;
+        return 0;
     }
     
     @Override
-    public Vector<String> getOnlinePlayers() {
+    public List<String> getOnlinePlayers() {
         
         rs = null;
-        Vector<String> onlinePlayers = new Vector<>();
+        List<String> onlinePlayers = new ArrayList<>();
         
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -218,8 +248,8 @@ public class PlayerManagerImpl implements PlayerManager {
             
             ps.setInt(1, state);
             ps.setString(2, username);
-            
             ps.executeUpdate();
+            updateServerStatistics();
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -227,5 +257,20 @@ public class PlayerManagerImpl implements PlayerManager {
         }
         
         return result;
+    }
+
+    @Override
+    public void setOnPlayerCountChangeListener(OnPlayerCountChangeListener onPlayerCountChangeListener) {
+        this.onPlayerCountChangeListener = onPlayerCountChangeListener;
+        updateServerStatistics();
+    }
+
+    @Override
+    public void updateServerStatistics() {
+        List<String> onlineUsers = getOnlinePlayers();
+        int count = getAllPlayersCount();
+        Platform.runLater(()->{
+            onPlayerCountChangeListener.onPlayerCountChange(onlineUsers, count);
+        });
     }
 }

@@ -3,6 +3,7 @@ package tictactoeserver;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Cursor;
@@ -16,8 +17,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import serverdao.ConnectionDB;
+import serverdao.PlayerManager;
+import serverdao.PlayerManagerImpl;
 
-public class FXMLDocumentBase extends AnchorPane {
+public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeListener {
 
     protected final ColorAdjust colorAdjust;
     protected final AnchorPane anchorPane;
@@ -38,13 +42,13 @@ public class FXMLDocumentBase extends AnchorPane {
     protected final Label label2;
     protected final ImageView imageView0;
     protected final Label statusOfUserOnButton;
-    
+    private PlayerManager playerManager;
     ServerSocket serverSocket;
     private boolean turnServerOn = false;
     Thread thread;
     
     public FXMLDocumentBase(Stage stage) {
-
+        
         colorAdjust = new ColorAdjust();
         anchorPane = new AnchorPane();
         label = new Label();
@@ -65,7 +69,7 @@ public class FXMLDocumentBase extends AnchorPane {
         label2 = new Label();
         imageView0 = new ImageView();
         statusOfUserOnButton = new Label();
-
+        playerManager = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -165,12 +169,13 @@ public class FXMLDocumentBase extends AnchorPane {
                 thread = new Thread() {
                     @Override
                     public void run() {
+                        playerManager.setOnPlayerCountChangeListener(FXMLDocumentBase.this);
                         while (turnServerOn) {
                             Socket accept;
                             try {
                                 accept = serverSocket.accept();
                                 System.out.println("Client accepted");
-                            new GameHandler(accept, stage);
+                                new GameHandler(accept, stage);
                             } catch (IOException ex) {
                                 Logger.getLogger(FXMLDocumentBase.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -304,7 +309,7 @@ public class FXMLDocumentBase extends AnchorPane {
         statusOfUserOnButton.setLayoutY(25.0);
         statusOfUserOnButton.setPrefHeight(30.0);
         statusOfUserOnButton.setPrefWidth(62.0);
-        statusOfUserOnButton.setText("offline");
+        statusOfUserOnButton.setText(onlineOrOffline);
         statusOfUserOnButton.setTextFill(javafx.scene.paint.Color.WHITE);
         statusOfUserOnButton.setFont(new Font("Arial", 16.0));
         
@@ -326,5 +331,16 @@ public class FXMLDocumentBase extends AnchorPane {
         UserDetails.getChildren().add(imageView0);
         UserDetails.getChildren().add(statusOfUserOnButton);
         vBox.getChildren().add(UserDetails);
+    }
+
+    @Override
+    public void onPlayerCountChange(List<String> onlinePlayers, int allUsersCount) {
+        
+        txtFieldOnlineNumber.setText("Online: "+ onlinePlayers.size());
+        txtFieldOffilneNumber.setText("Offline: "+(allUsersCount-onlinePlayers.size()));
+        for(int i = 0;i < onlinePlayers.size(); i++){
+            
+            addNewRow(onlinePlayers.get(i),"Online");
+        }
     }
 }

@@ -5,8 +5,8 @@
  */
 package serverdao;
 
-import model.PlayerDto;
-import java.util.Vector;
+import java.util.List;
+import tictactoeserver.OnPlayerCountChangeListener;
 
 /**
  *
@@ -17,9 +17,12 @@ public interface PlayerManager {
     boolean updatePlayerScore(String username, int score);
     boolean updateIsPlayerOnline(String username, boolean isOnline);
     boolean updatePlayerStatus(String username, int state);
-    Vector<PlayerDto> selectAllPlayers();
-    Vector<String> getOnlinePlayers();
+    int getAllPlayersCount();
+    int getOnlinePlayersCount();
+    List<String> getOnlinePlayers();
     int login(String userName, String password, Integer scoreRefrence);
     boolean isAlreadyRegistered(String username);
     void releaseResources();
+    void setOnPlayerCountChangeListener(OnPlayerCountChangeListener onPlayerCountChangeListener);
+    void updateServerStatistics();
 }

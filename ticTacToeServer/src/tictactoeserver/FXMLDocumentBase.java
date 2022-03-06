@@ -1,5 +1,6 @@
 package tictactoeserver;
 
+import serverdao.PlayerCountChangeUpdater;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,7 +43,7 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
     protected final Label label2;
     protected final ImageView imageView0;
     protected final Label statusOfUserOnButton;
-    private PlayerManager playerManager;
+    private PlayerCountChangeUpdater playerCountChangeUpdater;
     ServerSocket serverSocket;
     private boolean turnServerOn = false;
     Thread thread;
@@ -69,7 +70,7 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
         label2 = new Label();
         imageView0 = new ImageView();
         statusOfUserOnButton = new Label();
-        playerManager = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
+        playerCountChangeUpdater = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -169,7 +170,7 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
                 thread = new Thread() {
                     @Override
                     public void run() {
-                        playerManager.setOnPlayerCountChangeListener(FXMLDocumentBase.this);
+                        playerCountChangeUpdater.setOnPlayerCountChangeListener(FXMLDocumentBase.this);
                         while (turnServerOn) {
                             Socket accept;
                             try {
@@ -335,11 +336,10 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
 
     @Override
     public void onPlayerCountChange(List<String> onlinePlayers, int allUsersCount) {
-        
+        vBox.getChildren().clear();
         txtFieldOnlineNumber.setText("Online: "+ onlinePlayers.size());
         txtFieldOffilneNumber.setText("Offline: "+(allUsersCount-onlinePlayers.size()));
         for(int i = 0;i < onlinePlayers.size(); i++){
-            
             addNewRow(onlinePlayers.get(i),"Online");
         }
     }

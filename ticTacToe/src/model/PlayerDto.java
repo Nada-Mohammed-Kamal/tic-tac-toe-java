@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 package model;
-
-import java.util.Objects;
-import tictactoeserver.GameHandler;
-
 /**
  *
  * @author AhmedAli
@@ -18,7 +14,6 @@ public class PlayerDto  {
     private String password;
     private int score;
     private boolean isOnline;
-    private GameHandler handler;
 
     @Override
     public boolean equals(Object obj) {
@@ -27,7 +22,7 @@ public class PlayerDto  {
         else
             return false;
     }
-
+    
     
 
     public PlayerDto(String username, String password, int score, boolean isOnline) {
@@ -37,13 +32,6 @@ public class PlayerDto  {
         this.isOnline = isOnline;
     }
 
-    public PlayerDto(String username, String password, int score, boolean isOnline, GameHandler handler) {
-        this.username = username;
-        this.password = password;
-        this.score = score;
-        this.isOnline = isOnline;
-        this.handler = handler;
-    }
 
     public String getUsername() {
         return username;
@@ -77,13 +65,6 @@ public class PlayerDto  {
         this.isOnline = isOnline;
     }
 
-    public GameHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(GameHandler handler) {
-        this.handler = handler;
-    }
 
     
     

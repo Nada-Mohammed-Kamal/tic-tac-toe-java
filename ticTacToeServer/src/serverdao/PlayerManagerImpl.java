@@ -24,7 +24,7 @@ import utils.SQLQueriesConstants;
  *
  * @author AhmedAli
  */
-public class PlayerManagerImpl implements PlayerManager {
+public class PlayerManagerImpl implements PlayerManager{
     private OnPlayerCountChangeListener onPlayerCountChangeListener;
     private ConnectionDB con;
     private static PlayerManager playerManager;
@@ -86,6 +86,8 @@ public class PlayerManagerImpl implements PlayerManager {
         
         return result;
     }
+    
+    
     
     @Override
     public boolean updateIsPlayerOnline(String username, boolean isOnline) {
@@ -273,4 +275,33 @@ public class PlayerManagerImpl implements PlayerManager {
             onPlayerCountChangeListener.onPlayerCountChange(onlineUsers, count);
         });
     }
+    
+    @Override
+    public boolean logOut(String username){
+        return updateIsPlayerOnline(username, false);
+    }
+    
+    @Override
+    public List<PlayerDto> getOnlinePlayersWithScores() {
+        
+        rs = null;
+        List<PlayerDto> onlinePlayers = new ArrayList<>();
+        
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                onlinePlayers.add(new PlayerDto(rs.getString(AttributeConstants.USERNAME) , "", rs.getInt(AttributeConstants.SCORE), true , null));
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return onlinePlayers;
+    }
+    
+   
 }

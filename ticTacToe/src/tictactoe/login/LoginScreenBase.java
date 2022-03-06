@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import utils.ServerQueries;
 
 public class LoginScreenBase extends AnchorPane {
 
@@ -97,6 +98,8 @@ public class LoginScreenBase extends AnchorPane {
         backButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         backButtonid.setFont(new Font("Berlin Sans FB", 33.0));
         backButtonid.setOnAction(action -> {
+            //String msg = ServerQueries.CLOSE_NORMALLY + ";" + nameTextBoxid.getText().trim();
+            //
             controller.onPressPressBackBtn(stage);
         });
 
@@ -119,7 +122,7 @@ public class LoginScreenBase extends AnchorPane {
         loginId.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         loginId.setFont(new Font("Berlin Sans FB", 33.0));
         loginId.setOnAction(action -> {
-            controller.onPressLoginBtn(nameTextBoxid.getText(), passwordtextboxid.getText());
+            controller.onPressLoginBtn(nameTextBoxid.getText(), passwordtextboxid.getText() , stage);
         });
         imageView0.setFitHeight(50.0);
         imageView0.setFitWidth(52.0);

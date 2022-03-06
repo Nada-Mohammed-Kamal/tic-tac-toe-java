@@ -6,13 +6,13 @@
 package serverdao;
 
 import java.util.List;
-import tictactoeserver.OnPlayerCountChangeListener;
+import model.PlayerDto;
 
 /**
  *
  * @author AhmedAli
  */
-public interface PlayerManager {
+public interface PlayerManager extends PlayerCountChangeUpdater{
     int addNewPlayer(String username, String password, int score, boolean isOnline);
     boolean updatePlayerScore(String username, int score);
     boolean updateIsPlayerOnline(String username, boolean isOnline);
@@ -23,6 +23,9 @@ public interface PlayerManager {
     int login(String userName, String password, Integer scoreRefrence);
     boolean isAlreadyRegistered(String username);
     void releaseResources();
-    void setOnPlayerCountChangeListener(OnPlayerCountChangeListener onPlayerCountChangeListener);
     void updateServerStatistics();
+    boolean logOut(String username);
+    public List<PlayerDto> getOnlinePlayersWithScores();
 }
+
+

@@ -78,7 +78,9 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
                 String msg = bufferReader.readLine();
                 System.out.println("msg == " + msg);
                 if (msg != null && !msg.isEmpty()) {
-                    networkUser.onMsgReceived(msg);
+                    Platform.runLater(()->{
+                        networkUser.onMsgReceived(msg);
+                    });
                 }
             } catch (IOException ex) {
                 networkUser.onErrorReceived(ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER);
@@ -100,5 +102,6 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
         }
         return networkLayer;
     }
-
+    
+    
 }

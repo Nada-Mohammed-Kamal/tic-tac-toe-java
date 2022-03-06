@@ -20,7 +20,7 @@ import utils.UIHelper;
 
 interface LoginScreenController {
 
-    void onPressLoginBtn(String username, String password);
+    void onPressLoginBtn(String username, String password , Stage stage);
 
     void onPressSignupBtn(Stage stage);
 
@@ -33,7 +33,7 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
 
     LoginScreenBase view;
     NetworkLayer networkLayer;
-
+    Stage stage;
     public LoginScreenControllerImpl(LoginScreenBase view) {
         this.view = view;
     }
@@ -44,8 +44,8 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
     }
 
     @Override
-    public void onPressLoginBtn(String username, String password) {
-        validateInputs(username, password);
+    public void onPressLoginBtn(String username, String password, Stage stage) {
+        validateInputs(username, password, stage);
     }
 
     @Override
@@ -58,10 +58,11 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
         Navigation.navigateToHome(stage);
     }
 
-    private void validateInputs(String username, String password) {
+    private void validateInputs(String username, String password, Stage stage) {
         if (isNotEmpty(username, password)) {
             System.out.println(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password));
             networkLayer.printStream(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password));
+            this.stage = stage;
         } else {
             UIHelper.showAlertMessage("You can't let fields empty!", "Error", Alert.AlertType.ERROR);
         }
@@ -78,7 +79,8 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
         System.out.println("onMsgReceived" + receivedMsg);
         switch (receivedMsg) {
             case AuthenticationConstants.SUCCESS_LOGIN:
-                UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
+                //UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
+                Navigation.navigateToOnlinePlayersScreen(this.stage);
                 break;
             case AuthenticationConstants.ALREADY_LOGINED_ON_ANOTHER_DEVICE:
                 UIHelper.showAlertMessage("Ouhh!", receivedMsg, Alert.AlertType.ERROR);

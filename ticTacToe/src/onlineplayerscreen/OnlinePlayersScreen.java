@@ -1,5 +1,6 @@
-package tictactoe;
+package onlineplayerscreen;
 
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -11,9 +12,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import model.PlayerDto;
 
-public class OnlinePlayersScreen extends AnchorPane {
+interface OnlinePlayerScreenInterface{
+    void updateOnlinePlayersList(ArrayList<PlayerDto> players);
+}
 
+public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScreenInterface{
+    OnlinePlayerScreenController onlinePlayerScreenController;
     protected final AnchorPane anchorPane;
     protected final Label UserName;
     protected final ImageView PlayerImg;
@@ -37,6 +43,7 @@ public class OnlinePlayersScreen extends AnchorPane {
 
     public OnlinePlayersScreen(Stage stage) {
 
+        onlinePlayerScreenController = new OnlinePlayerScreenControllerImpl(this, stage);
         anchorPane = new AnchorPane();
         UserName = new Label();
         PlayerImg = new ImageView();
@@ -57,6 +64,7 @@ public class OnlinePlayersScreen extends AnchorPane {
         label0 = new Label();
         label1 = new Label();
         label2 = new Label();
+        
 
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
@@ -83,7 +91,7 @@ public class OnlinePlayersScreen extends AnchorPane {
         PlayerImg.setLayoutX(12.0);
         PlayerImg.setLayoutY(4.0);
         PlayerImg.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        PlayerImg.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/female.jfif")));
+        PlayerImg.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
 
         playerOneResult1.setLayoutX(11.0);
         playerOneResult1.setLayoutY(264.0);
@@ -211,10 +219,7 @@ public class OnlinePlayersScreen extends AnchorPane {
         vBox.minWidth(USE_PREF_SIZE);
         vBox.minHeight(USE_PREF_SIZE);
         
-        addNewOnlineUser("Ahmed", "5", "Online", "Ready");
-        addNewOnlineUser("Ahmed", "5", "Online", "Ready");
-
-
+        //onlinePlayerScreenController.showOnlineUsers();
     }
     void addNewOnlineUser(String name ,String score,String status,String buttonText)
     {
@@ -269,5 +274,12 @@ public class OnlinePlayersScreen extends AnchorPane {
         UserDetails.getChildren().add(OnlinePlyerStauts);
         UserDetails.getChildren().add(ButtonToOnlineUser);
         vBox.getChildren().add(UserDetails);
+    }
+    @Override
+    public void updateOnlinePlayersList(ArrayList<PlayerDto> players){
+        vBox.getChildren().clear();
+        for(PlayerDto player : players) {
+            addNewOnlineUser(player.getUsername(), String.valueOf(player.getScore()), "online", "play");
+        }
     }
 }

@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.util.Objects;
 import tictactoeserver.GameHandler;
 
 /**
@@ -27,8 +26,6 @@ public class PlayerDto  {
         else
             return false;
     }
-
-    
 
     public PlayerDto(String username, String password, int score, boolean isOnline) {
         this.username = username;

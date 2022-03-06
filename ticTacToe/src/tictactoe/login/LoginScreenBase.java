@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import utils.ServerQueries;
 
 public class LoginScreenBase extends AnchorPane {
 

@@ -41,7 +41,7 @@ public class GameHandler extends Thread {
     BufferedReader bufferReader;
     StringTokenizer stringTokenizer;
     PlayerManager playerMgr = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
-    PlayerDto currentPlayerUsername;
+    PlayerDto currentPlayer;
     static Map<String, PlayerDto> sessions = Collections.synchronizedMap(new HashMap());
     static Vector<Game> currentGame = new Vector<>();
 
@@ -130,12 +130,12 @@ public class GameHandler extends Thread {
         new Thread() {
             @Override
             public void run() {
-                Integer scoreRefrence = null;
+                Integer scoreRefrence = 0;
                 switch (playerMgr.login(username, password, scoreRefrence)) {
                     case ResultConstants.SUCCESSFULLY_LOGGINED:
                         //sessions.put(username, new PlayerDto(username, password, scoreRefrence, true));
+                        currentPlayer = new PlayerDto(username, "", scoreRefrence, true , GameHandler.this);
                         ps.println(AuthenticationConstants.SUCCESS_LOGIN);
-                        currentPlayerUsername = new PlayerDto(username, "", scoreRefrence, true , GameHandler.this);
                         break;
                     case ResultConstants.WRONG_USERNAME_OR_PASSWORD:
                         ps.println(AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD);
@@ -193,7 +193,9 @@ public class GameHandler extends Thread {
     private void getOnlineUsers() {
         List<PlayerDto> onlinePlayers = playerMgr.getOnlinePlayersWithScores();
         //remove my name from the online list in order not to send to himself a request  
-        onlinePlayers.remove(currentPlayerUsername);
+        System.out.println(currentPlayer.getUsername());
+        onlinePlayers.remove(currentPlayer);
+        System.out.println(onlinePlayers);
         for(Game game : currentGame){
             onlinePlayers.remove(game.getPlayer1());
             onlinePlayers.remove(game.getPlayer2());

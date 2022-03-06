@@ -1,5 +1,7 @@
 package tictactoe;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -247,7 +249,14 @@ public class OnlinePlayersScreen extends AnchorPane {
         ButtonToOnlineUser.setText(buttonText);
         ButtonToOnlineUser.setTextFill(javafx.scene.paint.Color.WHITE);
         ButtonToOnlineUser.setFont(new Font(18.0));
-        
+        ButtonToOnlineUser.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //write your own code to do when click the button
+                //The name of the player you choose
+                //OnlinePlayerName.getText();
+                 }
+        });
         AnchorPane UserDetails = new AnchorPane();
         UserDetails.setPrefHeight(85.0);
         UserDetails.setPrefWidth(681.0);

@@ -1,40 +1,30 @@
 package GameLocalMultiPlayersScreenWithAlert;
+import DisplayAlert.PlayersNames;
+import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import java.io.*;
 import java.text.*;
 import java.util.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.util.Pair;
 import tictactoe.HomeScreen;
 import tictactoe.Navigation;
 import tictactoe.PlayVideo;
@@ -104,7 +94,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     String nameOfPlayerOneRecorder = "";
     String nameOfPlayerTwoRecorder = "";
     public GameLocalMultiPlayersScreenBase(Stage stage,PlayersNames names) {
-        //PlayersNames names = DisplayAlertToTakeNamesOfLocalPlayers.getPlayersName();
         System.out.println("In Game : "+ names.getPlayer1() + "   "+ names.getPlayer2());
                 
         playerOneName = names.getPlayer1();
@@ -157,6 +146,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         player2result = new Label();
         anchorPane4 = new AnchorPane();
         backButtonId = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(backButtonId, stage);
         imageView = new ImageView();
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
@@ -472,6 +462,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             actionPerformedDependingOnTheWinner(winnerName);
         });
         PlayAgainButtonid = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(PlayAgainButtonid, stage);
         AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
         AnchorPane.setLeftAnchor(PlayAgainButtonid, 0.0);
         AnchorPane.setRightAnchor(PlayAgainButtonid, 0.0);
@@ -508,7 +499,9 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         GameResultId.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         GameResultId.setTextOverrun(javafx.scene.control.OverrunStyle.CENTER_ELLIPSIS);
         GameResultId.setFont(new Font("Berlin Sans FB", 50.0));
-        SaveButtonid = new Button();SaveButtonid.setMnemonicParsing(false);
+        SaveButtonid = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(SaveButtonid, stage);
+        SaveButtonid.setMnemonicParsing(false);
         SaveButtonid.setPrefHeight(75.0);
         SaveButtonid.setPrefWidth(195.0);
         SaveButtonid.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
@@ -757,39 +750,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         System.out.println(nameOfPlayerOneRecorder);
         System.out.println(nameOfPlayerTwoRecorder);
     }
-    /*void dialogWithTwoTextBoxes(){
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Players");
-        ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
-        ButtonType cancelBtnType = new ButtonType("Cancel" , ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20, 150, 10, 10));
-        TextField plyer1 = new TextField();
-        plyer1.setPromptText("Player1");
-        TextField plyer2 = new TextField();
-        plyer2.setPromptText("Player2");
-        gridPane.add(plyer1, 0, 0);
-        gridPane.add(new Label("VS"), 1, 0);
-        gridPane.add(plyer2, 2, 0);
-        dialog.getDialogPane().setContent(gridPane);
-        Platform.runLater(() -> plyer1.requestFocus());
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
-                return new Pair<>(plyer1.getText(), plyer2.getText());
-            }
-            return null;
-        });
-
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-
-        result.ifPresent(pair -> {
-            playerOneName = pair.getKey();
-            playerTwoName = pair.getValue();   
-        });
-    }*/
     void hideGameButtons(){
         button1id.setVisible(false);
         button2id.setVisible(false);

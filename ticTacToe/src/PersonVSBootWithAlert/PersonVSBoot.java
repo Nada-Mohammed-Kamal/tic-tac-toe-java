@@ -1,5 +1,6 @@
-package tictactoe;
+package PersonVSBootWithAlert;
 
+import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -7,7 +8,6 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,8 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -27,6 +25,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import tictactoe.HomeScreen;
+import tictactoe.Navigation;
+import tictactoe.PlayVideo;
+import tictactoe.TicTacToeAI;
 
 public class PersonVSBoot extends AnchorPane {
     
@@ -82,7 +84,7 @@ public class PersonVSBoot extends AnchorPane {
     private int newYResult = 0;
     private TicTacToeAI TTT;
     Vector<Integer> vc;
-    public PersonVSBoot(Stage stage) {
+    public PersonVSBoot(Stage stage,String playersName) {
         TTT = new TicTacToeAI();
         TTT.NewGame();
         vc = new Vector();
@@ -125,12 +127,12 @@ public class PersonVSBoot extends AnchorPane {
                         Date date = new Date();
                         Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                         String s = formatter.format(date);
-                        BufferedWriter writer = new BufferedWriter(new FileWriter( "You" +"VS" + "Computer" + s+".txt"));
+                        BufferedWriter writer = new BufferedWriter(new FileWriter( playersName+"VS" + "Computer" + s+".txt"));
              
                             System.out.println(vc);
                         movesAsAString = convertVectorOfIntToString(vc);
                             System.out.println(movesAsAString);
-                        concatenateNameInStringToSaveInFile("You" , "Computer");
+                        concatenateNameInStringToSaveInFile(playersName , "Computer");
                         writer.write(movesAsAString);
                         writer.close();
                         System.out.println("saved successfully");
@@ -142,10 +144,7 @@ public class PersonVSBoot extends AnchorPane {
                      
                   }
         });
-        SaveButtonid.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
-       
+       CursorHANDWhenMoveToIntoButton.getCurserOnbutton(SaveButtonid,stage);
        savImageIcon.setFitHeight(40.0);
        savImageIcon.setFitWidth(48.0);
        savImageIcon.setLayoutX(16.0);
@@ -164,6 +163,7 @@ public class PersonVSBoot extends AnchorPane {
         saveAchorPane.setLayoutY(500.0);
         
         PlayAgainButtonid = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(PlayAgainButtonid, stage);
         playAgainIcon = new ImageView();
         playAgainIcon.setFitHeight(54.0);
         playAgainIcon.setFitWidth(62.0);
@@ -424,7 +424,7 @@ public class PersonVSBoot extends AnchorPane {
                 playAgainFunction(stage);
                  }
         });
-
+        
         gridPane.setPadding(new Insets(10.0, 0.0, 10.0, 10.0));
 
         anchorPane0.setLayoutX(49.0);
@@ -446,7 +446,7 @@ public class PersonVSBoot extends AnchorPane {
         label0.setLayoutX(5.0);
         label0.setPrefHeight(75.0);
         label0.setPrefWidth(193.0);
-        label0.setText("You");
+        label0.setText(playersName);
         label0.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         label0.setFont(new Font("Berlin Sans FB", 36.0));
 
@@ -519,7 +519,7 @@ public class PersonVSBoot extends AnchorPane {
                     Navigation.navigateTo(stage, new HomeScreen(stage), "Home Screen");
                  }
         });
-        
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(button, stage);
         imageView1.setFitHeight(50.0);
         imageView1.setFitWidth(52.0);
         imageView1.setLayoutX(16.0);
@@ -744,5 +744,4 @@ public class PersonVSBoot extends AnchorPane {
         movesAsAString += "&";
         movesAsAString += name2;
     }    
-    
 }

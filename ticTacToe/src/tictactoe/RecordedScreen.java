@@ -1,5 +1,6 @@
 package tictactoe;
 
+import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -8,8 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -47,6 +46,7 @@ public class RecordedScreen extends AnchorPane {
         label1 = new Label();
         anchorPane0 = new AnchorPane();
         backButtonid = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(backButtonid, stage);
         imageView = new ImageView();
         anchorPane1 = new AnchorPane();
         scrollPane = new ScrollPane();
@@ -188,7 +188,7 @@ public class RecordedScreen extends AnchorPane {
            
                 }
             });
-        
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(showRecordedGame, stage);
         AnchorPane UserDetails = new AnchorPane();
         UserDetails.setMinHeight(USE_COMPUTED_SIZE);
         UserDetails.setMinWidth(USE_COMPUTED_SIZE);

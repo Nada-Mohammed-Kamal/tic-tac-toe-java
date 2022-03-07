@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.stage.Stage;
 import model.PlayerDto;
+import tictactoe.HomeScreen;
+import tictactoe.Navigation;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
@@ -19,7 +21,7 @@ import utils.ServerQueries;
  * @author nados
  */
 interface OnlinePlayerScreenController {
-
+    void onBackButtonPressed(Stage stage);
 }
 
 public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenController, NetworkUser {
@@ -59,6 +61,13 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
             players.add(new PlayerDto(player[0], "", Integer.parseInt(player[1]), true));
         }
         onlinePlayerScreenInterface.updateOnlinePlayersList(players);
+    }
+
+    @Override
+    public void onBackButtonPressed(Stage stage) {
+        networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+       // networkLayer.closeConnection();
+        Navigation.navigateToHome(stage);
     }
 
 }

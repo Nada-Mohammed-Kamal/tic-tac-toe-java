@@ -29,7 +29,7 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     private static NetworkLayer networkLayer;
     private static int score = 0;
     private static String username = "";
-
+    private boolean flag = true;
     private NetworkLayerImpl(NetworkUser networkUser) {
         NetworkLayerImpl.networkUser = networkUser;
         try {
@@ -57,6 +57,10 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
 
     @Override
     public void closeConnection() {
+        networkUser = null;
+        networkLayer = null;
+        score = 0;
+        username = null;
         try {
             ps.close();
             bufferReader.close();
@@ -75,7 +79,7 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
 
     @Override
     public void run() {
-        while (true) {
+        while (flag) {
             try {
                 String msg = bufferReader.readLine();
                 System.out.println("msg == " + msg);
@@ -86,7 +90,9 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
                 }
             } catch (IOException ex) {
                 networkUser.onErrorReceived(ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER);
-                Logger.getLogger(NetworkLayerImpl.class.getName()).log(Level.SEVERE, null, ex);
+                flag = false;
+                closeConnection();
+                return;
             }
         }
     }

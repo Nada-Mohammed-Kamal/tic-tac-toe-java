@@ -27,7 +27,6 @@ import serverdao.ConnectionDB;
 import serverdao.PlayerManager;
 import serverdao.PlayerManagerImpl;
 import utils.AuthenticationConstants;
-import utils.ErrorConstants;
 import utils.PlayerStatusValues;
 import utils.ResultConstants;
 import utils.ServerQueries;
@@ -240,7 +239,7 @@ public class GameHandler extends Thread {
                     break;
             } 
         }else{
-        
+            ps.println(ServerQueries.PLAYER_IS_OFFLINE);
         }
     }
     
@@ -283,7 +282,12 @@ public class GameHandler extends Thread {
         
         return returnValue;
     }
-
+    //Ket , Value ==> how to get value from in map ==> map.get(key) ==>
+    //key ==> username => 
+    //client1 => server  request
+    //client2 <= server  recieve msg
+    //client2 => server  response
+    //client1 <= server  recieve respose
     private void sendRequestToPlayer(String recieverUserName) {
         sessions
                 .get(recieverUserName)

@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import javax.print.attribute.standard.Severity;
 import model.PlayerDto;
 import tictactoe.Navigation;
 import tictactoe.network.NetworkLayer;
@@ -25,6 +28,7 @@ import utils.UIHelper;
  * @author nados
  */
 interface OnlinePlayerScreenController {
+
     void onBackButtonPressed(Stage stage);
 }
 
@@ -53,6 +57,19 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
             case ServerQueries.ONLINE_USERS:
                 showOnlineUsers();
                 break;
+            case ServerQueries.PLAYER_IS_ALREADY_IN_GAME:
+
+                break;
+            case ServerQueries.PLAYER_IS_OFFLINE:
+
+                break;
+            case ServerQueries.PLAYER_IS_ALREADY_WAITING_FOR_ANOTHER_GAME:
+
+                break;
+
+            case ServerQueries.REQUEST_GAME_FROM://; sender request username    
+                recievedGameFrom();
+                break;
 
         }
     }
@@ -70,19 +87,33 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     @Override
     public void onBackButtonPressed(Stage stage) {
         networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
-       // networkLayer.closeConnection();
+        // networkLayer.closeConnection();
         Navigation.navigateToHome(stage);
     }
 
     @Override
     public void exitNetwork(String msg) {
         networkLayer = null;
-        if(msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)){
-                UIHelper.showAlertMessage(Constants.WARNING,ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+        if (msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)) {
+            UIHelper.showAlertMessage(Constants.WARNING, ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
         }
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             Navigation.navigateToHome(stage);
-            });
+        });
+    }
+
+    private void recievedGameFrom() {
+        String senderRequestUsername = stringTokenizer.nextToken();
+        UIHelper.showDialogWithTwoOptions(type -> {
+            if (type == ButtonType.OK) {
+                networkLayer.printStream(ServerQueries.ACCEPT_GAME);
+            } else if (type == ButtonType.NO) {
+
+            } else {
+
+            }
+
+        });
     }
 
 }

@@ -16,6 +16,7 @@ import model.PlayerDto;
 
 interface OnlinePlayerScreenInterface{
     void updateOnlinePlayersList(ArrayList<PlayerDto> players);
+    void displayUserData(String username, int score);
 }
 
 public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScreenInterface{
@@ -43,7 +44,6 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
 
     public OnlinePlayersScreen(Stage stage) {
 
-        onlinePlayerScreenController = new OnlinePlayerScreenControllerImpl(this, stage);
         anchorPane = new AnchorPane();
         UserName = new Label();
         PlayerImg = new ImageView();
@@ -218,7 +218,8 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         vBox.setSpacing(8);
         vBox.minWidth(USE_PREF_SIZE);
         vBox.minHeight(USE_PREF_SIZE);
-        
+        onlinePlayerScreenController = new OnlinePlayerScreenControllerImpl(this, stage);
+
         //onlinePlayerScreenController.showOnlineUsers();
     }
     void addNewOnlineUser(String name ,String score,String status,String buttonText)
@@ -281,5 +282,11 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         for(PlayerDto player : players) {
             addNewOnlineUser(player.getUsername(), String.valueOf(player.getScore()), "online", "play");
         }
+    }
+
+    @Override
+    public void displayUserData(String username, int score) {
+        UserName.setText(username);
+        UserScore.setText(""+score);
     }
 }

@@ -24,6 +24,7 @@ public interface PlayerManager extends PlayerCountChangeUpdater{
     boolean isAlreadyRegistered(String username);
     void releaseResources();
     void updateServerStatistics();
+    PlayerDto getPlayer(String username);
     boolean logOut(String username);
     public List<PlayerDto> getOnlinePlayersWithScores();
 }

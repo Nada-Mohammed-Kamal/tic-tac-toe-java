@@ -302,6 +302,9 @@ public class PlayerManagerImpl implements PlayerManager{
         
         return onlinePlayers;
     }
-    
-   
+    @Override
+    public  PlayerDto getPlayer(String username){
+        return null;
+    }  
+
 }

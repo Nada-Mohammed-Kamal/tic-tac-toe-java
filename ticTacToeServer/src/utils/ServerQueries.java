@@ -18,4 +18,6 @@ public class ServerQueries {
     public static final String EXIST_BEFORE = "exist before";
     public static final String ONLINE_USERS = "online users";
     public static final String GET_ONLINE_USERS = "get online users";
+    public static final String REQUEST_GAME = "request game";// ; username of reciever
+    
 }

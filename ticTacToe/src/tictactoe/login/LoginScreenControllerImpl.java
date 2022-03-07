@@ -81,11 +81,16 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
         String commandToExcute = stringTokenizer.nextToken();
         System.out.println(commandToExcute);
         System.out.println("onMsgReceived" + receivedMsg);
-        switch (receivedMsg) {
+
+        switch (commandToExcute) {
             case AuthenticationConstants.SUCCESS_LOGIN:
                 //UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
-                networkLayer.setUsername(stringTokenizer.nextToken());
-                networkLayer.setScore(Integer.parseInt(stringTokenizer.nextToken()));
+                String username = stringTokenizer.nextToken();
+                int score = Integer.parseInt(stringTokenizer.nextToken());
+                System.out.println("user = " + username);
+                System.out.println("score = " + score);
+                networkLayer.setUsername(username);
+                networkLayer.setScore(score);
                 Navigation.navigateToOnlinePlayersScreen(this.stage);
                 break;
             case AuthenticationConstants.ALREADY_LOGINED_ON_ANOTHER_DEVICE:

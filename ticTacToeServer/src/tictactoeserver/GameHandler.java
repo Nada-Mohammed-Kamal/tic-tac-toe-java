@@ -43,7 +43,7 @@ public class GameHandler extends Thread {
     PlayerManager playerMgr = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
     PlayerDto currentPlayer;
     static Map<String, PlayerDto> sessions = Collections.synchronizedMap(new HashMap());
-    static Vector<Game> currentGame = new Vector<>();
+    static Vector<Game> currentGames = new Vector<>();
 
     public GameHandler(Socket cs, Stage stage) {
         try {
@@ -93,7 +93,7 @@ public class GameHandler extends Thread {
             ps.close();
             bufferReader.close();
             s.close();
-            currentGame.remove(this);
+            currentGames.remove(this);
             stop();
         } catch (IOException ex1) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
@@ -185,6 +185,9 @@ public class GameHandler extends Thread {
             case ServerQueries.GET_ONLINE_USERS:
                 getOnlineUsers();
                 break;
+            case ServerQueries.REQUEST_GAME:
+                handleRequest();
+                break;   
             default:
                 System.out.println("UNEXPECTED ERROR MSG: " + msg);
         }
@@ -196,7 +199,7 @@ public class GameHandler extends Thread {
         System.out.println(currentPlayer.getUsername());
         onlinePlayers.remove(currentPlayer);
         System.out.println(onlinePlayers);
-        for(Game game : currentGame){
+        for(Game game : currentGames){
             onlinePlayers.remove(game.getPlayer1());
             onlinePlayers.remove(game.getPlayer2());
         }
@@ -206,5 +209,11 @@ public class GameHandler extends Thread {
         }
         //replace the string builder with string if failed
         ps.println(onlinePlayersString.insert(0,ServerQueries.ONLINE_USERS));
+    }
+
+    private void handleRequest() {
+        //case reciver is in game ==> return user busy
+        //case user is offline
+        //case idle user online
     }
 }

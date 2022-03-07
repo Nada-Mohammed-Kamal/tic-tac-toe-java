@@ -18,23 +18,24 @@ import utils.ServerQueries;
  *
  * @author nados
  */
-interface OnlinePlayerScreenController{
-    
+interface OnlinePlayerScreenController {
+
 }
 
-public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenController , NetworkUser{
+public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenController, NetworkUser {
+
     OnlinePlayerScreenInterface onlinePlayerScreenInterface;
     Stage stage;
     NetworkLayer networkLayer;
     private StringTokenizer stringTokenizer;
-    
 
-    
-    public OnlinePlayerScreenControllerImpl(OnlinePlayerScreenInterface onlinePlayerScreenInterface , Stage stage){
-         this.onlinePlayerScreenInterface = onlinePlayerScreenInterface;
-         this.stage = stage;
-         networkLayer = NetworkLayerImpl.getInstance(this);
-         networkLayer.printStream(ServerQueries.GET_ONLINE_USERS);
+    public OnlinePlayerScreenControllerImpl(OnlinePlayerScreenInterface onlinePlayerScreenInterface, Stage stage) {
+        this.onlinePlayerScreenInterface = onlinePlayerScreenInterface;
+        this.stage = stage;
+        networkLayer = NetworkLayerImpl.getInstance(this);
+        networkLayer.printStream(ServerQueries.GET_ONLINE_USERS);
+        onlinePlayerScreenInterface.displayUserData(networkLayer.getUsername(),
+                networkLayer.getScore());
     }
 
     @Override
@@ -42,23 +43,22 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         stringTokenizer = new StringTokenizer(receivedMsg, ";");
         String commandToExcute = stringTokenizer.nextToken();
         System.out.println(commandToExcute);
-        switch (commandToExcute){
+        switch (commandToExcute) {
             case ServerQueries.ONLINE_USERS:
                 showOnlineUsers();
                 break;
-                
+
         }
     }
 
     private void showOnlineUsers() {
         ArrayList<PlayerDto> players = new ArrayList<>();
-        while(stringTokenizer.hasMoreTokens()){
+        players.remove(new PlayerDto(networkLayer.getUsername(), "", 0, true));
+        while (stringTokenizer.hasMoreTokens()) {
             String[] player = stringTokenizer.nextToken().split("~");
             players.add(new PlayerDto(player[0], "", Integer.parseInt(player[1]), true));
         }
         onlinePlayerScreenInterface.updateOnlinePlayersList(players);
     }
-    
-    
-    
+
 }

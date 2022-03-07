@@ -6,6 +6,7 @@
 package model;
 
 import tictactoeserver.GameHandler;
+import utils.PlayerStatusValues;
 
 /**
  *
@@ -16,6 +17,15 @@ public class PlayerDto  {
     private String username;
     private String password;
     private int score;
+    private int status = PlayerStatusValues.IDLE;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
     private boolean isOnline;
     private GameHandler handler;
 
@@ -33,7 +43,13 @@ public class PlayerDto  {
         this.score = score;
         this.isOnline = isOnline;
     }
-
+    public PlayerDto(String username, String password, int score, int status, boolean isOnline) {
+        this.username = username;
+        this.password = password;
+        this.score = score;
+        this.status = status;
+        this.isOnline = isOnline;
+    }
     public PlayerDto(String username, String password, int score, boolean isOnline, GameHandler handler) {
         this.username = username;
         this.password = password;

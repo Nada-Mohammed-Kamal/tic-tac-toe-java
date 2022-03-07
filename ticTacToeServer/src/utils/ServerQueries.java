@@ -21,4 +21,7 @@ public class ServerQueries {
     public static final String REQUEST_GAME = "request game";// ; username of reciever
     public static final String SERVER_CLOSING = "Server is closing";
     public static final String PLAYER_IS_ALREADY_IN_GAME = "player is already in game";
+    public static final String PLAYER_IS_ALREADY_WAITING_FOR_ANOTHER_GAME = "player is already waiting for another game";
+    public static final String REQUEST_GAME_FROM = "request game from";
+
 }

@@ -13,5 +13,6 @@ public class AttributeConstants {
     public static final String USERNAME = "USERNAME";
     public static final String PASSWORD = "PASSWORD";
     public static final String SCORE = "SCORE";
+    public static final String STATUS = "STATUS";
     public static final String ISONLINE = "ISONLINE";
 }

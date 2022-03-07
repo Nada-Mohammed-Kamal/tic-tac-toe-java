@@ -1,5 +1,6 @@
-package tictactoe;
+package GameLocalMultiPlayersScreenWithAlert;
 
+import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import tictactoe.Navigation;
 
 public class ShowAlertPlayLocalGame extends AnchorPane {
 
@@ -19,7 +21,7 @@ public class ShowAlertPlayLocalGame extends AnchorPane {
     protected final TextField player2Name;
     public final Button Start;
 
-    public ShowAlertPlayLocalGame(Stage stage) {
+    public ShowAlertPlayLocalGame(Stage myStage,Stage alertStage) {
 
         label = new Label();
         anchorPane = new AnchorPane();
@@ -32,7 +34,6 @@ public class ShowAlertPlayLocalGame extends AnchorPane {
         setId("AnchorPane");
         setPrefHeight(270.0);
         setPrefWidth(443.0);
-        setStyle("-fx-background-radius: 0 0 20 20; -fx-border-radius: 0 0 20 20;");
 
         AnchorPane.setLeftAnchor(label, 8.0);
         AnchorPane.setRightAnchor(label, 8.0);
@@ -53,7 +54,7 @@ public class ShowAlertPlayLocalGame extends AnchorPane {
         anchorPane.setLayoutY(48.0);
         anchorPane.setPrefHeight(215.0);
         anchorPane.setPrefWidth(600.0);
-        anchorPane.setStyle("-fx-background-color: #AAAAAA; -fx-border-radius: 0 0 20 20; -fx-background-radius: 0 0 20 20;");
+        anchorPane.setStyle("-fx-background-color: #AAAAAA");
 
         player1Name.setLayoutX(100.0);
         player1Name.setLayoutY(55.0);
@@ -94,9 +95,10 @@ public class ShowAlertPlayLocalGame extends AnchorPane {
         Start.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
-                stage.close();
-                Navigation.navigateTo(stage, new GameLocalMultiPlayersScreenBase(stage), "Local Game");
+                alertStage.close();
+                PlayersNames playersNames = new PlayersNames(player1Name.getText(),player2Name.getText());
+                System.out.println("In Alert : "+ playersNames.getPlayer1() + "   "+ playersNames.getPlayer2());
+                Navigation.navigateTo(myStage, new GameLocalMultiPlayersScreenBase(myStage,playersNames), "Local Game");
                 }
         });
         getChildren().add(label);

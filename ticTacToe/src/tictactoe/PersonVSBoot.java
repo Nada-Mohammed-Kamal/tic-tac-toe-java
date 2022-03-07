@@ -1,5 +1,6 @@
 package tictactoe;
 
+import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.text.Format;

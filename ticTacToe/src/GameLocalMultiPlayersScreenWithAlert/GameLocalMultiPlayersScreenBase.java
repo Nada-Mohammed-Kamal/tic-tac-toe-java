@@ -1,4 +1,4 @@
-package tictactoe;
+package GameLocalMultiPlayersScreenWithAlert;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -35,6 +35,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Pair;
+import tictactoe.HomeScreen;
+import tictactoe.Navigation;
+import tictactoe.PlayVideo;
 public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
@@ -100,10 +103,12 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     String getSubStringForNames = "";
     String nameOfPlayerOneRecorder = "";
     String nameOfPlayerTwoRecorder = "";
-    public GameLocalMultiPlayersScreenBase(Stage stage) {
+    public GameLocalMultiPlayersScreenBase(Stage stage,PlayersNames names) {
         //PlayersNames names = DisplayAlertToTakeNamesOfLocalPlayers.getPlayersName();
-       // nameOfPlayer1 = names.getPlayer1();
-       // nameOfPlayer2 = names.getPlayer2();
+        System.out.println("In Game : "+ names.getPlayer1() + "   "+ names.getPlayer2());
+                
+        playerOneName = names.getPlayer1();
+        playerTwoName = names.getPlayer2();
         allWinningLists = new ArrayList<>();
         List topRow = Arrays.asList(1,2,3);
         List midRow = Arrays.asList(4,5,6);
@@ -159,7 +164,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         setPrefHeight(600.0);
         setPrefWidth(1000.0);
         setStyle("-fx-background-color: #072A40;");
-        dialogWithTwoTextBoxes();
+//        dialogWithTwoTextBoxes();
         anchorPane.setLayoutX(277.0);
         anchorPane.setLayoutY(101.0);
         anchorPane.setPrefHeight(375.0);
@@ -752,7 +757,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         System.out.println(nameOfPlayerOneRecorder);
         System.out.println(nameOfPlayerTwoRecorder);
     }
-    void dialogWithTwoTextBoxes(){
+    /*void dialogWithTwoTextBoxes(){
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Players");
         ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
@@ -784,7 +789,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
             playerOneName = pair.getKey();
             playerTwoName = pair.getValue();   
         });
-    }
+    }*/
     void hideGameButtons(){
         button1id.setVisible(false);
         button2id.setVisible(false);

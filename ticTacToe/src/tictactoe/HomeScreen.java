@@ -1,10 +1,9 @@
 package tictactoe;
+import GameLocalMultiPlayersScreenWithAlert.DisplayAlertToTakeNamesOfLocalPlayers;
 import tictactoe.login.LoginScreenBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
@@ -135,9 +134,7 @@ public class HomeScreen extends AnchorPane {
         localMultiPlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
-                Navigation.navigateTo(stage, new GameLocalMultiPlayersScreenBase(stage), "Local Game");
-                 
+                DisplayAlertToTakeNamesOfLocalPlayers.getPlayersName(stage);      
             }
         });
         localMultiPlayer.setOnMouseEntered((event) -> {

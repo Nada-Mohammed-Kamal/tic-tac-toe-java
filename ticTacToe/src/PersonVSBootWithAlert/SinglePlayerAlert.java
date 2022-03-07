@@ -90,7 +90,7 @@ public class SinglePlayerAlert extends AnchorPane {
                 Navigation.navigateTo(myStage, new PersonVSBoot(myStage,player1Name.getText()), "Local Game");
                 }
         });
-        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(Start, myStage);
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(Start, alertStage);
         getChildren().add(label);
         anchorPane.getChildren().add(player1Name);
         anchorPane.getChildren().add(label0);

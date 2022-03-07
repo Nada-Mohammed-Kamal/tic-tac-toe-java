@@ -103,7 +103,7 @@ public class ShowAlertPlayLocalGame extends AnchorPane {
                 Navigation.navigateTo(myStage, new GameLocalMultiPlayersScreenBase(myStage,playersNames), "Local Game");
                 }
         });
-        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(Start, myStage);
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(Start, alertStage);
         getChildren().add(label);
         anchorPane.getChildren().add(player1Name);
         anchorPane.getChildren().add(label0);

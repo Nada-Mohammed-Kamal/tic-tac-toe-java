@@ -14,12 +14,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.PlayerDto;
 
-interface OnlinePlayerScreenInterface{
+interface OnlinePlayerScreenInterface {
+
     void updateOnlinePlayersList(ArrayList<PlayerDto> players);
+
     void displayUserData(String username, int score);
 }
 
-public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScreenInterface{
+public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScreenInterface {
+
     OnlinePlayerScreenController onlinePlayerScreenController;
     protected final AnchorPane anchorPane;
     protected final Label UserName;
@@ -30,13 +33,13 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
     protected final AnchorPane anchorPane1;
     protected final Button BackButtonid;
     protected final ImageView imageView;
-   
+
     protected final AnchorPane anchorPane3;
     protected final Label label;
     protected final AnchorPane anchorPane4;
     protected final ScrollPane scrollPane;
     protected final VBox vBox;
-    
+
     protected final AnchorPane anchorPane5;
     protected final Label label0;
     protected final Label label1;
@@ -53,18 +56,17 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         anchorPane1 = new AnchorPane();
         BackButtonid = new Button();
         imageView = new ImageView();
-        
+
         anchorPane3 = new AnchorPane();
         label = new Label();
         anchorPane4 = new AnchorPane();
         scrollPane = new ScrollPane();
         vBox = new VBox();
-        
+
         anchorPane5 = new AnchorPane();
         label0 = new Label();
         label1 = new Label();
         label2 = new Label();
-        
 
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
@@ -125,7 +127,12 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         BackButtonid.setText("       Back");
         BackButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         BackButtonid.setFont(new Font("Berlin Sans FB", 33.0));
-
+        BackButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                onlinePlayerScreenController.onBackButtonPressed(stage);
+            }
+        });
         imageView.setFitHeight(65.0);
         imageView.setFitWidth(67.0);
         imageView.setLayoutX(13.0);
@@ -208,7 +215,7 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         getChildren().add(anchorPane1);
         getChildren().add(anchorPane3);
         getChildren().add(label);
-        
+
         anchorPane4.getChildren().add(scrollPane);
         getChildren().add(anchorPane4);
         anchorPane5.getChildren().add(label0);
@@ -222,29 +229,29 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
 
         //onlinePlayerScreenController.showOnlineUsers();
     }
-    void addNewOnlineUser(String name ,String score,String status,String buttonText)
-    {
+
+    void addNewOnlineUser(String name, String score, String status, String buttonText) {
         Label OnlinePlayerName = new Label();
         OnlinePlayerName.setLayoutX(45.0);
         OnlinePlayerName.setLayoutY(27.0);
         OnlinePlayerName.setText(name);
         OnlinePlayerName.setTextFill(javafx.scene.paint.Color.WHITE);
         OnlinePlayerName.setFont(new Font("Arial", 31.0));
-        
+
         Label OnlinePlayerScore = new Label();
         OnlinePlayerScore.setLayoutX(314.0);
         OnlinePlayerScore.setLayoutY(25.0);
         OnlinePlayerScore.setText(score);
         OnlinePlayerScore.setTextFill(javafx.scene.paint.Color.WHITE);
         OnlinePlayerScore.setFont(new Font("Arial", 31.0));
-        
+
         Label OnlinePlyerStauts = new Label();
         OnlinePlyerStauts.setLayoutX(451.0);
         OnlinePlyerStauts.setLayoutY(24.0);
         OnlinePlyerStauts.setText(status);
         OnlinePlyerStauts.setTextFill(javafx.scene.paint.Color.WHITE);
         OnlinePlyerStauts.setFont(new Font("Arial", 31.0));
-        
+
         Button ButtonToOnlineUser = new Button();
         ButtonToOnlineUser.setLayoutX(569.0);
         ButtonToOnlineUser.setLayoutY(23.0);
@@ -261,7 +268,7 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
                 //write your own code to do when click the button
                 //The name of the player you choose
                 //OnlinePlayerName.getText();
-                 }
+            }
         });
         AnchorPane UserDetails = new AnchorPane();
         UserDetails.setPrefHeight(85.0);
@@ -269,17 +276,18 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         UserDetails.setStyle("-fx-background-color: #8596A0; -fx-background-radius: 10;");
         UserDetails.minWidth(USE_PREF_SIZE);
         UserDetails.minHeight(USE_PREF_SIZE);
-        
+
         UserDetails.getChildren().add(OnlinePlayerName);
         UserDetails.getChildren().add(OnlinePlayerScore);
         UserDetails.getChildren().add(OnlinePlyerStauts);
         UserDetails.getChildren().add(ButtonToOnlineUser);
         vBox.getChildren().add(UserDetails);
     }
+
     @Override
-    public void updateOnlinePlayersList(ArrayList<PlayerDto> players){
+    public void updateOnlinePlayersList(ArrayList<PlayerDto> players) {
         vBox.getChildren().clear();
-        for(PlayerDto player : players) {
+        for (PlayerDto player : players) {
             addNewOnlineUser(player.getUsername(), String.valueOf(player.getScore()), "online", "play");
         }
     }
@@ -287,6 +295,6 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
     @Override
     public void displayUserData(String username, int score) {
         UserName.setText(username);
-        UserScore.setText(""+score);
+        UserScore.setText("" + score);
     }
 }

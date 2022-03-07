@@ -13,4 +13,8 @@ public interface NetworkLayer {
     void printStream(String msg);
     void closeConnection();
     void setNetworkUser(NetworkUser networkUser);
+    void setScore(int score);
+    int getScore();
+    void setUsername(String username);
+    String getUsername();
 }

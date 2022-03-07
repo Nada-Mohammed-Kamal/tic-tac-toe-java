@@ -27,6 +27,8 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     private static PrintStream ps;
     private static BufferedReader bufferReader;
     private static NetworkLayer networkLayer;
+    private static int score = 0;
+    private static String username = "";
 
     private NetworkLayerImpl(NetworkUser networkUser) {
         NetworkLayerImpl.networkUser = networkUser;
@@ -101,6 +103,26 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
             NetworkLayerImpl.networkUser = networkUser;
         }
         return networkLayer;
+    }
+
+    @Override
+    public void setScore(int score) {
+        NetworkLayerImpl.score = score;
+    }
+
+    @Override
+    public int getScore() {
+        return NetworkLayerImpl.score;
+    }
+
+    @Override
+    public void setUsername(String username) {
+        NetworkLayerImpl.username = username;
+    }
+
+    @Override
+    public String getUsername() {
+        return NetworkLayerImpl.username;
     }
     
     

@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GameLocalMultiPlayersScreenWithAlert;
+package DisplayAlert;
 
+import GameLocalMultiPlayersScreenWithAlert.ShowAlertPlayLocalGame;
 import MediaPlayer.VideoFXMLBase;
+import PersonVSBootWithAlert.SinglePlayerAlert;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -21,8 +23,7 @@ import javafx.util.Pair;
  * @author Esraa
  */
 public class DisplayAlertToTakeNamesOfLocalPlayers {
-      public static PlayersNames getPlayersName(Stage myStage){
-          PlayersNames names = new PlayersNames("Esraa","Nada");
+      public static void getPlayersName(Stage myStage){
             Stage window = new Stage();
             Parent root = new ShowAlertPlayLocalGame(myStage,window);
             Scene registerScene = new Scene(root);
@@ -39,6 +40,23 @@ public class DisplayAlertToTakeNamesOfLocalPlayers {
                 
                 
             });
-            return names;
+    }
+       public static void getPlayerNameOnOnePlayer(Stage myStage){
+            Stage window = new Stage();
+            Parent root = new SinglePlayerAlert(myStage,window);
+            Scene registerScene = new Scene(root);
+            //get stage information
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setScene(registerScene);
+            window.setMinHeight(400);
+            window.setMinWidth(400);
+            window.initStyle(StageStyle.UNDECORATED);
+            window.setResizable(false);
+            window.showAndWait();
+            Platform.runLater(() ->       
+            {
+                
+                
+            });
     }
 }

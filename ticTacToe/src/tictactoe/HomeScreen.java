@@ -1,5 +1,7 @@
 package tictactoe;
-import GameLocalMultiPlayersScreenWithAlert.DisplayAlertToTakeNamesOfLocalPlayers;
+import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
+import PersonVSBootWithAlert.PersonVSBoot;
+import DisplayAlert.DisplayAlertToTakeNamesOfLocalPlayers;
 import tictactoe.login.LoginScreenBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -42,11 +44,15 @@ public class HomeScreen extends AnchorPane {
         label1 = new Label();
         anchorPane0 = new AnchorPane();
         onlinePlayer = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(onlinePlayer, stage);
         singlePlayer = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(singlePlayer, stage);
         localMultiPlayer = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(localMultiPlayer, stage);
         imageView = new ImageView();
         anchorPane1 = new AnchorPane();
         records = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(records, stage);
         innerShadow = new InnerShadow();
         circle = new Circle();
         imageView0 = new ImageView();
@@ -100,10 +106,6 @@ public class HomeScreen extends AnchorPane {
         onlinePlayer.setOnAction((action) -> {
             Navigation.navigateTo(stage, new LoginScreenBase(stage),"Log in");
         });
-        onlinePlayer.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
-
         singlePlayer.setMnemonicParsing(false);
         singlePlayer.setPrefHeight(84.0);
         singlePlayer.setPrefWidth(419.0);
@@ -114,12 +116,10 @@ public class HomeScreen extends AnchorPane {
         singlePlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Navigation.navigateTo(stage, new PersonVSBoot(stage), "Home Screen");
+                 DisplayAlertToTakeNamesOfLocalPlayers.getPlayerNameOnOnePlayer(stage);    
+                //Navigation.navigateTo(stage, new PersonVSBoot(stage), "Home Screen");
                  
             }
-        });
-        singlePlayer.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
         });
         
         localMultiPlayer.setLayoutX(4.0);
@@ -137,10 +137,7 @@ public class HomeScreen extends AnchorPane {
                 DisplayAlertToTakeNamesOfLocalPlayers.getPlayersName(stage);      
             }
         });
-        localMultiPlayer.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
-          
+       
         imageView.setFitHeight(185.0);
         imageView.setFitWidth(338.0);
         imageView.setLayoutX(405.0);
@@ -167,9 +164,7 @@ public class HomeScreen extends AnchorPane {
                  
             }
         });
-        records.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
+        
         records.setEffect(innerShadow);
 
         circle.setFill(javafx.scene.paint.Color.valueOf("#cd191a"));

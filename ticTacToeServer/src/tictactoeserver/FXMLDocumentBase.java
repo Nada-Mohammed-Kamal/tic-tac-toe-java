@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,8 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import serverdao.ConnectionDB;
-import serverdao.PlayerManager;
 import serverdao.PlayerManagerImpl;
 
 public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeListener {
@@ -49,6 +50,13 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
     Thread thread;
     
     public FXMLDocumentBase(Stage stage) {
+        
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                closeServer();
+            }
+        });
         
         colorAdjust = new ColorAdjust();
         anchorPane = new AnchorPane();
@@ -125,19 +133,7 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
         btnStop.setTextFill(javafx.scene.paint.Color.WHITE);
         btnStop.setFont(new Font("Comic Sans MS Bold", 40.0));
         btnStop.setOnAction((action) -> {
-            if (turnServerOn) {
-                turnServerOn = false;
-                txtFieldServerState.setText("Server is offline");
-                txtFieldServerState.setTextFill(javafx.scene.paint.Color.valueOf("#FF0000"));
-                btnStart.setDisable(false);
-                thread.stop();
-                try {
-                    serverSocket.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
+            closeServer();
         });
         btnStop.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -341,6 +337,21 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
         txtFieldOffilneNumber.setText("Offline: "+(allUsersCount-onlinePlayers.size()));
         for(int i = 0;i < onlinePlayers.size(); i++){
             addNewRow(onlinePlayers.get(i),"Online");
+        }
+    }
+
+    private void closeServer() {
+        if (turnServerOn) {
+            turnServerOn = false;
+            txtFieldServerState.setText("Server is offline");
+            txtFieldServerState.setTextFill(javafx.scene.paint.Color.valueOf("#FF0000"));
+            btnStart.setDisable(false);
+            GameHandler.onClosingServer();
+            try {
+                serverSocket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

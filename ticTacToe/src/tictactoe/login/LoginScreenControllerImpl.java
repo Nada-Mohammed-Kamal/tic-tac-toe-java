@@ -37,6 +37,7 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
     NetworkLayer networkLayer;
     Stage stage;
     private StringTokenizer stringTokenizer;
+    
     public LoginScreenControllerImpl(LoginScreenBase view) {
         this.view = view;
     }

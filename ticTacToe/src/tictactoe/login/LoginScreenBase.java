@@ -121,7 +121,9 @@ public class LoginScreenBase extends AnchorPane {
         loginId.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         loginId.setFont(new Font("Berlin Sans FB", 33.0));
         loginId.setOnAction(action -> {
-            controller.onPressLoginBtn(nameTextBoxid.getText(), passwordtextboxid.getText() , stage);
+            if(nameTextBoxid.getText() != null && passwordtextboxid.getText() != null) {
+                controller.onPressLoginBtn(nameTextBoxid.getText(), passwordtextboxid.getText(), stage);
+            }
         });
         imageView0.setFitHeight(50.0);
         imageView0.setFitWidth(52.0);

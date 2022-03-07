@@ -11,7 +11,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import model.PlayerDto;
-import tictactoe.HomeScreen;
 import tictactoe.Navigation;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;

@@ -307,4 +307,36 @@ public class PlayerManagerImpl implements PlayerManager{
         return null;
     }  
 
+    @Override
+    public boolean updateSetPlayerOffline() {
+        boolean result = true;
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_SET_PLAYERS_OFFLINE);
+            
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+            result = false;
+        }
+        
+        return result;
+    }
+
+    @Override
+    public boolean updateSetPlayerStatusZero() {
+        boolean result = true;
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_SET_PLAYERS_STATE_ZERO);
+            
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+            result = false;
+        }
+        
+        return result;
+    }
+
 }

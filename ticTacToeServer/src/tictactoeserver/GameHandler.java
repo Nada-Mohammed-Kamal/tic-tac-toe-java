@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.UUID;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +46,9 @@ public class GameHandler extends Thread {
     static Map<String, PlayerDto> sessions = Collections.synchronizedMap(new HashMap());
     static Vector<Game> currentGames = new Vector<>();
     boolean flag = true;
+    
+    private String id = UUID.randomUUID().toString();
+    private static Vector<GameHandler> inActiveSession = new Vector<>();
 
     public GameHandler(Socket cs, Stage stage) {
         try {
@@ -52,7 +56,7 @@ public class GameHandler extends Thread {
             dis = new InputStreamReader(s.getInputStream());
             ps = new PrintStream(s.getOutputStream());
             bufferReader = new BufferedReader(dis);
-            //GameHandler.onlinePlayers.add(this);
+            GameHandler.inActiveSession.add(this);
             start();
         } catch (IOException ex) {
             closeStream();
@@ -135,9 +139,10 @@ public class GameHandler extends Thread {
                 Integer scoreRefrence = 0;
                 switch (playerMgr.login(username, password, scoreRefrence)) {
                     case ResultConstants.SUCCESSFULLY_LOGGINED:
-                        //sessions.put(username, new PlayerDto(username, password, scoreRefrence, true));
                         currentPlayer = new PlayerDto(username, "", scoreRefrence, true , GameHandler.this);
                         ps.println(AuthenticationConstants.SUCCESS_LOGIN.concat(";").concat(username).concat(";").concat(String.valueOf(scoreRefrence)));
+                        sessions.put(username, currentPlayer);
+                        GameHandler.inActiveSession.remove(GameHandler.this);
                         break;
                     case ResultConstants.WRONG_USERNAME_OR_PASSWORD:
                         ps.println(AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD);
@@ -150,7 +155,6 @@ public class GameHandler extends Thread {
                         break;
                     default:
                         System.out.println("ERROR: Unknown message");
-                    //ps.println(AuthenticationConstants.ALEARDY_LOGINED_ON_ANOTHER_DEVICE);
                 }
             }
         }.start();
@@ -207,9 +211,9 @@ public class GameHandler extends Thread {
             onlinePlayers.remove(game.getPlayer2());
         }
         StringBuilder onlinePlayersString = new StringBuilder("");
-        for(PlayerDto user : onlinePlayers){
+        onlinePlayers.forEach((user) -> {
             onlinePlayersString.append(";").append(user.getUsername()).append("~").append(user.getScore());
-        }
+        });
         //replace the string builder with string if failed
         ps.println(onlinePlayersString.insert(0,ServerQueries.ONLINE_USERS));
     }
@@ -218,5 +222,41 @@ public class GameHandler extends Thread {
         //case reciver is in game ==> return user busy
         //case user is offline
         //case idle user online
+    }
+    
+    public static void sendMsgToAllUsers(String msg) {
+        
+    }
+    
+    public static void onClosingServer() {
+        new Thread(() -> {
+            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateSetPlayerOffline();
+            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateSetPlayerStatusZero();
+
+            closeAllResourses();
+        }).start();
+//        sendMsgToAllUsers(msg);
+    }
+    
+    public static void closeAllResourses() {
+        for(Map.Entry<String, PlayerDto> session : sessions.entrySet()) {
+            session.getValue().getHandler().closeStream();
+        }
+        
+        for(GameHandler game : GameHandler.inActiveSession) {
+            game.closeStream();
+        }
+        
+        // close DB
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        boolean returnValue = false;
+        if (obj instanceof GameHandler && id.equals(((GameHandler) obj).id)) {
+            returnValue = true;
+        }
+        
+        return returnValue;
     }
 }

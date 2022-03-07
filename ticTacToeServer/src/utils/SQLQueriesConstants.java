@@ -17,5 +17,7 @@ public class SQLQueriesConstants {
     public static final String UPDATE_PLAYER_STATE = "UPDATE PLAYERS SET ISONLINE = ? WHERE USERNAME = ?";
     public static final String UPDATE_PLAYER_SCORE = "UPDATE PLAYERS SET SCORE = ? WHERE USERNAME = ?";
     public static final String UPDATE_PLAYER_STATUS = "UPDATE PLAYERS SET STATUS = ? WHERE USERNAME = ?";
+    public static final String UPDATE_SET_PLAYERS_OFFLINE = "UPDATE PLAYERS SET ISONLINE = false";
+    public static final String UPDATE_SET_PLAYERS_STATE_ZERO = "UPDATE PLAYERS SET STATUS = 0";
     public static final String ADD_NEW_PLAYER = "INSERT INTO PLAYERS (USERNAME, PASSWORD, SCORE, ISONLINE) VALUES (?, ?, ?, ?)";
 }

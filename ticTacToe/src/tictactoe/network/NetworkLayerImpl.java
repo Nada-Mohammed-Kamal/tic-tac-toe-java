@@ -31,6 +31,7 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     private static int score = 0;
     private static String username = "";
     private boolean flag = true;
+    
     private NetworkLayerImpl(NetworkUser networkUser) {
         NetworkLayerImpl.networkUser = networkUser;
         try {

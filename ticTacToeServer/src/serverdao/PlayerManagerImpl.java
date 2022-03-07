@@ -225,7 +225,7 @@ public class PlayerManagerImpl implements PlayerManager{
     public boolean isAlreadyRegistered(String username) {
         boolean result = true;
         try {
-            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.IS_ALREADY_REGISTERED_QUERY, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_COL_FOR_USERNAME, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, username);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -304,6 +304,7 @@ public class PlayerManagerImpl implements PlayerManager{
     }
     @Override
     public  PlayerDto getPlayer(String username){
+        
         return null;
     }  
 

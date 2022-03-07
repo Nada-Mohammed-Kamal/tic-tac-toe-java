@@ -27,6 +27,8 @@ import serverdao.ConnectionDB;
 import serverdao.PlayerManager;
 import serverdao.PlayerManagerImpl;
 import utils.AuthenticationConstants;
+import utils.ErrorConstants;
+import utils.PlayerStatusValues;
 import utils.ResultConstants;
 import utils.ServerQueries;
 
@@ -94,6 +96,7 @@ public class GameHandler extends Thread {
 //    }
     private void closeStream() {
         try {
+            ps.println(ServerQueries.CLOSE_NORMALLY);
             flag = false;
             dis.close();
             ps.close();
@@ -104,7 +107,7 @@ public class GameHandler extends Thread {
         } catch (IOException ex1) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
-    }
+    } 
 
     private void registerNewPlayer(String username, String password) {
         new Thread() {
@@ -217,11 +220,28 @@ public class GameHandler extends Thread {
         //replace the string builder with string if failed
         ps.println(onlinePlayersString.insert(0,ServerQueries.ONLINE_USERS));
     }
-
+    //nexr Token has reciever user name
     private void handleRequest() {
         //case reciver is in game ==> return user busy
         //case user is offline
         //case idle user online
+        String recieverUserName = stringTokenizer.nextToken();
+        PlayerDto player = playerMgr.getPlayer(recieverUserName);
+        if(player.isIsOnline()){
+           switch(player.getStatus()){
+                case PlayerStatusValues.IDLE:
+                    sendRequestToPlayer(recieverUserName);
+                    break;
+                case PlayerStatusValues.IN_GAME:
+                    ps.println(ServerQueries.PLAYER_IS_ALREADY_IN_GAME);
+                    break;
+                case PlayerStatusValues.WAITING:
+                    ps.println(ServerQueries.PLAYER_IS_ALREADY_WAITING_FOR_ANOTHER_GAME);
+                    break;
+            } 
+        }else{
+        
+        }
     }
     
     public static void sendMsgToAllUsers(String msg) {
@@ -232,20 +252,24 @@ public class GameHandler extends Thread {
         new Thread(() -> {
             PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateSetPlayerOffline();
             PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateSetPlayerStatusZero();
-
+            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateServerStatistics();
             closeAllResourses();
+            
         }).start();
 //        sendMsgToAllUsers(msg);
     }
     
     public static void closeAllResourses() {
         for(Map.Entry<String, PlayerDto> session : sessions.entrySet()) {
+            System.out.println("session"+session);
             session.getValue().getHandler().closeStream();
         }
-        
+        sessions.clear();
         for(GameHandler game : GameHandler.inActiveSession) {
+            System.out.println("Game   "+game);
             game.closeStream();
         }
+        inActiveSession.clear();
         
         // close DB
     }
@@ -258,5 +282,16 @@ public class GameHandler extends Thread {
         }
         
         return returnValue;
+    }
+
+    private void sendRequestToPlayer(String recieverUserName) {
+        sessions
+                .get(recieverUserName)
+                .getHandler()
+                .ps
+                .println(ServerQueries
+                        .REQUEST_GAME_FROM
+                        .concat(currentPlayer
+                                .getUsername()));
     }
 }

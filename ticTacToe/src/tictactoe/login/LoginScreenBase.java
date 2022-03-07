@@ -33,7 +33,7 @@ public class LoginScreenBase extends AnchorPane {
     
     public LoginScreenBase(Stage stage) {
         
-        controller = new LoginScreenControllerImpl(this);
+        controller = new LoginScreenControllerImpl(stage);
         controller.setNetworkLayer();
         
         anchorPane = new AnchorPane();

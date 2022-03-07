@@ -33,13 +33,12 @@ interface LoginScreenController {
 
 public class LoginScreenControllerImpl implements LoginScreenController, NetworkUser {
 
-    LoginScreenBase view;
     NetworkLayer networkLayer;
     Stage stage;
     private StringTokenizer stringTokenizer;
     
-    public LoginScreenControllerImpl(LoginScreenBase view) {
-        this.view = view;
+    public LoginScreenControllerImpl(Stage stage) {
+        this.stage = stage;
     }
 
     @Override
@@ -113,7 +112,7 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
     @Override
     public void exitNetwork(String msg) {
         networkLayer = null;
-        if(msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)){
+        if(msg.equals(ServerQueries.CLOSE_NORMALLY)){
                 UIHelper.showAlertMessage(Constants.WARNING,ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
         }
         Navigation.navigateToHome(stage);

@@ -346,7 +346,9 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
             txtFieldServerState.setText("Server is offline");
             txtFieldServerState.setTextFill(javafx.scene.paint.Color.valueOf("#FF0000"));
             btnStart.setDisable(false);
+            thread.stop();
             GameHandler.onClosingServer();
+            
             try {
                 serverSocket.close();
             } catch (IOException ex) {

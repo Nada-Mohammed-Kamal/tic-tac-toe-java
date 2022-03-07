@@ -31,7 +31,7 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     private static int score = 0;
     private static String username = "";
     private boolean flag = true;
-    
+
     private NetworkLayerImpl(NetworkUser networkUser) {
         NetworkLayerImpl.networkUser = networkUser;
         try {
@@ -59,13 +59,13 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
 
     @Override
     public void closeConnection(String msg) {
-        
+        Platform.runLater(()->{
             networkUser.exitNetwork(msg);
-        
-        networkUser = null;
-        networkLayer = null;
-        score = 0;
-        username = null;
+            networkUser = null;
+            networkLayer = null;
+            score = 0;
+            username = null;
+        });
         try {
             ps.close();
             bufferReader.close();
@@ -89,12 +89,12 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
                 String msg = bufferReader.readLine();
                 System.out.println("msg == " + msg);
                 if (msg != null && !msg.isEmpty()) {
-                    if(msg.equals(ServerQueries.CLOSE_NORMALLY)){
+                    if (msg.equals(ServerQueries.CLOSE_NORMALLY)) {
                         closeConnection(ServerQueries.CLOSE_NORMALLY);
                         flag = false;
                         return;
-                    }                    
-                        Platform.runLater(()->{
+                    }
+                    Platform.runLater(() -> {
                         networkUser.onMsgReceived(msg);
                     });
                 }
@@ -140,6 +140,5 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     public String getUsername() {
         return NetworkLayerImpl.username;
     }
-    
-    
+
 }

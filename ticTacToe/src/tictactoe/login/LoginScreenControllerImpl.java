@@ -5,9 +5,9 @@
  */
 package tictactoe.login;
 
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
@@ -34,6 +34,7 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
     LoginScreenBase view;
     NetworkLayer networkLayer;
     Stage stage;
+    private StringTokenizer stringTokenizer;
     public LoginScreenControllerImpl(LoginScreenBase view) {
         this.view = view;
     }
@@ -76,10 +77,15 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
 
     @Override
     public void onMsgReceived(String receivedMsg) {
+        stringTokenizer = new StringTokenizer(receivedMsg, ";");
+        String commandToExcute = stringTokenizer.nextToken();
+        System.out.println(commandToExcute);
         System.out.println("onMsgReceived" + receivedMsg);
         switch (receivedMsg) {
             case AuthenticationConstants.SUCCESS_LOGIN:
                 //UIHelper.showAlertMessage("Congrats!", receivedMsg, Alert.AlertType.INFORMATION);
+                networkLayer.setUsername(stringTokenizer.nextToken());
+                networkLayer.setScore(Integer.parseInt(stringTokenizer.nextToken()));
                 Navigation.navigateToOnlinePlayersScreen(this.stage);
                 break;
             case AuthenticationConstants.ALREADY_LOGINED_ON_ANOTHER_DEVICE:

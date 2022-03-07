@@ -135,7 +135,7 @@ public class GameHandler extends Thread {
                     case ResultConstants.SUCCESSFULLY_LOGGINED:
                         //sessions.put(username, new PlayerDto(username, password, scoreRefrence, true));
                         currentPlayer = new PlayerDto(username, "", scoreRefrence, true , GameHandler.this);
-                        ps.println(AuthenticationConstants.SUCCESS_LOGIN);
+                        ps.println(AuthenticationConstants.SUCCESS_LOGIN.concat(";").concat(username).concat(";").concat(String.valueOf(scoreRefrence)));
                         break;
                     case ResultConstants.WRONG_USERNAME_OR_PASSWORD:
                         ps.println(AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD);

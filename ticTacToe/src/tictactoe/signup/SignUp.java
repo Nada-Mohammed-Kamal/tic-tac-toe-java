@@ -63,7 +63,7 @@ public class SignUp extends AnchorPane {
     
     public SignUp(Stage stage) {
         
-        controller = new SignUpScreenControllerImpl(this);
+        controller = new SignUpScreenControllerImpl(stage);
         controller.setNetworkLayer();
 
         anchorPane = new AnchorPane();

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import utils.ErrorConstants;
+import utils.ServerQueries;
 
 /**
  *
@@ -56,7 +57,10 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     }
 
     @Override
-    public void closeConnection() {
+    public void closeConnection(String msg) {
+        
+            networkUser.exitNetwork(msg);
+        
         networkUser = null;
         networkLayer = null;
         score = 0;
@@ -84,14 +88,19 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
                 String msg = bufferReader.readLine();
                 System.out.println("msg == " + msg);
                 if (msg != null && !msg.isEmpty()) {
-                    Platform.runLater(()->{
+                    if(msg.equals(ServerQueries.CLOSE_NORMALLY)){
+                        closeConnection(ServerQueries.CLOSE_NORMALLY);
+                        flag = false;
+                        return;
+                    }                    
+                        Platform.runLater(()->{
                         networkUser.onMsgReceived(msg);
                     });
                 }
             } catch (IOException ex) {
                 networkUser.onErrorReceived(ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER);
                 flag = false;
-                closeConnection();
+                closeConnection(ErrorConstants.CLOSED_ABBNORMALLY);
                 return;
             }
         }

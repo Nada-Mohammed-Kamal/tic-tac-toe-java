@@ -7,6 +7,8 @@ package onlineplayerscreen;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import model.PlayerDto;
 import tictactoe.HomeScreen;
@@ -14,7 +16,10 @@ import tictactoe.Navigation;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
+import utils.Constants;
+import utils.ErrorConstants;
 import utils.ServerQueries;
+import utils.UIHelper;
 
 /**
  *
@@ -68,6 +73,17 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
        // networkLayer.closeConnection();
         Navigation.navigateToHome(stage);
+    }
+
+    @Override
+    public void exitNetwork(String msg) {
+        networkLayer = null;
+        if(msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)){
+                UIHelper.showAlertMessage(Constants.WARNING,ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+        }
+        Platform.runLater(()->{
+            Navigation.navigateToHome(stage);
+            });
     }
 
 }

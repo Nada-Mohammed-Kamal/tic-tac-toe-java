@@ -15,6 +15,7 @@ import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
 import utils.AuthenticationConstants;
 import utils.Constants;
+import utils.ErrorConstants;
 import utils.ServerQueries;
 import utils.UIHelper;
 
@@ -35,11 +36,12 @@ interface SignupScreenController {
 
 public class SignUpScreenControllerImpl implements SignupScreenController, NetworkUser {
 
-    SignUp view;
     NetworkLayer networkLayer;
+    Stage stage;
+    
 
-    public SignUpScreenControllerImpl(SignUp view) {
-        this.view = view;
+    public SignUpScreenControllerImpl(Stage stage) {
+       this.stage = stage;
     }
 
     @Override
@@ -101,4 +103,14 @@ public class SignUpScreenControllerImpl implements SignupScreenController, Netwo
 
         return isValidData;
     }
+    
+     @Override
+    public void exitNetwork(String msg) {
+        networkLayer = null;
+        if(msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)){
+                UIHelper.showAlertMessage(Constants.WARNING,ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+        }
+        Navigation.navigateToHome(stage);
+    }
+
 }

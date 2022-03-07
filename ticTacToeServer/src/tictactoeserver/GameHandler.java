@@ -44,6 +44,7 @@ public class GameHandler extends Thread {
     PlayerDto currentPlayer;
     static Map<String, PlayerDto> sessions = Collections.synchronizedMap(new HashMap());
     static Vector<Game> currentGames = new Vector<>();
+    boolean flag = true;
 
     public GameHandler(Socket cs, Stage stage) {
         try {
@@ -63,16 +64,16 @@ public class GameHandler extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (flag) {
             try {
                 String msg = bufferReader.readLine();
                 if (msg != null) {
                     System.out.println(msg);
                     checkCommand(msg);
-
                 }
 //                sendMessageToAll(msg);
             } catch (SocketException ex) {
+                flag = false;
                 closeStream();
 
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,11 +90,12 @@ public class GameHandler extends Thread {
 //    }
     private void closeStream() {
         try {
+            flag = false;
             dis.close();
             ps.close();
             bufferReader.close();
             s.close();
-            currentGames.remove(this);
+            //currentGames.remove(this);
             stop();
         } catch (IOException ex1) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
@@ -173,7 +175,8 @@ public class GameHandler extends Thread {
         switch (commandToExcute) {
             case ServerQueries.CLOSE_NORMALLY:
                 System.out.println("Client " + ServerQueries.CLOSE_NORMALLY);
-                playerMgr.logOut(stringTokenizer.nextToken());
+                playerMgr.logOut(currentPlayer.getUsername());
+                ps.println(ServerQueries.CLOSE_NORMALLY);
                 closeStream();
                 break;
             case ServerQueries.SIGN_UP:

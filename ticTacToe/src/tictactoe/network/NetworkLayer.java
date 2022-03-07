@@ -11,7 +11,7 @@ package tictactoe.network;
  */
 public interface NetworkLayer {
     void printStream(String msg);
-    void closeConnection();
+    void closeConnection(String msg);
     void setNetworkUser(NetworkUser networkUser);
     void setScore(int score);
     int getScore();

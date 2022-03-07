@@ -15,6 +15,8 @@ import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
 import utils.AuthenticationConstants;
+import utils.Constants;
+import utils.ErrorConstants;
 import utils.ServerQueries;
 import utils.UIHelper;
 
@@ -106,4 +108,14 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
                 Logger.getLogger(LoginScreenControllerImpl.class.getName()).log(Level.SEVERE, receivedMsg);
         }
     }
+
+    @Override
+    public void exitNetwork(String msg) {
+        networkLayer = null;
+        if(msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)){
+                UIHelper.showAlertMessage(Constants.WARNING,ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+        }
+        Navigation.navigateToHome(stage);
+    }
+    
 }

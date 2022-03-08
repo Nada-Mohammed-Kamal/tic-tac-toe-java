@@ -10,7 +10,7 @@ public class WaitingAlertOnlineGame extends AnchorPane {
     protected final AnchorPane anchorPane;
     protected final Label YourMessage;
 
-    public WaitingAlertOnlineGame() {
+    public WaitingAlertOnlineGame(String msg) {
 
         label = new Label();
         anchorPane = new AnchorPane();
@@ -49,7 +49,7 @@ public class WaitingAlertOnlineGame extends AnchorPane {
         YourMessage.setPrefHeight(30.0);
         YourMessage.setPrefWidth(293.0);
         YourMessage.setStyle("-fx-alignment: center;");
-        YourMessage.setText("Waiting...");
+        YourMessage.setText(msg);
         YourMessage.setTextFill(javafx.scene.paint.Color.WHITE);
         YourMessage.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
         YourMessage.setWrapText(true);

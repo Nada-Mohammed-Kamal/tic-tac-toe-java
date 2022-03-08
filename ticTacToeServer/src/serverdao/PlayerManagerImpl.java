@@ -19,12 +19,23 @@ import tictactoeserver.OnPlayerCountChangeListener;
 import utils.AttributeConstants;
 import utils.ResultConstants;
 import utils.SQLQueriesConstants;
+//                                              WAITING
+//                 false                        IN_Game
+//Case isOnline == true && Status == PlayerStatus.Idel; ==> Should be shown in Online screen.
+//WHEN TO OBSERVE
+//when any player login
+//when any player In_GAME ==> IDEL
+//IDEL => WAITING 
+//WAITING => IDEL
+//
+//player is inGame XXX ===> offline ???
+//IDEL ==> 
 
 /**
  *
  * @author AhmedAli
  */
-public class PlayerManagerImpl implements PlayerManager {
+public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeUpdater {
 
     private OnPlayerCountChangeListener onPlayerCountChangeListener;
     private ConnectionDB con;
@@ -310,7 +321,7 @@ public class PlayerManagerImpl implements PlayerManager {
             ps.setString(1, username);
             rs = ps.executeQuery();
             if (rs.next()) {
-                player = new PlayerDto(username, "", rs.getInt(AttributeConstants.SCORE),rs.getInt(AttributeConstants.STATUS) , rs.getBoolean(AttributeConstants.ISONLINE));
+                player = new PlayerDto(username, "", rs.getInt(AttributeConstants.SCORE), rs.getInt(AttributeConstants.STATUS), rs.getBoolean(AttributeConstants.ISONLINE));
             }
             ps.close();
             rs.close();
@@ -350,6 +361,10 @@ public class PlayerManagerImpl implements PlayerManager {
         }
 
         return result;
+    }
+    @Override
+    public void setOnAvailablePlayersChangeListener() {
+        
     }
 
 }

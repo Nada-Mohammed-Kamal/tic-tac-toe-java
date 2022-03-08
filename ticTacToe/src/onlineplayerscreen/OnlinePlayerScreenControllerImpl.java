@@ -36,6 +36,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
 
     OnlinePlayerScreenInterface onlinePlayerScreenInterface;
     Stage stage;
+    Stage mDialog=null;
     NetworkLayer networkLayer;
     private StringTokenizer stringTokenizer;
     Alert showWaitingAlertMessage;
@@ -105,7 +106,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     public void exitNetwork(String msg) {
         networkLayer = null;
         if (msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)) {
-            UIHelper.showAlertMessage(Constants.WARNING, ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+            UIHelper.showAlertMessage("Error", ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
         }
         Platform.runLater(() -> {
             Navigation.navigateToHome(stage);
@@ -120,34 +121,24 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         if (requestPlayGame) {
             System.out.println("OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK ");
             networkLayer.printStream(ServerQueries.ACCEPT_GAME.concat(";").concat(senderRequestUsername));
-            showWaitingAlertMessage = UIHelper.showWaitingAlertMessage();
-            showWaitingAlertMessage.show();
+            mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until "+senderRequestUsername+" confirm.");
+            mDialog.showAndWait();
         } else {
             System.out.println("NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO ");
             networkLayer.printStream(ServerQueries.REJECT_GAME.concat(";").concat(senderRequestUsername));
         }
-        
-        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.YES, ButtonType.NO);
-        alert.setTitle("Game Request");
-        alert.setContentText(contentText);
-        
-        ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
-        if (ButtonType.NO.equals(result)) {
-            
-        } else {
-            
-        }*/
+
     }
 
     @Override
     public void requestGameFrom(String playerName) {
-        showWaitingAlertMessage = UIHelper.showWaitingAlertMessage();
-        showWaitingAlertMessage.show();
         networkLayer.printStream(ServerQueries.REQUEST_GAME.concat(";").concat(playerName));
+        mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until "+playerName+" accept.");
+        mDialog.showAndWait();
     }
 
     private void cancelDialog(String title, String msg) {
-        showWaitingAlertMessage.close();
+        mDialog.close();
         UIHelper.showAlertMessage(title, msg, Alert.AlertType.INFORMATION);
     }
 
@@ -156,7 +147,10 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     }
 
     private void startGame() {
-        showWaitingAlertMessage.close();
+        if(mDialog!=null)
+            mDialog.close();
+        else
+            System.out.println("OnlinePlayerScreenControllerImpl private void startGame() mDialog == null");
         Navigation.navigateToOnlineGame(stage);
     }
 }

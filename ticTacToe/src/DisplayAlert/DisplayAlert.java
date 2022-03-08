@@ -69,11 +69,11 @@ public class DisplayAlert {
             window.initStyle(StageStyle.UNDECORATED);
             window.setResizable(false);
             window.showAndWait();
-            Platform.runLater(() ->       
-            {
-               
-              
-            });
+//            Platform.runLater(() ->       
+//            {
+//               
+//              
+//            });
            
            if(OnlineGameAlert.flag) System.out.println("Accept *****");
                else  System.out.println("reject***********");
@@ -82,7 +82,7 @@ public class DisplayAlert {
     }
      public static Stage waitingAlertOnlineGame(String message){
             Stage window = new Stage();
-            Parent root = new WaitingAlertOnlineGame();
+            Parent root = new WaitingAlertOnlineGame(message);
             Scene registerScene = new Scene(root);
             //get stage information
             window.initModality(Modality.APPLICATION_MODAL);
@@ -91,12 +91,11 @@ public class DisplayAlert {
             window.setMinWidth(600);
             window.initStyle(StageStyle.UNDECORATED);
             window.setResizable(false);
-            window.showAndWait();
-            Platform.runLater(() ->       
-            {
-               
-              
-            });
+//            Platform.runLater(() ->       
+//            {
+//               
+//              
+//            });
         return window;
                     
     }

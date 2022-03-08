@@ -35,7 +35,7 @@ import utils.ServerQueries;
  *
  * @author AhmedAli
  */
-public class GameHandler extends Thread {
+public class GameHandler extends Thread implements OnAvailablePlayersChangeListeners {
 
     InputStreamReader dis = null;
     PrintStream ps = null;
@@ -360,5 +360,10 @@ public class GameHandler extends Thread {
             playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.IN_GAME);
             playerMgr.updatePlayerStatus(secondPlayer, PlayerStatusValues.IN_GAME);
         }).start();
+    }
+
+    @Override
+    public void onAvailablePlayersChange() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

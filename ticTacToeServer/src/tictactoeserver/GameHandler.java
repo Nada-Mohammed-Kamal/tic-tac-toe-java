@@ -73,7 +73,7 @@ public class GameHandler extends Thread {
             try {
                 String msg = bufferReader.readLine();
                 if (msg != null) {
-                    System.out.println(msg);
+                    System.out.println(currentPlayer == null ? "null player     " + msg : currentPlayer.getUsername() + "    " + msg);
                     checkCommand(msg);
                 }
 //                sendMessageToAll(msg);
@@ -176,7 +176,6 @@ public class GameHandler extends Thread {
     private void checkCommand(String msg) {
         stringTokenizer = new StringTokenizer(msg, ";");
         String commandToExcute = stringTokenizer.nextToken();
-        System.out.println(commandToExcute);
 
         switch (commandToExcute) {
             case ServerQueries.CLOSE_NORMALLY:
@@ -197,6 +196,17 @@ public class GameHandler extends Thread {
             case ServerQueries.REQUEST_GAME:
                 handleRequest();
                 break;   
+            case ServerQueries.ACCEPT_GAME:
+                // sent msg to these 2 players to open the game
+                acceptGame(stringTokenizer.nextToken());
+                break;
+            case ServerQueries.REJECT_GAME:
+                // send msg to the sender to notify him with rejection
+                rejectGame(stringTokenizer.nextToken());
+                break;
+            case ServerQueries.START_GAME:
+                startGame(stringTokenizer.nextToken());
+                break;
             default:
                 System.out.println("UNEXPECTED ERROR MSG: " + msg);
         }
@@ -288,14 +298,67 @@ public class GameHandler extends Thread {
     //client2 <= server  recieve msg
     //client2 => server  response
     //client1 <= server  recieve respose
-    private void sendRequestToPlayer(String recieverUserName) {
+    private void sendRequestToPlayer(String usernameForPersonWhoReceiveTheRequest) {
+        new Thread(() -> {
+            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.WAITING);
+        }).start();
+        
         sessions
-                .get(recieverUserName)
+                .get(usernameForPersonWhoReceiveTheRequest)
                 .getHandler()
                 .ps
                 .println(ServerQueries
                         .REQUEST_GAME_FROM
+                        .concat(";")
                         .concat(currentPlayer
                                 .getUsername()));
+    }
+
+    private void rejectGame(String usernameForPersonWhoSentTheRequest) {
+        new Thread(() -> {
+            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.IDLE);
+        }).start();
+        
+        sessions
+                .get(usernameForPersonWhoSentTheRequest)
+                .getHandler()
+                .ps
+                .println(ServerQueries
+                        .REJECT_GAME
+                        .concat(";")
+                        .concat(currentPlayer
+                                .getUsername()));
+    }
+
+    private void acceptGame(String usernameForPersonWhoSentTheRequest) {
+        new Thread(() -> {
+            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.WAITING);
+        }).start();
+        
+        sessions
+                .get(usernameForPersonWhoSentTheRequest)
+                .getHandler()
+                .ps
+                .println(ServerQueries
+                        .ACCEPT_GAME
+                        .concat(";")
+                        .concat(currentPlayer
+                                .getUsername()));
+    }
+
+    private void startGame(String secondPlayer) {
+        Game game = new Game(currentPlayer, sessions.get(secondPlayer));
+        currentGames.add(game);
+        ps.println(ServerQueries.START_GAME);
+        game
+                .getPlayer2()
+                .getHandler()
+                .ps
+                .println(ServerQueries.START_GAME);
+        
+        new Thread(() -> {
+            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.IN_GAME);
+            playerMgr.updatePlayerStatus(secondPlayer, PlayerStatusValues.IN_GAME);
+        }).start();
     }
 }

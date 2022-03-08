@@ -265,9 +265,7 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         ButtonToOnlineUser.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //write your own code to do when click the button
-                //The name of the player you choose
-                //OnlinePlayerName.getText();
+                onlinePlayerScreenController.requestGameFrom(OnlinePlayerName.getText().trim());
             }
         });
         AnchorPane UserDetails = new AnchorPane();

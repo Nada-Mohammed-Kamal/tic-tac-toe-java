@@ -25,19 +25,27 @@ public class UIHelper {
             a.show();
         });
     }
-    public static  void  showDialogWithTwoOptions(Consumer<? super ButtonType> consumer){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    
+    public static Alert showWaitingAlertMessage() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
-        alert.setTitle("Current project is modified");
+        alert.setTitle("Waiting");
+        alert.setContentText("Waiting for player response...");
 
-        alert.setContentText("Save?");
+        alert.showAndWait();
+        return alert;
+    }
+    
+    public static void showDialogWithTwoOptions(Alert.AlertType type, String tilte, String contentText, String acceptBtnText, String rejectBtnText, Consumer<? super ButtonType> consumer){
+        Alert alert = new Alert(type);
 
-        ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        alert.setTitle(tilte);
+        alert.setContentText(contentText);
 
-        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        ButtonType okButton = new ButtonType(acceptBtnText, ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType(rejectBtnText, ButtonBar.ButtonData.NO);
 
         alert.getButtonTypes().setAll(okButton, noButton);
-
         alert.showAndWait().ifPresent(consumer);
     }
 }

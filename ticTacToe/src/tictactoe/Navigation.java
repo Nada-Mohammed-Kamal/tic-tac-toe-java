@@ -39,9 +39,12 @@ public class Navigation {
     public static void navigateToLogin(Stage stage) {
         navigateTo(stage, new LoginScreenBase(stage), Constants.LOGIN);
     }
-    
-        
+     
     public static void navigateToOnlinePlayersScreen(Stage stage) {
         navigateTo(stage, new OnlinePlayersScreen(stage), Constants.ONLINE_PLAYERS_SCREEN);
+    }
+    
+    public static void navigateToOnlineGame(Stage stage) {
+        navigateTo(stage, new GameOnlinePlayersScreen(stage), Constants.ONLINE_PLAYERS_SCREEN);
     }
 }

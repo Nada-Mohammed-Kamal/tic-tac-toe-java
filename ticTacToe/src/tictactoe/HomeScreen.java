@@ -1,7 +1,7 @@
 package tictactoe;
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import PersonVSBootWithAlert.PersonVSBoot;
-import DisplayAlert.DisplayAlertToTakeNamesOfLocalPlayers;
+import DisplayAlert.DisplayAlert;
 import tictactoe.login.LoginScreenBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -116,7 +116,7 @@ public class HomeScreen extends AnchorPane {
         singlePlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                 DisplayAlertToTakeNamesOfLocalPlayers.getPlayerNameOnOnePlayer(stage);    
+                 DisplayAlert.getPlayerNameOnOnePlayer(stage);    
                 //Navigation.navigateTo(stage, new PersonVSBoot(stage), "Home Screen");
                  
             }
@@ -134,7 +134,7 @@ public class HomeScreen extends AnchorPane {
         localMultiPlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DisplayAlertToTakeNamesOfLocalPlayers.getPlayersName(stage);      
+                DisplayAlert.getPlayersName(stage);      
             }
         });
        

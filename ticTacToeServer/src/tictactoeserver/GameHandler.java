@@ -79,8 +79,8 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
 //                sendMessageToAll(msg);
             } catch (SocketException ex) {
                 flag = false;
-                closeStream();
-
+                closeStreamAbnormally();
+                    //remove player from sessions //change state in db 
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,8 +106,30 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
         } catch (IOException ex1) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
+    }
+    private void closeStreamAbnormally() {
+        try {
+            flag = false;
+            dis.close();
+            ps.close();
+            bufferReader.close();
+            s.close();
+            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.CLOSING, currentPlayer.getStatus());
+            sessions.remove(currentPlayer.getUsername());
+            Integer id = null;
+            for(Game game : currentGames){
+                if(game.getPlayer1().equals(currentPlayer) || game.getPlayer2().equals(currentPlayer)){
+                    id = (Integer.parseInt(currentPlayer.getHandler().id));
+                }
+            }
+            //update the game to take the id and then remove it from the current games
+            //Game game = new Game(id);
+            currentGames.remove(this);
+            stop();
+        } catch (IOException ex1) {
+            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
+        }
     } 
-
     private void registerNewPlayer(String username, String password) {
         new Thread() {
             @Override
@@ -170,7 +192,8 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
     }
 
     private void closeNormally(String username) {
-        playerMgr.logOut(username);
+        playerMgr.logOut(username, currentPlayer.getStatus());
+        currentPlayer.setStatus(PlayerStatusValues.CLOSING);
     }
 
     private void checkCommand(String msg) {
@@ -180,7 +203,8 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
         switch (commandToExcute) {
             case ServerQueries.CLOSE_NORMALLY:
                 System.out.println("Client " + ServerQueries.CLOSE_NORMALLY);
-                playerMgr.logOut(currentPlayer.getUsername());
+                playerMgr.logOut(currentPlayer.getUsername(), currentPlayer.getStatus());
+                currentPlayer.setStatus(PlayerStatusValues.CLOSING);
                 ps.println(ServerQueries.CLOSE_NORMALLY);
                 closeStream();
                 break;
@@ -300,9 +324,9 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
     //client1 <= server  recieve respose
     private void sendRequestToPlayer(String usernameForPersonWhoReceiveTheRequest) {
         new Thread(() -> {
-            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.WAITING);
+            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.WAITING, currentPlayer.getStatus());
+            currentPlayer.setStatus(PlayerStatusValues.WAITING);
         }).start();
-        
         sessions
                 .get(usernameForPersonWhoReceiveTheRequest)
                 .getHandler()
@@ -316,7 +340,8 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
 
     private void rejectGame(String usernameForPersonWhoSentTheRequest) {
         new Thread(() -> {
-            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.IDLE);
+            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.IDLE, currentPlayer.getStatus());
+            currentPlayer.setStatus(PlayerStatusValues.IDLE);
         }).start();
         
         sessions
@@ -332,7 +357,8 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
 
     private void acceptGame(String usernameForPersonWhoSentTheRequest) {
         new Thread(() -> {
-            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.WAITING);
+            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.WAITING, currentPlayer.getStatus());
+            currentPlayer.setStatus(PlayerStatusValues.WAITING);
         }).start();
         
         sessions
@@ -357,8 +383,10 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
                 .println(ServerQueries.START_GAME);
         
         new Thread(() -> {
-            playerMgr.updatePlayerStatus(currentPlayer.getUsername(), PlayerStatusValues.IN_GAME);
-            playerMgr.updatePlayerStatus(secondPlayer, PlayerStatusValues.IN_GAME);
+            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.IN_GAME, currentPlayer.getStatus());
+            currentPlayer.setStatus(PlayerStatusValues.IN_GAME);
+            playerMgr.updatePlayerStatusOnDB(secondPlayer, PlayerStatusValues.IN_GAME, game.getPlayer2().getStatus());
+            game.getPlayer2().setStatus(PlayerStatusValues.IN_GAME);
         }).start();
     }
 

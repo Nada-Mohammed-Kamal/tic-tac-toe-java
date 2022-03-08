@@ -57,6 +57,9 @@ public class PlayerDto  {
         this.isOnline = isOnline;
         this.handler = handler;
     }
+    
+    
+    
 
     public String getUsername() {
         return username;

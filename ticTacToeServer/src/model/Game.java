@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Game{
 
+    
     private PlayerDto player1;
     private PlayerDto player2;
     ArrayList<String> Steps = new ArrayList<String>();

@@ -256,7 +256,7 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
     }
 
     @Override
-    public boolean updatePlayerStatus(String username, int state) {
+    public boolean updatePlayerStatusOnDB(String username, int state, int oldState) {
 
         boolean result = true;
         try {
@@ -272,6 +272,8 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
             result = false;
         }
         //Update if player
+        if(state == PlayerStatusValues.IDLE || oldState == PlayerStatusValues.IDLE )
+        updateAvailableOnlinePlayers();
         return result;
     }
 
@@ -291,7 +293,7 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
     }
 
     @Override
-    public boolean logOut(String username) {
+    public boolean logOut(String username, int oldState) {
         return updateIsPlayerOnline(username, false);
     }
     //init 
@@ -371,6 +373,7 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
         return result;
     }
     private void updateAvailableOnlinePlayers(){
+        
         
     }
     @Override

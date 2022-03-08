@@ -13,5 +13,6 @@ public class PlayerStatusValues {
     public static final int IN_GAME = 1;
     public static final int IDLE = 0;
     public static final int WAITING = 2;
+    public static final int CLOSING = -1;
 
 }

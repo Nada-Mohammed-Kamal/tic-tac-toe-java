@@ -5,6 +5,7 @@
  */
 package onlineplayerscreen;
 
+import DisplayAlert.DisplayAlert;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.application.Platform;
@@ -115,20 +116,27 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         String senderRequestUsername = stringTokenizer.nextToken();
         String contentText = senderRequestUsername.concat(" wants to play a game with you, Accept?");
         
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.YES, ButtonType.NO);
+        boolean requestPlayGame = DisplayAlert.requestPlayGame(contentText);
+        if (requestPlayGame) {
+            System.out.println("OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK ");
+            networkLayer.printStream(ServerQueries.ACCEPT_GAME.concat(";").concat(senderRequestUsername));
+            showWaitingAlertMessage = UIHelper.showWaitingAlertMessage();
+            showWaitingAlertMessage.show();
+        } else {
+            System.out.println("NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO ");
+            networkLayer.printStream(ServerQueries.REJECT_GAME.concat(";").concat(senderRequestUsername));
+        }
+        
+        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION, contentText, ButtonType.YES, ButtonType.NO);
         alert.setTitle("Game Request");
         alert.setContentText(contentText);
         
         ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
         if (ButtonType.NO.equals(result)) {
-            System.out.println("NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO ");
-            networkLayer.printStream(ServerQueries.REJECT_GAME.concat(";").concat(senderRequestUsername));
+            
         } else {
-            System.out.println("OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK ");
-            networkLayer.printStream(ServerQueries.ACCEPT_GAME.concat(";").concat(senderRequestUsername));
-            showWaitingAlertMessage = UIHelper.showWaitingAlertMessage();
-            showWaitingAlertMessage.show();
-        }
+            
+        }*/
     }
 
     @Override

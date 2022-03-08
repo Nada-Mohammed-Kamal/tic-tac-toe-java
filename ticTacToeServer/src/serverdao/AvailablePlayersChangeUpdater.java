@@ -5,10 +5,12 @@
  */
 package serverdao;
 
+import tictactoeserver.OnAvailablePlayersChangeListeners;
+
 /**
  *
  * @author abdelwahabzayed
  */
 public interface AvailablePlayersChangeUpdater {
-    public void setOnAvailablePlayersChangeListener();
+    public void setOnAvailablePlayersChangeListener(OnAvailablePlayersChangeListeners availablePlayersChangeListeners);
 }

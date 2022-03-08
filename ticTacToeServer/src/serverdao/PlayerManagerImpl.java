@@ -15,8 +15,10 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import tictactoeserver.OnAvailablePlayersChangeListeners;
 import tictactoeserver.OnPlayerCountChangeListener;
 import utils.AttributeConstants;
+import utils.PlayerStatusValues;
 import utils.ResultConstants;
 import utils.SQLQueriesConstants;
 //                                              WAITING
@@ -27,7 +29,6 @@ import utils.SQLQueriesConstants;
 //when any player In_GAME ==> IDEL
 //IDEL => WAITING 
 //WAITING => IDEL
-//
 //player is inGame XXX ===> offline ???
 //IDEL ==> 
 
@@ -38,6 +39,7 @@ import utils.SQLQueriesConstants;
 public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeUpdater {
 
     private OnPlayerCountChangeListener onPlayerCountChangeListener;
+    private OnAvailablePlayersChangeListeners onAvailablePlayersChangeListener;
     private ConnectionDB con;
     private static PlayerManager playerManager;
 
@@ -111,6 +113,7 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
 
             ps.executeUpdate();
             updateServerStatistics();
+            updateAvailableOnlinePlayers();
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,6 +211,7 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
                 } else {
                     result = ResultConstants.SUCCESSFULLY_LOGGINED;
                     updateIsPlayerOnline(userName, true);
+                    updateAvailableOnlinePlayers();
                 }
             } else {
                 // should be handeled as ResultConstants.UNREGISTERED_USER
@@ -267,7 +271,7 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
         }
-
+        //Update if player
         return result;
     }
 
@@ -290,19 +294,20 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
     public boolean logOut(String username) {
         return updateIsPlayerOnline(username, false);
     }
-
+    //init 
     @Override
-    public List<PlayerDto> getOnlinePlayersWithScores() {
+    public List<PlayerDto> getAvilableOnlinePlayersWithScores() {
 
         rs = null;
-        List<PlayerDto> onlinePlayers = new ArrayList<>();
+        List<PlayerDto> availableOnlinePlayers = new ArrayList<>();
 
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                onlinePlayers.add(new PlayerDto(rs.getString(AttributeConstants.USERNAME), "", rs.getInt(AttributeConstants.SCORE), true, null));
+                if(rs.getBoolean(AttributeConstants.ISONLINE) && rs.getInt(AttributeConstants.STATUS) == PlayerStatusValues.IDLE)
+                    availableOnlinePlayers.add(new PlayerDto(rs.getString(AttributeConstants.USERNAME), "", rs.getInt(AttributeConstants.SCORE), true, null));
             }
             ps.close();
             rs.close();
@@ -310,8 +315,11 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return onlinePlayers;
+        return availableOnlinePlayers;
     }
+    
+    
+
 
     @Override
     public PlayerDto getPlayer(String username) {
@@ -362,9 +370,12 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
 
         return result;
     }
-    @Override
-    public void setOnAvailablePlayersChangeListener() {
+    private void updateAvailableOnlinePlayers(){
         
+    }
+    @Override
+    public void setOnAvailablePlayersChangeListener(OnAvailablePlayersChangeListeners availablePlayersChangeListeners) {
+        this.onAvailablePlayersChangeListener = availablePlayersChangeListeners;
     }
 
 }

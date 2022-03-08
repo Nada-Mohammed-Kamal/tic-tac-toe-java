@@ -213,7 +213,7 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
     }
 
     private void getOnlineUsers() {
-        List<PlayerDto> onlinePlayers = playerMgr.getOnlinePlayersWithScores();
+        List<PlayerDto> onlinePlayers = playerMgr.getAvilableOnlinePlayersWithScores();
         //remove my name from the online list in order not to send to himself a request  
         System.out.println(currentPlayer.getUsername());
         onlinePlayers.remove(currentPlayer);

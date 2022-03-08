@@ -36,7 +36,7 @@ public class OnlineGameAlert extends AnchorPane {
         label.setLayoutY(14.0);
         label.setPrefHeight(30.0);
         label.setPrefWidth(566.0);
-        label.setText("Paly local game");
+        label.setText("Play online game");
         label.setTextFill(javafx.scene.paint.Color.valueOf("#aaaaaa"));
         label.setFont(new Font("Berlin Sans FB Demi Bold", 29.0));
 

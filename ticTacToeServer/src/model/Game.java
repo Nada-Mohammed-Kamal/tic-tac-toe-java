@@ -14,73 +14,51 @@ import java.util.ArrayList;
 public class Game{
 
     
-    private PlayerDto player1;
-    private PlayerDto player2;
-    ArrayList<String> Steps = new ArrayList<String>();
+    private PlayerDto playerX;
+    private PlayerDto playerO;
+    ArrayList<String> playerXSteps = new ArrayList<String>();
+    ArrayList<String> playerOSteps = new ArrayList<String>();
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Game && (((Game) obj).player1.equals(player1) || ((Game) obj).player1.equals(player2) || ((Game) obj).player2.equals(player1) || ((Game) obj).player2.equals(player2));
+        return obj instanceof Game && (((Game) obj).playerX.equals(playerX) || ((Game) obj).playerX.equals(playerO) || ((Game) obj).playerO.equals(playerX) || ((Game) obj).playerO.equals(playerO));
     }
     
     public Game(PlayerDto player1, PlayerDto player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+        this.playerX = player1;
+        this.playerO = player2;
     }
 
-    public PlayerDto getPlayer1() {
-        return player1;
+    public PlayerDto getPlayerX() {
+        return playerX;
     }
 
-    public void setPlayer1(PlayerDto player1) {
-        this.player1 = player1;
+    public void setPlayerX(PlayerDto playerX) {
+        this.playerX = playerX;
     }
 
-    public PlayerDto getPlayer2() {
-        return player2;
+    public PlayerDto getPlayerO() {
+        return playerO;
     }
 
-    public void setPlayer2(PlayerDto player2) {
-        this.player2 = player2;
+    public void setPlayerO(PlayerDto playerO) {
+        this.playerO = playerO;
     }
 
-    public ArrayList<String> getSteps() {
-        return Steps;
-    }
-
-    public void setSteps(ArrayList<String> Steps) {
-        this.Steps = Steps;
-    }
-
+//    int addPlayerXStep(String move) {
+//        playerXSteps.add(move);
+//        
+//    }
+//    
+//    int addPlayerOStep(String move) {
+//        playerOSteps.add(move);
+//    }
     
-    public void setStep(String step) {
-        Steps.add(step);
-        System.out.println("    " + step);
+    ArrayList<String> getPlayerXSteps() {
+        return playerXSteps;
     }
-
-    public int getStepLength() {
-        return Steps.lastIndexOf(Steps);
+    
+    ArrayList<String> getPlayerOSteps() {
+        return playerOSteps;
     }
-
-    public int someoneWin(int[][] p1, int[][] p2) {
-        //  0   0   1
-        //  0   1   0
-        //  1   0   0   
-        //0+0+0+0+0+1
-        int result = 0;
-        if (((p1[0][0] * p1[0][1] * p1[0][2]) + (p1[1][0] * p1[1][1] * p1[1][2]) + (p1[2][0] * p1[2][1] * p1[2][2]) + (p1[0][0] * p1[1][1] * p1[2][2]) + (p1[0][2] * p1[1][1] * p1[2][0])
-                + (p1[0][0] * p1[1][0] * p1[2][0]) + (p1[0][1] * p1[1][1] * p1[2][1]) + (p1[0][2] * p1[1][2] * p1[2][2])) > 0) {
-            result = 1;
-        }
-        if (((p2[0][0] * p2[0][1] * p2[0][2]) + (p2[1][0] * p2[1][1] * p2[1][2]) + (p2[2][0] * p2[2][1] * p2[2][2]) + (p2[0][0] * p2[1][1] * p2[2][2]) + (p2[0][2] * p2[1][1] * p2[2][0])
-                + (p2[0][0] * p2[1][0] * p2[2][0]) + (p2[0][1] * p2[1][1] * p2[2][1]) + (p2[0][2] * p2[1][2] * p2[2][2])) > 0) {
-            result = 2;
-        }
-        System.out.println("" + Steps.size());
-        if (Steps.size() == 5 && result == 0) {
-            result = 3;
-        }
-        return result;
-    }
-
 }

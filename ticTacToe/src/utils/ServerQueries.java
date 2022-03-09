@@ -27,4 +27,5 @@ public class ServerQueries {
     public static final String ACCEPT_GAME = "accept game";
     public static final String REJECT_GAME = "reject game";
     public static final String START_GAME = "start game";
+    public static final String TRANSACTION = "transaction";
 }

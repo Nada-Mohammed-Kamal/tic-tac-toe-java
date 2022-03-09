@@ -24,10 +24,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import utils.Role;
 
 interface OnlinePlayerScreenInterface {
 
-    void displaySecondPlayerData(String username, String score);
+    void displayPlayersData(String firstName, String firstPlayerRole, String secondName, String secondPlayerRole);
 }
 
 public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerScreenInterface{
@@ -54,14 +55,14 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
     protected final AnchorPane anchorPane1;
     protected final ImageView imageView;
     protected final Label label;
-    protected final Label label0;
-    protected final Label playerXresult;
+    protected final Label playerXName;
+    protected final Label playerXResult;
     protected final AnchorPane anchorPane2;
     protected final AnchorPane anchorPane3;
     protected final ImageView imageView0;
     protected final Label label1;
-    protected final Label label2;
-    protected final Label computerYResult;
+    protected final Label playerOName;
+    protected final Label playerOResult;
     protected final AnchorPane anchorPane4;
     protected final Button button;
     protected final ImageView imageView1;
@@ -72,12 +73,11 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
     protected final ImageView playAgainIcon;
       
     protected final AnchorPane anchorPanePlayAgain;
-    Vector<Integer> vc;
+    
     GameOnlinePlayerController gameOnlinePlayerController;
     
     public GameOnlinePlayersScreen(Stage stage, String secondPlayerName, String secondPlayerRole) {
         
-        vc = new Vector();
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -153,14 +153,14 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         anchorPane1 = new AnchorPane();
         imageView = new ImageView();
         label = new Label();
-        label0 = new Label();
-        playerXresult = new Label();
+        playerXName = new Label();
+        playerXResult = new Label();
         anchorPane2 = new AnchorPane();
         anchorPane3 = new AnchorPane();
         imageView0 = new ImageView();
         label1 = new Label();
-        label2 = new Label();
-        computerYResult = new Label();
+        playerOName = new Label();
+        playerOResult = new Label();
         anchorPane4 = new AnchorPane();
         button = new Button();
         imageView1 = new ImageView();
@@ -341,19 +341,19 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         label.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         label.setFont(new Font("Berlin Sans FB", 68.0));
         
-        label0.setLayoutX(5.0);
-        label0.setPrefHeight(75.0);
-        label0.setPrefWidth(193.0);
-        label0.setText("You");
-        label0.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        label0.setFont(new Font("Berlin Sans FB", 36.0));
+        playerXName.setLayoutX(5.0);
+        playerXName.setPrefHeight(75.0);
+        playerXName.setPrefWidth(193.0);
+        playerXName.setText("You");
+        playerXName.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        playerXName.setFont(new Font("Berlin Sans FB", 36.0));
 
-        playerXresult.setLayoutX(32.0);
-        playerXresult.setLayoutY(297.0);
-        playerXresult.setPrefHeight(54.0);
-        playerXresult.setPrefWidth(109.0);
-        playerXresult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        playerXresult.setFont(new Font("Berlin Sans FB", 24.0));
+        playerXResult.setLayoutX(32.0);
+        playerXResult.setLayoutY(297.0);
+        playerXResult.setPrefHeight(54.0);
+        playerXResult.setPrefWidth(109.0);
+        playerXResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        playerXResult.setFont(new Font("Berlin Sans FB", 24.0));
 
         
         GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
@@ -387,19 +387,19 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         label1.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         label1.setFont(new Font("Berlin Sans FB", 68.0));
 
-        label2.setLayoutX(3.0);
-        label2.setPrefHeight(64.0);
-        label2.setPrefWidth(193.0);
-        label2.setText("Computer");
-        label2.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        label2.setFont(new Font("Berlin Sans FB", 36.0));
+        playerOName.setLayoutX(3.0);
+        playerOName.setPrefHeight(64.0);
+        playerOName.setPrefWidth(193.0);
+        playerOName.setText("Computer");
+        playerOName.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        playerOName.setFont(new Font("Berlin Sans FB", 36.0));
 
-        computerYResult.setLayoutX(44.0);
-        computerYResult.setLayoutY(294.0);
-        computerYResult.setPrefHeight(54.0);
-        computerYResult.setPrefWidth(109.0);
-        computerYResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        computerYResult.setFont(new Font("Berlin Sans FB", 24.0));
+        playerOResult.setLayoutX(44.0);
+        playerOResult.setLayoutY(294.0);
+        playerOResult.setPrefHeight(54.0);
+        playerOResult.setPrefWidth(109.0);
+        playerOResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        playerOResult.setFont(new Font("Berlin Sans FB", 24.0));
 
         anchorPane4.setLayoutX(29.0);
         anchorPane4.setLayoutY(501.0);
@@ -443,15 +443,15 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         getChildren().add(anchorPane);
         anchorPane1.getChildren().add(imageView);
         anchorPane1.getChildren().add(label);
-        anchorPane1.getChildren().add(label0);
+        anchorPane1.getChildren().add(playerXName);
         anchorPane0.getChildren().add(anchorPane1);
-        anchorPane0.getChildren().add(playerXresult);
+        anchorPane0.getChildren().add(playerXResult);
         getChildren().add(anchorPane0);
         anchorPane3.getChildren().add(imageView0);
         anchorPane3.getChildren().add(label1);
-        anchorPane3.getChildren().add(label2);
+        anchorPane3.getChildren().add(playerOName);
         anchorPane2.getChildren().add(anchorPane3);
-        anchorPane2.getChildren().add(computerYResult);
+        anchorPane2.getChildren().add(playerOResult);
         getChildren().add(anchorPane2);
         anchorPane4.getChildren().add(button);
         anchorPane4.getChildren().add(imageView1);
@@ -465,17 +465,17 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         saveAchorPane.getChildren().add(savImageIcon);
         getChildren().add(saveAchorPane);
 
-        gameOnlinePlayerController = new GameOnlinePlayerControllerImpl(this, stage);
+        gameOnlinePlayerController = new GameOnlinePlayerControllerImpl(this, stage, secondPlayerName, secondPlayerRole);
     }
-    void hideAllXOButtonWhenGameFinished()
-    {
+    
+    void hideAllXOButtonWhenGameFinished() {
         gridPane.setVisible(false);
         anchorPanePlayAgain.setVisible(true);
         GameResultId.setVisible(true);
         saveAchorPane.setVisible(true);
     }
-    void playAgainButtonPressed(Stage stage)
-    {
+    
+    void playAgainButtonPressed(Stage stage) {
         gridPane.setVisible(true);
         b1.setDisable(false);
         b2.setDisable(false);
@@ -496,7 +496,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b7.setText("");
         b8.setText("");
         b9.setText("");
-        vc.clear();
+//        vc.clear();
         SaveButtonid.setDisable(false);
         anchorPanePlayAgain.setVisible(false);
         GameResultId.setVisible(false);
@@ -504,13 +504,19 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         stage.getScene().setCursor(Cursor.DEFAULT);
     }
     //Use it to store a moves of players in vector
-    void addMovesPlayers(int x)
-    {
-        vc.add(x);
-    }
+//    void addMovesPlayers(int x) {
+//        vc.add(x);
+//    }
 
     @Override
-    public void displaySecondPlayerData(String username, String score) {
+    public void displayPlayersData(String firstName, String firstPlayerRole, String secondName, String secondPlayerRole) {
+        if (firstPlayerRole.equals(Role.X)) {
+            playerXName.setText(firstName);
+            playerOName.setText(secondName);
+        } else {
+            playerXName.setText(secondName);
+            playerOName.setText(firstName);
+        }
         
     }
 }

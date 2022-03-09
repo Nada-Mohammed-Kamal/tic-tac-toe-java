@@ -238,6 +238,9 @@ public class GameHandler extends Thread {
             case ServerQueries.START_GAME:
                 startGame(stringTokenizer.nextToken());
                 break;
+            case ServerQueries.TRANSACTION:
+                handleTransaction(stringTokenizer.nextToken());
+                break;
             default:
                 System.out.println("UNEXPECTED ERROR MSG: " + msg);
         }
@@ -251,8 +254,8 @@ public class GameHandler extends Thread {
         System.out.println(onlinePlayers);
         //Should never happen!
         for(Game game : currentGames){
-            onlinePlayers.remove(game.getPlayer1());
-            onlinePlayers.remove(game.getPlayer2());
+            onlinePlayers.remove(game.getPlayerX());
+            onlinePlayers.remove(game.getPlayerO());
         }
         StringBuilder onlinePlayersString = new StringBuilder("");
         onlinePlayers.forEach((user) -> {
@@ -385,7 +388,7 @@ public class GameHandler extends Thread {
         currentGames.add(game);
         ps.println(ServerQueries.START_GAME.concat(";").concat(secondPlayer).concat(";").concat(Role.O));
         game
-                .getPlayer2()
+                .getPlayerO()
                 .getHandler()
                 .ps
                 .println(ServerQueries.START_GAME.concat(";").concat(currentPlayer.getUsername()).concat(";").concat(Role.X));
@@ -393,8 +396,8 @@ public class GameHandler extends Thread {
         new Thread(() -> {
             playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.IN_GAME, currentPlayer.getStatus());
             currentPlayer.setStatus(PlayerStatusValues.IN_GAME);
-            playerMgr.updatePlayerStatusOnDB(secondPlayer, PlayerStatusValues.IN_GAME, game.getPlayer2().getStatus());
-            game.getPlayer2().setStatus(PlayerStatusValues.IN_GAME);
+            playerMgr.updatePlayerStatusOnDB(secondPlayer, PlayerStatusValues.IN_GAME, game.getPlayerO().getStatus());
+            game.getPlayerO().setStatus(PlayerStatusValues.IN_GAME);
         }).start();
     }
 
@@ -411,5 +414,58 @@ public class GameHandler extends Thread {
                     .ps
                     .println(onlinePlayersString);
         });
+    }
+
+    private void handleTransaction(String transaction) {
+        Game temp = new Game(currentPlayer, currentPlayer);
+        
+        for (Game g : currentGames) {
+            if (g.equals(temp)) {
+                temp = g;
+                break;
+            }
+        }
+        
+        // send transaction to X, and O players
+        temp.getPlayerX().getHandler().ps.println(ServerQueries.TRANSACTION.concat(";").concat(transaction));
+        temp.getPlayerO().getHandler().ps.println(ServerQueries.TRANSACTION.concat(";").concat(transaction));
+        /*switch(move) {
+            case "11":
+                break;
+            case "21":
+                break;
+            case "31":
+                break;
+            case "41":
+                break;
+            case "51":
+                break;
+            case "61":
+                break;
+            case "71":
+                break;
+            case "81":
+                break;
+            case "91":
+                break;
+            case "12":
+                break;
+            case "22":
+                break;
+            case "32":
+                break;
+            case "42":
+                break;
+            case "52":
+                break;
+            case "62":
+                break;
+            case "72":
+                break;
+            case "82":
+                break;
+            case "92":
+                break;
+        }*/
     }
 }

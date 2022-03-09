@@ -81,6 +81,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     int playingCount = 0;
     int playerOneNumberOfWins = 0;
     int playerTwoNumberOfWins = 0;
+    int playerOneResult = 0;
+    int playerTwoResult = 0;
     Vector<Integer> vc;
     int numberofGameMovesInTheGame;
     ArrayList<Integer> playersRecorderMoves;
@@ -560,6 +562,7 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         {
             PlayVideo.displayVideo("draw","");
             GameResultId.setText("It's a tie");
+            
         }
         else
         {
@@ -644,11 +647,15 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     public void actionPerformedDependingOnTheWinner(String nameOfTheWinner){
         if(nameOfTheWinner.equals("player1"))
         {
+            playerOneResult++;
+            player1result.setText(String.valueOf(playerOneResult));
             playerwins(playerOneName);
             enableButtons();
         }
         else if(nameOfTheWinner.equals("player2"))
         {
+            playerTwoResult++;
+            player2result.setText(String.valueOf(playerTwoResult));
             playerwins(playerTwoName);
             enableButtons();
         }

@@ -10,14 +10,12 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import model.PlayerDto;
 import tictactoe.Navigation;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
-import utils.Constants;
 import utils.ErrorConstants;
 import utils.ServerQueries;
 import utils.UIHelper;
@@ -151,6 +149,6 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
             mDialog.close();
         else
             System.out.println("OnlinePlayerScreenControllerImpl private void startGame() mDialog == null");
-        Navigation.navigateToOnlineGame(stage);
+        Navigation.navigateToOnlineGame(stage, stringTokenizer.nextToken(), stringTokenizer.nextToken());
     }
 }

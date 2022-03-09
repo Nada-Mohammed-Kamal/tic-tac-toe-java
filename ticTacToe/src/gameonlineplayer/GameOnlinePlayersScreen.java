@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package gameonlineplayer;
 /**
  *
  * @author Esraa
@@ -14,8 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -27,7 +25,12 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class GameOnlinePlayersScreen extends AnchorPane {
+interface OnlinePlayerScreenInterface {
+
+    void displaySecondPlayerData(String username, String score);
+}
+
+public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerScreenInterface{
     
     protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
@@ -70,8 +73,9 @@ public class GameOnlinePlayersScreen extends AnchorPane {
       
     protected final AnchorPane anchorPanePlayAgain;
     Vector<Integer> vc;
-       
-    public GameOnlinePlayersScreen(Stage stage) {
+    GameOnlinePlayerController gameOnlinePlayerController;
+    
+    public GameOnlinePlayersScreen(Stage stage, String secondPlayerName, String secondPlayerRole) {
         
         vc = new Vector();
         anchorPane = new AnchorPane();
@@ -410,12 +414,8 @@ public class GameOnlinePlayersScreen extends AnchorPane {
         button.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    Parent root = new HomeScreen(stage);
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.show();
-                 }
+                gameOnlinePlayerController.onBackButtonPressed(stage);
+            }
         });
         imageView1.setFitHeight(50.0);
         imageView1.setFitWidth(52.0);
@@ -465,6 +465,7 @@ public class GameOnlinePlayersScreen extends AnchorPane {
         saveAchorPane.getChildren().add(savImageIcon);
         getChildren().add(saveAchorPane);
 
+        gameOnlinePlayerController = new GameOnlinePlayerControllerImpl(this, stage);
     }
     void hideAllXOButtonWhenGameFinished()
     {
@@ -506,5 +507,10 @@ public class GameOnlinePlayersScreen extends AnchorPane {
     void addMovesPlayers(int x)
     {
         vc.add(x);
+    }
+
+    @Override
+    public void displaySecondPlayerData(String username, String score) {
+        
     }
 }

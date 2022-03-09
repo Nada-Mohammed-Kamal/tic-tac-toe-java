@@ -5,6 +5,7 @@
  */
 package tictactoe;
 
+import gameonlineplayer.GameOnlinePlayersScreen;
 import onlineplayerscreen.OnlinePlayersScreen;
 import tictactoe.signup.SignUp;
 import javafx.scene.Parent;
@@ -44,7 +45,7 @@ public class Navigation {
         navigateTo(stage, new OnlinePlayersScreen(stage), Constants.ONLINE_PLAYERS_SCREEN);
     }
     
-    public static void navigateToOnlineGame(Stage stage) {
-        navigateTo(stage, new GameOnlinePlayersScreen(stage), Constants.ONLINE_PLAYERS_SCREEN);
+    public static void navigateToOnlineGame(Stage stage, String secondPlayerName, String secondPlayerRole) {
+        navigateTo(stage, new GameOnlinePlayersScreen(stage, secondPlayerName, secondPlayerRole), Constants.ONLINE_PLAYERS_SCREEN);
     }
 }

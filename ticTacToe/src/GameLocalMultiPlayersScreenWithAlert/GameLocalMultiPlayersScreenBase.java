@@ -1,6 +1,7 @@
 package GameLocalMultiPlayersScreenWithAlert;
 import DisplayAlert.PlayersNames;
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
+import SaveGame.SaveGame;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -511,29 +512,15 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                        try {
-                        numberofGameMovesInTheGame = player1Moves.size() + player2Moves.size();
-                        vc = new Vector<>(numberofGameMovesInTheGame);
-                        Date date = new Date();
-                        Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                        String s = formatter.format(date);
-                        BufferedWriter writer = new BufferedWriter(new FileWriter( playerOneName +"VS" + playerTwoName + s+".txt"));
-                            System.out.println(player1Moves);
-                            System.out.println(player2Moves);
-                        vc = convertToVector(player1Moves, player2Moves);
-                            System.out.println(vc);
-                        movesAsAString = convertVectorOfIntToString(vc);
-                            System.out.println(movesAsAString);
-                        concatenateNameInStringToSaveInFile(playerOneName , playerTwoName);
-                        writer.write(movesAsAString);
-                        writer.close();
-                        System.out.println("saved successfully");
-                        SaveButtonid.setDisable(true);
-                        } catch (Exception ex) {
-                            Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        System.out.println("");
-                      }
+                
+                numberofGameMovesInTheGame = player1Moves.size() + player2Moves.size();
+                vc = new Vector<>(numberofGameMovesInTheGame);
+                vc = convertToVector(player1Moves, player2Moves);
+                SaveGame.saveFile(new PlayersNames(playerOneName,playerTwoName),vc);
+                SaveButtonid.setDisable(true);
+                        
+                       
+            }
         });
        savImageIcon = new ImageView();
        savImageIcon.setFitHeight(40.0);
@@ -710,21 +697,6 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         return vc;
     } 
-    String convertVectorOfIntToString(Vector<Integer> vector){
-        String str = "";
-        for(int i = 0 ; i < vector.size() ; i++)
-        {
-            str += vector.get(i);
-            str += ",";
-        }
-        return str;
-    }
-    void concatenateNameInStringToSaveInFile(String name1 , String name2){
-        movesAsAString += "&";
-        movesAsAString += name1;
-        movesAsAString += "&";
-        movesAsAString += name2;
-    }    
     void convertStringFromFileToArrayListOfIntsAndPlayerNames(String strDatawithRecordedGameInfo){
         int i = 0;
         int res = strDatawithRecordedGameInfo.indexOf(",&");

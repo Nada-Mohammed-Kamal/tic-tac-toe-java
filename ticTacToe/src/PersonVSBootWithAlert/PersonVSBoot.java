@@ -1,16 +1,10 @@
 package PersonVSBootWithAlert;
 
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
-import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.text.Format;
-import java.text.SimpleDateFormat;
+import DisplayAlert.PlayersNames;
+import SaveGame.SaveGame;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -123,25 +117,8 @@ public class PersonVSBoot extends AnchorPane {
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                         try {
-                        Date date = new Date();
-                        Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                        String s = formatter.format(date);
-                        BufferedWriter writer = new BufferedWriter(new FileWriter( playersName+"VS" + "Computer" + s+".txt"));
-             
-                            System.out.println(vc);
-                        movesAsAString = convertVectorOfIntToString(vc);
-                            System.out.println(movesAsAString);
-                        concatenateNameInStringToSaveInFile(playersName , "Computer");
-                        writer.write(movesAsAString);
-                        writer.close();
-                        System.out.println("saved successfully");
+                        SaveGame.saveFile(new PlayersNames(playersName,"Computer"),vc);
                         SaveButtonid.setDisable(true);
-                        } catch (Exception ex) {
-                            Logger.getLogger(GameLocalMultiPlayersScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        System.out.println("");
-                     
                   }
         });
        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(SaveButtonid,stage);
@@ -729,19 +706,5 @@ public class PersonVSBoot extends AnchorPane {
         {
             vc.add(x);
         }
-        String convertVectorOfIntToString(Vector<Integer> vector){
-        String str = "";
-        for(int i = 0 ; i < vector.size() ; i++)
-        {
-            str += vector.get(i);
-            str += ",";
-        }
-        return str;
-    }
-    void concatenateNameInStringToSaveInFile(String name1 , String name2){
-        movesAsAString += "&";
-        movesAsAString += name1;
-        movesAsAString += "&";
-        movesAsAString += name2;
-    }    
+    
 }

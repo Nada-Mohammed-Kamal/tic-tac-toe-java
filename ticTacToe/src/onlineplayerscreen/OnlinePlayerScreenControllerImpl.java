@@ -45,7 +45,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         this.onlinePlayerScreenInterface = onlinePlayerScreenInterface;
         this.stage = stage;
         networkLayer = NetworkLayerImpl.getInstance(this);
-        networkLayer.printStream(ServerQueries.GET_ONLINE_USERS);
+        //networkLayer.printStream(ServerQueries.GET_ONLINE_USERS);
         onlinePlayerScreenInterface.displayUserData(networkLayer.getUsername(),
                 networkLayer.getScore());
     }
@@ -87,11 +87,11 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
 
     private void showOnlineUsers() {
         ArrayList<PlayerDto> players = new ArrayList<>();
-        players.remove(new PlayerDto(networkLayer.getUsername(), "", 0, true));
         while (stringTokenizer.hasMoreTokens()) {
             String[] player = stringTokenizer.nextToken().split("~");
             players.add(new PlayerDto(player[0], "", Integer.parseInt(player[1]), true));
         }
+        players.remove(new PlayerDto(networkLayer.getUsername(), "", 0, true));
         onlinePlayerScreenInterface.updateOnlinePlayersList(players);
     }
 

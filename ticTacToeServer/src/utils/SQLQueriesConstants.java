@@ -14,7 +14,7 @@ public class SQLQueriesConstants {
     public static final String SELECT_ALL_COL_FOR_USERNAME = "SELECT * FROM PLAYERS WHERE USERNAME = ?";
     public static final String SELECT_ONLINE_PLAYERS = "SELECT * FROM PLAYERS WHERE ISONLINE = true";
     public static final String SELECT_ALL_PLAYERS = "SELECT * FROM PLAYERS";
-    public static final String UPDATE_PLAYER_STATE = "UPDATE PLAYERS SET ISONLINE = ? WHERE USERNAME = ?";
+    public static final String UPDATE_PLAYER_STATE = "UPDATE PLAYERS SET ISONLINE = ? ,STATUS = ? WHERE USERNAME = ?";
     public static final String UPDATE_PLAYER_SCORE = "UPDATE PLAYERS SET SCORE = ? WHERE USERNAME = ?";
     public static final String UPDATE_PLAYER_STATUS = "UPDATE PLAYERS SET STATUS = ? WHERE USERNAME = ?";
     public static final String UPDATE_SET_PLAYERS_OFFLINE = "UPDATE PLAYERS SET ISONLINE = false";

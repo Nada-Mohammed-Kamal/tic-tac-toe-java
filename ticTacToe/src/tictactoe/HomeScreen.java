@@ -159,9 +159,9 @@ public class HomeScreen extends AnchorPane {
         records.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-  
+                
                 Navigation.navigateTo(stage,new RecordedScreen(stage), "Recorded screen");
-                 
+                
             }
         });
         

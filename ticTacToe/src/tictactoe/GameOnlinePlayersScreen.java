@@ -8,6 +8,7 @@ package tictactoe;
  *
  * @author Esraa
  */
+import java.util.Vector;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -68,10 +69,11 @@ public class GameOnlinePlayersScreen extends AnchorPane {
     protected final ImageView playAgainIcon;
       
     protected final AnchorPane anchorPanePlayAgain;
-  
+    Vector<Integer> vc;
+       
     public GameOnlinePlayersScreen(Stage stage) {
         
-        
+        vc = new Vector();
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -107,11 +109,15 @@ public class GameOnlinePlayersScreen extends AnchorPane {
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                  //Plyaer1 name & player2 name & vector of int conatin the game moves
+                  //Note : There's a class named PlayersNames that contain 
+                  //two string and it's getter and setter please use it.
+                  //Ex:
+                  //SaveGame.saveFile(new PlayersNames(playersName,"Computer"),vc);
+                        SaveButtonid.setDisable(true);
                   }
         });
-        SaveButtonid.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
+        
        
        savImageIcon.setFitHeight(40.0);
        savImageIcon.setFitWidth(48.0);
@@ -459,5 +465,46 @@ public class GameOnlinePlayersScreen extends AnchorPane {
         saveAchorPane.getChildren().add(savImageIcon);
         getChildren().add(saveAchorPane);
 
+    }
+    void hideAllXOButtonWhenGameFinished()
+    {
+        gridPane.setVisible(false);
+        anchorPanePlayAgain.setVisible(true);
+        GameResultId.setVisible(true);
+        saveAchorPane.setVisible(true);
+    }
+    void playAgainButtonPressed(Stage stage)
+    {
+        gridPane.setVisible(true);
+        b1.setDisable(false);
+        b2.setDisable(false);
+        b3.setDisable(false);
+        b4.setDisable(false);
+        b5.setDisable(false);
+        b6.setDisable(false);
+        b7.setDisable(false);
+        b8.setDisable(false);
+        b9.setDisable(false);
+
+        b1.setText("");
+        b2.setText("");
+        b3.setText("");
+        b4.setText("");
+        b5.setText("");
+        b6.setText("");
+        b7.setText("");
+        b8.setText("");
+        b9.setText("");
+        vc.clear();
+        SaveButtonid.setDisable(false);
+        anchorPanePlayAgain.setVisible(false);
+        GameResultId.setVisible(false);
+        saveAchorPane.setVisible(false);
+        stage.getScene().setCursor(Cursor.DEFAULT);
+    }
+    //Use it to store a moves of players in vector
+    void addMovesPlayers(int x)
+    {
+        vc.add(x);
     }
 }

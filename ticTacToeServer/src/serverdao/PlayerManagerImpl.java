@@ -15,6 +15,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import tictactoeserver.GameHandler;
 import tictactoeserver.OnAvailablePlayersChangeListeners;
 import tictactoeserver.OnPlayerCountChangeListener;
 import utils.AttributeConstants;
@@ -36,7 +37,7 @@ import utils.SQLQueriesConstants;
  *
  * @author AhmedAli
  */
-public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeUpdater {
+public class PlayerManagerImpl implements PlayerManager {
 
     private OnPlayerCountChangeListener onPlayerCountChangeListener;
     private OnAvailablePlayersChangeListeners onAvailablePlayersChangeListener;
@@ -109,11 +110,11 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_PLAYER_STATE);
 
             ps.setBoolean(1, isOnline);
-            ps.setString(2, username);
+            ps.setInt(2, PlayerStatusValues.IDLE);
+            ps.setString(3, username);
 
             ps.executeUpdate();
             updateServerStatistics();
-            updateAvailableOnlinePlayers();
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -211,7 +212,6 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
                 } else {
                     result = ResultConstants.SUCCESSFULLY_LOGGINED;
                     updateIsPlayerOnline(userName, true);
-                    updateAvailableOnlinePlayers();
                 }
             } else {
                 // should be handeled as ResultConstants.UNREGISTERED_USER
@@ -294,7 +294,12 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
 
     @Override
     public boolean logOut(String username, int oldState) {
-        return updateIsPlayerOnline(username, false);
+        boolean result =false;
+        result = updateIsPlayerOnline(username, false);
+        if(oldState == PlayerStatusValues.IDLE)
+            updateAvailableOnlinePlayers();
+
+        return result;
     }
     //init 
     @Override
@@ -308,7 +313,7 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                if(rs.getBoolean(AttributeConstants.ISONLINE) && rs.getInt(AttributeConstants.STATUS) == PlayerStatusValues.IDLE)
+                if(rs.getBoolean(AttributeConstants.ISONLINE) && rs.getInt(AttributeConstants.STATUS) == PlayerStatusValues.IDLE)//Null in handler take Care
                     availableOnlinePlayers.add(new PlayerDto(rs.getString(AttributeConstants.USERNAME), "", rs.getInt(AttributeConstants.SCORE), true, null));
             }
             ps.close();
@@ -373,12 +378,10 @@ public class PlayerManagerImpl implements PlayerManager, AvailablePlayersChangeU
         return result;
     }
     private void updateAvailableOnlinePlayers(){
-        
-        
+        new Thread(()->{
+            GameHandler.onAvailablePlayersChangee(getAvilableOnlinePlayersWithScores());
+        }).start();
     }
-    @Override
-    public void setOnAvailablePlayersChangeListener(OnAvailablePlayersChangeListeners availablePlayersChangeListeners) {
-        this.onAvailablePlayersChangeListener = availablePlayersChangeListeners;
-    }
+   
 
 }

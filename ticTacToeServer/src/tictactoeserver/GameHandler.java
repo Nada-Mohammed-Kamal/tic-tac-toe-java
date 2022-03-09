@@ -35,7 +35,7 @@ import utils.ServerQueries;
  *
  * @author AhmedAli
  */
-public class GameHandler extends Thread implements OnAvailablePlayersChangeListeners {
+public class GameHandler extends Thread {
 
     InputStreamReader dis = null;
     PrintStream ps = null;
@@ -50,7 +50,7 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
     
     private String id = UUID.randomUUID().toString();
     private static Vector<GameHandler> inActiveSession = new Vector<>();
-
+    
     public GameHandler(Socket cs, Stage stage) {
         try {
             this.s = cs;
@@ -101,8 +101,11 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
             ps.close();
             bufferReader.close();
             s.close();
-            //currentGames.remove(this);
-            stop();
+            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.CLOSING, currentPlayer.getStatus());
+            sessions.remove(currentPlayer.getUsername());
+            Integer id = null;
+            currentGames.remove(new Game(currentPlayer,currentPlayer));
+            currentPlayer=null;            stop();
         } catch (IOException ex1) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
@@ -114,17 +117,12 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
             ps.close();
             bufferReader.close();
             s.close();
+            //TODO should be in Thread but take care of refrence!
             playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.CLOSING, currentPlayer.getStatus());
             sessions.remove(currentPlayer.getUsername());
             Integer id = null;
-            for(Game game : currentGames){
-                if(game.getPlayer1().equals(currentPlayer) || game.getPlayer2().equals(currentPlayer)){
-                    id = (Integer.parseInt(currentPlayer.getHandler().id));
-                }
-            }
-            //update the game to take the id and then remove it from the current games
-            //Game game = new Game(id);
-            currentGames.remove(this);
+            currentGames.remove(new Game(currentPlayer,currentPlayer));
+            currentPlayer=null;
             stop();
         } catch (IOException ex1) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
@@ -167,6 +165,7 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
                         ps.println(AuthenticationConstants.SUCCESS_LOGIN.concat(";").concat(username).concat(";").concat(String.valueOf(scoreRefrence)));
                         sessions.put(username, currentPlayer);
                         GameHandler.inActiveSession.remove(GameHandler.this);
+                        onAvailablePlayersChangee(playerMgr.getAvilableOnlinePlayersWithScores());
                         break;
                     case ResultConstants.WRONG_USERNAME_OR_PASSWORD:
                         ps.println(AuthenticationConstants.WRONG_USERNAME_OR_PASSWORD);
@@ -242,6 +241,7 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
         System.out.println(currentPlayer.getUsername());
         onlinePlayers.remove(currentPlayer);
         System.out.println(onlinePlayers);
+        //Should never happen!
         for(Game game : currentGames){
             onlinePlayers.remove(game.getPlayer1());
             onlinePlayers.remove(game.getPlayer2());
@@ -390,8 +390,18 @@ public class GameHandler extends Thread implements OnAvailablePlayersChangeListe
         }).start();
     }
 
-    @Override
-    public void onAvailablePlayersChange() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void onAvailablePlayersChangee(List<PlayerDto> avilableOnlinePlayersWithScores) {
+        StringBuilder onlinePlayersString = new StringBuilder("");
+        avilableOnlinePlayersWithScores.forEach((user) -> {
+            onlinePlayersString.append(";").append(user.getUsername()).append("~").append(user.getScore());
+        });
+        onlinePlayersString.insert(0,ServerQueries.ONLINE_USERS);
+        avilableOnlinePlayersWithScores.forEach((player) -> {
+            sessions
+                    .get(player.getUsername())
+                    .getHandler()
+                    .ps
+                    .println(onlinePlayersString);
+        });
     }
 }

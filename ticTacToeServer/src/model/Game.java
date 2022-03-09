@@ -18,6 +18,11 @@ public class Game{
     private PlayerDto player2;
     ArrayList<String> Steps = new ArrayList<String>();
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Game && (((Game) obj).player1.equals(player1) || ((Game) obj).player1.equals(player2) || ((Game) obj).player2.equals(player1) || ((Game) obj).player2.equals(player2));
+    }
+    
     public Game(PlayerDto player1, PlayerDto player2) {
         this.player1 = player1;
         this.player2 = player2;

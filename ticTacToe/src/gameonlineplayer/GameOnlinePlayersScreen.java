@@ -323,7 +323,8 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         PlayAgainButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         PlayAgainButtonid.setFont(new Font("Berlin Sans FB", 33.0));
         PlayAgainButtonid.setOnAction(value ->{
-            //playAgainButtonPressed();
+            PlayAgainButtonid.setText("       Waiting");
+             PlayAgainButtonid.setDisable(true);
             gameOnlinePlayerController.playAgianButtonPressed();
         });
         
@@ -504,6 +505,8 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         anchorPanePlayAgain.setVisible(false);
         GameResultId.setVisible(false);
         saveAchorPane.setVisible(false);
+        PlayAgainButtonid.setDisable(false);
+        PlayAgainButtonid.setText("       Play Again");
     }
     @Override
     public void displayPlayersData(String firstName, String firstPlayerRole, String secondName, String secondPlayerRole) {

@@ -9,7 +9,6 @@ package gameonlineplayer;
  *
  * @author Esraa
  */
-import java.util.Vector;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

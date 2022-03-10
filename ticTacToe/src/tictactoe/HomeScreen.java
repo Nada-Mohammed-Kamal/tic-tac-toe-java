@@ -1,11 +1,9 @@
 package tictactoe;
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
-import PersonVSBootWithAlert.PersonVSBoot;
 import DisplayAlert.DisplayAlert;
 import tictactoe.login.LoginScreenBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;

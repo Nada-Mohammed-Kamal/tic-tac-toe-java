@@ -9,7 +9,6 @@ import MediaPlayer.VideoFXMLBase;
 import javafx.animation.PauseTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;

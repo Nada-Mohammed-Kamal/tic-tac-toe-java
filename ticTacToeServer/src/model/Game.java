@@ -6,6 +6,7 @@
 package model;
 
 import java.util.ArrayList;
+import utils.GameManagerHelper;
 
 /**
  *
@@ -16,8 +17,8 @@ public class Game{
     
     private PlayerDto playerX;
     private PlayerDto playerO;
-    ArrayList<String> playerXSteps = new ArrayList<String>();
-    ArrayList<String> playerOSteps = new ArrayList<String>();
+    ArrayList<Integer> playerXSteps = new ArrayList<Integer>();
+    ArrayList<Integer> playerOSteps = new ArrayList<Integer>();
 
     @Override
     public boolean equals(Object obj) {
@@ -45,20 +46,21 @@ public class Game{
         this.playerO = playerO;
     }
 
-//    int addPlayerXStep(String move) {
-//        playerXSteps.add(move);
-//        
-//    }
-//    
-//    int addPlayerOStep(String move) {
-//        playerOSteps.add(move);
-//    }
+    public int addPlayerXStep(int move) {
+        playerXSteps.add(move);
+        return GameManagerHelper.detectWin(playerXSteps, playerOSteps);  
+    }
     
-    ArrayList<String> getPlayerXSteps() {
+    public int addPlayerOStep(int move) {
+        playerOSteps.add(move);
+        return GameManagerHelper.detectWin(playerXSteps, playerOSteps);  
+    }
+    
+    ArrayList<Integer> getPlayerXSteps() {
         return playerXSteps;
     }
     
-    ArrayList<String> getPlayerOSteps() {
+    ArrayList<Integer> getPlayerOSteps() {
         return playerOSteps;
     }
 }

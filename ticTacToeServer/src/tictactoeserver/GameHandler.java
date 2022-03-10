@@ -27,6 +27,7 @@ import serverdao.ConnectionDB;
 import serverdao.PlayerManager;
 import serverdao.PlayerManagerImpl;
 import utils.AuthenticationConstants;
+import utils.GameResult;
 import utils.PlayerStatusValues;
 import utils.ResultConstants;
 import utils.Role;
@@ -239,7 +240,7 @@ public class GameHandler extends Thread {
                 startGame(stringTokenizer.nextToken());
                 break;
             case ServerQueries.TRANSACTION:
-                handleTransaction(stringTokenizer.nextToken());
+                handleTransaction();
                 break;
             default:
                 System.out.println("UNEXPECTED ERROR MSG: " + msg);
@@ -416,56 +417,53 @@ public class GameHandler extends Thread {
         });
     }
 
-    private void handleTransaction(String transaction) {
+    private void handleTransaction() {
         Game temp = new Game(currentPlayer, currentPlayer);
-        
+        int step = Integer.parseInt(stringTokenizer.nextToken());
+        String role = stringTokenizer.nextToken();
+        String transaction = "".concat(""+step).concat(";").concat(role);
         for (Game g : currentGames) {
             if (g.equals(temp)) {
                 temp = g;
                 break;
             }
         }
+        int result = addStepForPlayer(temp, role, step);
         
-        // send transaction to X, and O players
-        temp.getPlayerX().getHandler().ps.println(ServerQueries.TRANSACTION.concat(";").concat(transaction));
-        temp.getPlayerO().getHandler().ps.println(ServerQueries.TRANSACTION.concat(";").concat(transaction));
-        /*switch(move) {
-            case "11":
-                break;
-            case "21":
-                break;
-            case "31":
-                break;
-            case "41":
-                break;
-            case "51":
-                break;
-            case "61":
-                break;
-            case "71":
-                break;
-            case "81":
-                break;
-            case "91":
-                break;
-            case "12":
-                break;
-            case "22":
-                break;
-            case "32":
-                break;
-            case "42":
-                break;
-            case "52":
-                break;
-            case "62":
-                break;
-            case "72":
-                break;
-            case "82":
-                break;
-            case "92":
-                break;
-        }*/
+        checkResult(temp , transaction, result);
     }
+
+    private int addStepForPlayer(Game temp,String role, int step) {
+        if(role.equals(Role.X)){
+            return temp.addPlayerXStep(step);
+        }else{
+            return  temp.addPlayerOStep(step);
+        }
+    }
+
+    private void checkResult(Game temp, String transaction, int result) {//transaction;1;X // 2;O
+        switch(result){
+            case GameResult.O_WIN:
+                sendGameTransaction(temp, ServerQueries.O_WIN.concat(";").concat(transaction));
+                break;
+            case GameResult.X_WIN:
+                sendGameTransaction(temp, ServerQueries.X_WIN.concat(";").concat(transaction));
+                break;
+            case GameResult.TIE:
+                sendGameTransaction(temp, ServerQueries.TIE.concat(";").concat(transaction));
+                break;
+            case GameResult.CONTINUE_PLAYING:
+                 sendGameTransaction(temp,ServerQueries.TRANSACTION.concat(";").concat(transaction));
+                break;
+        }
+    }
+
+    private void sendGameTransaction(Game temp, String query) {
+        temp.getPlayerX().getHandler().ps.println(query);
+        temp.getPlayerO().getHandler().ps.println(query);
+    }
+    
+    
+    
+
 }

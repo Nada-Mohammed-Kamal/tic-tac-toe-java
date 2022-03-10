@@ -28,4 +28,8 @@ public class ServerQueries {
     public static final String REJECT_GAME = "reject game";
     public static final String START_GAME = "start game";
     public static final String TRANSACTION = "transaction";
+    public static final String X_WIN = "X win";//; + transaction
+    public static final String O_WIN = "O win";//; + transaction
+    public static final String TIE = "tie";//; + transaction
+
 }

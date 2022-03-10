@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package gameonlineplayer;
+
 /**
  *
  * @author Esraa
@@ -26,13 +27,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import utils.Role;
 
-interface OnlinePlayerScreenInterface {
+interface GameOnlinePlayersScreenInterface {
+
+    void displayStepOnBtn(String role, String step);
 
     void displayPlayersData(String firstName, String firstPlayerRole, String secondName, String secondPlayerRole);
 }
 
-public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerScreenInterface{
-    
+public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePlayersScreenInterface{
+
     protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
@@ -71,13 +74,13 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
     protected final ImageView savImageIcon;
     protected final AnchorPane saveAchorPane;
     protected final ImageView playAgainIcon;
-      
+
     protected final AnchorPane anchorPanePlayAgain;
-    
+
     GameOnlinePlayerController gameOnlinePlayerController;
-    
+
     public GameOnlinePlayersScreen(Stage stage, String secondPlayerName, String secondPlayerRole) {
-        
+
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -88,7 +91,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         rowConstraints1 = new RowConstraints();
         GameResultId = new Label();
         GameResultId.setVisible(false);
-       
+
         b3 = new Button();
         b6 = new Button();
         b2 = new Button();
@@ -97,12 +100,12 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b8 = new Button();
         b9 = new Button();
         b4 = new Button();
-        b7 = new Button(); 
+        b7 = new Button();
         savImageIcon = new ImageView();
         SaveButtonid = new Button();
         saveAchorPane = new AnchorPane();
         saveAchorPane.setVisible(false);
-        
+
         SaveButtonid.setMnemonicParsing(false);
         SaveButtonid.setPrefHeight(75.0);
         SaveButtonid.setPrefWidth(195.0);
@@ -113,22 +116,21 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                  //Plyaer1 name & player2 name & vector of int conatin the game moves
-                  //Note : There's a class named PlayersNames that contain 
-                  //two string and it's getter and setter please use it.
-                  //Ex:
-                  //SaveGame.saveFile(new PlayersNames(playersName,"Computer"),vc);
-                        SaveButtonid.setDisable(true);
-                  }
+                //Plyaer1 name & player2 name & vector of int conatin the game moves
+                //Note : There's a class named PlayersNames that contain 
+                //two string and it's getter and setter please use it.
+                //Ex:
+                //SaveGame.saveFile(new PlayersNames(playersName,"Computer"),vc);
+                SaveButtonid.setDisable(true);
+            }
         });
-        
-       
-       savImageIcon.setFitHeight(40.0);
-       savImageIcon.setFitWidth(48.0);
-       savImageIcon.setLayoutX(16.0);
-       savImageIcon.setLayoutY(16.0);
-       savImageIcon.setOpacity(0.47);
-       savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
+
+        savImageIcon.setFitHeight(40.0);
+        savImageIcon.setFitWidth(48.0);
+        savImageIcon.setLayoutX(16.0);
+        savImageIcon.setLayoutY(16.0);
+        savImageIcon.setOpacity(0.47);
+        savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
 
         anchorPanePlayAgain = new AnchorPane();
         anchorPanePlayAgain.setLayoutX(378.0);
@@ -136,10 +138,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         anchorPanePlayAgain.setPrefHeight(75.0);
         anchorPanePlayAgain.setPrefWidth(259.0);
         anchorPanePlayAgain.setVisible(false);
-        
+
         saveAchorPane.setLayoutX(779.0);
         saveAchorPane.setLayoutY(500.0);
-        
+
         PlayAgainButtonid = new Button();
         playAgainIcon = new ImageView();
         playAgainIcon.setFitHeight(54.0);
@@ -148,7 +150,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         playAgainIcon.setLayoutY(11.0);
         playAgainIcon.setOpacity(0.47);
         playAgainIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/refresh.png")));
-       
+
         anchorPane0 = new AnchorPane();
         anchorPane1 = new AnchorPane();
         imageView = new ImageView();
@@ -164,7 +166,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         anchorPane4 = new AnchorPane();
         button = new Button();
         imageView1 = new ImageView();
-      
+
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
@@ -201,17 +203,17 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         rowConstraints1.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
 
         GridPane.setColumnIndex(b3, 2);
-        
+
         b3.setMnemonicParsing(false);
         b3.setPrefHeight(95.0);
         b3.setPrefWidth(133.0);
         b3.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b3.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b3.setFont(new Font("Berlin Sans FB", 42.0));
-        b3.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
+        b3.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("3", b3.getText());
         });
-        
+
         GridPane.setColumnIndex(b6, 2);
         GridPane.setRowIndex(b6, 1);
         b6.setMnemonicParsing(false);
@@ -220,10 +222,9 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b6.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b6.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b6.setFont(new Font("Berlin Sans FB", 42.0));
-        b6.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
+        b6.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("6", b6.getText());
         });
-        
         GridPane.setColumnIndex(b2, 1);
         b2.setMnemonicParsing(false);
         b2.setPrefHeight(95.0);
@@ -231,20 +232,20 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b2.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b2.setFont(new Font("Berlin Sans FB", 42.0));
-        b2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
+        b2.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("2", b2.getText());
         });
-        
+
         b1.setMnemonicParsing(false);
         b1.setPrefHeight(95.0);
         b1.setPrefWidth(133.0);
         b1.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b1.setFont(new Font("Berlin Sans FB", 42.0));
-        b1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-           
+        b1.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("1", b1.getText());
         });
-        
+
         GridPane.setColumnIndex(b5, 1);
         GridPane.setRowIndex(b5, 1);
         b5.setMnemonicParsing(false);
@@ -253,10 +254,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b5.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b5.setFont(new Font("Berlin Sans FB", 42.0));
-        b5.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
+        b5.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("5", b5.getText());
         });
-        
+
         GridPane.setColumnIndex(b8, 1);
         GridPane.setRowIndex(b8, 2);
         b8.setMnemonicParsing(false);
@@ -265,10 +266,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b8.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b8.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b8.setFont(new Font("Berlin Sans FB", 42.0));
-        b8.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
+        b8.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("8", b8.getText());
         });
-        
+
         GridPane.setColumnIndex(b9, 2);
         GridPane.setRowIndex(b9, 2);
         b9.setMnemonicParsing(false);
@@ -277,10 +278,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b9.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b9.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b9.setFont(new Font("Berlin Sans FB", 42.0));
-        b9.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
+        b9.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("9", b9.getText());
         });
-        
+
         GridPane.setRowIndex(b4, 1);
         b4.setMnemonicParsing(false);
         b4.setPrefHeight(95.0);
@@ -288,10 +289,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b4.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b4.setFont(new Font("Berlin Sans FB", 42.0));
-        b4.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
+        b4.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("4", b4.getText());
         });
-        
+
         GridPane.setRowIndex(b7, 2);
         b7.setMnemonicParsing(false);
         b7.setPrefHeight(95.0);
@@ -299,10 +300,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         b7.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         b7.setFont(new Font("Berlin Sans FB", 42.0));
-        b7.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-          
+        b7.setOnAction(value->{
+            gameOnlinePlayerController.onTakeStep("7", b7.getText());
         });
-        
+
         AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
         AnchorPane.setLeftAnchor(PlayAgainButtonid, 0.0);
         AnchorPane.setRightAnchor(PlayAgainButtonid, 0.0);
@@ -314,11 +315,11 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         PlayAgainButtonid.setText("       Play Again");
         PlayAgainButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         PlayAgainButtonid.setFont(new Font("Berlin Sans FB", 33.0));
-        PlayAgainButtonid.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
+        PlayAgainButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-               
-                 }
+
+            }
         });
         PlayAgainButtonid.setOnMouseEntered((event) -> {
             stage.getScene().setCursor(Cursor.HAND);
@@ -334,13 +335,13 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         imageView.setLayoutY(94.0);
         imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
         imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
-       
+
         label.setLayoutX(144.0);
         label.setLayoutY(222.0);
         label.setText("X");
         label.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
         label.setFont(new Font("Berlin Sans FB", 68.0));
-        
+
         playerXName.setLayoutX(5.0);
         playerXName.setPrefHeight(75.0);
         playerXName.setPrefWidth(193.0);
@@ -355,7 +356,6 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         playerXResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         playerXResult.setFont(new Font("Berlin Sans FB", 24.0));
 
-        
         GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
         GameResultId.setLayoutX(339.0);
         GameResultId.setLayoutY(219.0);
@@ -367,7 +367,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         GameResultId.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         GameResultId.setTextOverrun(javafx.scene.control.OverrunStyle.CENTER_ELLIPSIS);
         GameResultId.setFont(new Font("Berlin Sans FB", 24.0));
-        
+
         anchorPane2.setLayoutX(763.0);
         anchorPane2.setLayoutY(104.0);
 
@@ -411,7 +411,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         button.setText("       Back");
         button.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         button.setFont(new Font("Berlin Sans FB", 33.0));
-        button.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
+        button.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 gameOnlinePlayerController.onBackButtonPressed(stage);
@@ -458,23 +458,23 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
         getChildren().add(anchorPane4);
         anchorPanePlayAgain.getChildren().add(PlayAgainButtonid);
         anchorPanePlayAgain.getChildren().add(playAgainIcon);
-        getChildren().add(anchorPanePlayAgain);   
+        getChildren().add(anchorPanePlayAgain);
         getChildren().add(GameResultId);
-        
+
         saveAchorPane.getChildren().add(SaveButtonid);
         saveAchorPane.getChildren().add(savImageIcon);
         getChildren().add(saveAchorPane);
 
         gameOnlinePlayerController = new GameOnlinePlayerControllerImpl(this, stage, secondPlayerName, secondPlayerRole);
     }
-    
+
     void hideAllXOButtonWhenGameFinished() {
         gridPane.setVisible(false);
         anchorPanePlayAgain.setVisible(true);
         GameResultId.setVisible(true);
         saveAchorPane.setVisible(true);
     }
-    
+
     void playAgainButtonPressed(Stage stage) {
         gridPane.setVisible(true);
         b1.setDisable(false);
@@ -517,6 +517,49 @@ public class GameOnlinePlayersScreen extends AnchorPane implements OnlinePlayerS
             playerXName.setText(secondName);
             playerOName.setText(firstName);
         }
-        
+
     }
+
+    @Override
+    public void displayStepOnBtn(String role, String step) {
+        switch (step) {
+            case "1":
+                b1.setText(role);
+                b1.setDisable(true);
+                break;
+            case "2":
+                b2.setText(role);
+                b2.setDisable(true);
+                break;
+            case "3":
+                b3.setText(role);
+                b3.setDisable(true);
+                break;
+            case "4":
+                b4.setText(role);
+                b4.setDisable(true);
+                break;
+            case "5":
+                b5.setText(role);
+                b5.setDisable(true);
+                break;
+            case "6":
+                b6.setText(role);
+                b6.setDisable(true);
+                break;
+            case "7":
+                b7.setText(role);
+                b7.setDisable(true);
+                break;
+            case "8":
+                b8.setText(role);
+                b8.setDisable(true);
+                break;
+            case "9":
+                b9.setText(role);
+                b9.setDisable(true);
+                break;
+        }
+    }
+
 }

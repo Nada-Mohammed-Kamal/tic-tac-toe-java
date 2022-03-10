@@ -16,6 +16,7 @@ import model.PlayerDto;
 
 interface OnlinePlayerScreenInterface {
 
+
     void updateOnlinePlayersList(ArrayList<PlayerDto> players);
 
     void displayUserData(String username, int score);
@@ -295,4 +296,6 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         UserName.setText(username);
         UserScore.setText("" + score);
     }
+
+
 }

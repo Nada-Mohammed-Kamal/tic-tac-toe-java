@@ -35,9 +35,8 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     Stage mDialog = null;
     NetworkLayer networkLayer;
     private StringTokenizer stringTokenizer;
-    
     Vector<Integer> playerMoves;
-    String myRole = "";
+    String myRole = "", playerXScore, playerOScore;
     
     public GameOnlinePlayerControllerImpl(GameOnlinePlayersScreenInterface gameOnlinePlayersScreenInterface, Stage stage, String secondPlayerName, String secondPlayerRole) {
         this.gameOnlinePlayersScreenInterface = gameOnlinePlayersScreenInterface;
@@ -52,9 +51,11 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     @Override
     public void onBackButtonPressed(Stage stage) {
         // show confirmation dialog
-        Navigation.navigateToOnlinePlayersScreen(stage);
+        networkLayer.printStream(ServerQueries.QUIT_GAME);
+        
     }
 
+    
     @Override
     public void exitNetwork(String msg) {
         
@@ -64,22 +65,33 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     public void onMsgReceived(String receivedMsg) {
         stringTokenizer = new StringTokenizer(receivedMsg, ";");
         String commandToExcute = stringTokenizer.nextToken();
+        System.out.println(commandToExcute);
         System.out.println(networkLayer.getUsername() + "       " + receivedMsg);
         switch(commandToExcute){
             case ServerQueries.TRANSACTION:
                 handleTransaction();
                 break;
             case ServerQueries.X_WIN:
-                if(myRole.equals(Role.X))
+                if(myRole.equals(Role.X)){
                     handleWin();
-                else
+                }
+                else {
                     handleLoose();
+                }
+                playerXScore = stringTokenizer.nextToken();
+                playerOScore = stringTokenizer.nextToken();
+                gameOnlinePlayersScreenInterface.updatePlayersScores(playerXScore, playerOScore);
                 break;
             case ServerQueries.O_WIN:
-                if(myRole.equals(Role.O))
+                if(myRole.equals(Role.O)) {
                     handleWin();
-                else
+                }
+                else {
                     handleLoose();
+                }
+                playerXScore = stringTokenizer.nextToken();
+                playerOScore = stringTokenizer.nextToken();
+                gameOnlinePlayersScreenInterface.updatePlayersScores(playerXScore, playerOScore);
                 break;
             case ServerQueries.TIE:
                 handleTie();
@@ -87,7 +99,17 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
             case ServerQueries.PLAY_AGAIN:
                 gameOnlinePlayersScreenInterface.startPlayAgain();
                 break;
-                
+            case ServerQueries.QUIT_GAME:
+                if(stringTokenizer.nextToken().equals(networkLayer.getUsername())) {
+                    networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerXScore));
+                    Navigation.navigateToOnlinePlayersScreen(stage);
+                }
+                else {
+                    //show warnig alert that the other player left and when ok pressed navigate
+                    networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerOScore));
+                    Navigation.navigateToOnlinePlayersScreen(stage);
+                }
+                break;
         }
     }
 
@@ -120,6 +142,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
         PlayVideo.displayVideo("winner","");
+        //
         gameOnlinePlayersScreenInterface.setGameResultId("You win");
         System.out.println("handleWin");
     }
@@ -128,6 +151,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
         PlayVideo.displayVideo("loser","");
+        //
         gameOnlinePlayersScreenInterface.setGameResultId("You lost");
         System.out.println("handleLoose");
     }

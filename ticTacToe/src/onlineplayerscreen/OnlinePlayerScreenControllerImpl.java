@@ -46,6 +46,8 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         //networkLayer.printStream(ServerQueries.GET_ONLINE_USERS);
         onlinePlayerScreenInterface.displayUserData(networkLayer.getUsername(),
                 networkLayer.getScore());
+        
+        
     }
 
     @Override
@@ -131,7 +133,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     @Override
     public void requestGameFrom(String playerName) {
         networkLayer.printStream(ServerQueries.REQUEST_GAME.concat(";").concat(playerName));
-        mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until "+playerName+" accept.");
+        mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until " + playerName + " accept.");
         mDialog.showAndWait();
     }
 

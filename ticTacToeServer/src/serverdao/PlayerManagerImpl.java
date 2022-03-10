@@ -272,7 +272,7 @@ public class PlayerManagerImpl implements PlayerManager {
         }
         //Update if player
         if(state == PlayerStatusValues.IDLE || oldState == PlayerStatusValues.IDLE )
-        updateAvailableOnlinePlayers();
+            updateAvailableOnlinePlayers();
         return result;
     }
 
@@ -380,6 +380,30 @@ public class PlayerManagerImpl implements PlayerManager {
         new Thread(()->{
             GameHandler.onAvailablePlayersChangee(getAvilableOnlinePlayersWithScores());
         }).start();
+    }
+
+    @Override
+    public int getPlayerScore(String username) {
+        int score = 0;
+        rs = null;
+        
+        try {
+            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.GET_SCORE);
+
+            ps.setString(1, username);
+            
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                score = rs.getInt(3);
+            }
+            
+            ps.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return score;
     }
    
 

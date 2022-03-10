@@ -232,12 +232,12 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
     }
 
     void addNewOnlineUser(String name, String score, String status, String buttonText) {
-        Label OnlinePlayerName = new Label();
-        OnlinePlayerName.setLayoutX(45.0);
-        OnlinePlayerName.setLayoutY(27.0);
-        OnlinePlayerName.setText(name);
-        OnlinePlayerName.setTextFill(javafx.scene.paint.Color.WHITE);
-        OnlinePlayerName.setFont(new Font("Arial", 31.0));
+        Label onlinePlayerName = new Label();
+        onlinePlayerName.setLayoutX(45.0);
+        onlinePlayerName.setLayoutY(27.0);
+        onlinePlayerName.setText(name);
+        onlinePlayerName.setTextFill(javafx.scene.paint.Color.WHITE);
+        onlinePlayerName.setFont(new Font("Arial", 31.0));
 
         Label OnlinePlayerScore = new Label();
         OnlinePlayerScore.setLayoutX(314.0);
@@ -266,7 +266,8 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         ButtonToOnlineUser.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                onlinePlayerScreenController.requestGameFrom(OnlinePlayerName.getText().trim());
+                System.out.println(onlinePlayerName.getText().trim());
+                onlinePlayerScreenController.requestGameFrom(onlinePlayerName.getText().trim());
             }
         });
         AnchorPane UserDetails = new AnchorPane();
@@ -276,7 +277,7 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         UserDetails.minWidth(USE_PREF_SIZE);
         UserDetails.minHeight(USE_PREF_SIZE);
 
-        UserDetails.getChildren().add(OnlinePlayerName);
+        UserDetails.getChildren().add(onlinePlayerName);
         UserDetails.getChildren().add(OnlinePlayerScore);
         UserDetails.getChildren().add(OnlinePlyerStauts);
         UserDetails.getChildren().add(ButtonToOnlineUser);

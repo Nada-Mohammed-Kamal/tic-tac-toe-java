@@ -198,7 +198,6 @@ public class LoginScreenBase extends AnchorPane {
         getChildren().add(anchorPane2);
         getChildren().add(nameTextBoxid);
         getChildren().add(passwordtextboxid);
-
     }
    
 

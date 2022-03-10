@@ -129,6 +129,7 @@ public class GameHandler extends Thread {
         s.close();
     }
     private void updatePlayerStateDB() {
+        // handle closing server ya ABDELWAHAB
         playerMgr.updatePlayerStatusOnDB(
             currentPlayer.getUsername(), 
             PlayerStatusValues.CLOSING, 
@@ -170,6 +171,7 @@ public class GameHandler extends Thread {
                 Integer scoreRefrence = 0;
                 switch (playerMgr.login(username, password, scoreRefrence)) {
                     case ResultConstants.SUCCESSFULLY_LOGGINED:
+                        scoreRefrence = playerMgr.getPlayerScore(username);
                         currentPlayer = new PlayerDto(username, "", scoreRefrence, true , GameHandler.this);
                         ps.println(AuthenticationConstants.SUCCESS_LOGIN.concat(";").concat(username).concat(";").concat(String.valueOf(scoreRefrence)));
                         sessions.put(username, currentPlayer);
@@ -245,6 +247,9 @@ public class GameHandler extends Thread {
             case ServerQueries.PLAY_AGAIN:
                 handlePlayAgainRequest();
                 break;
+            case ServerQueries.QUIT_GAME:
+                quitGame();
+                break;
             default:
                 System.out.println("UNEXPECTED ERROR MSG: " + msg);
         }
@@ -271,7 +276,7 @@ public class GameHandler extends Thread {
     //nexr Token has reciever user name
     private void handleRequest() {
         //case reciver is in game ==> return user busy
-        //case user is offline
+        //case user is offlinea
         //case idle user online
         String recieverUserName = stringTokenizer.nextToken();
         PlayerDto player = playerMgr.getPlayer(recieverUserName);
@@ -355,8 +360,10 @@ public class GameHandler extends Thread {
 
     private void rejectGame(String usernameForPersonWhoSentTheRequest) {
         new Thread(() -> {
-            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.IDLE, currentPlayer.getStatus());
             currentPlayer.setStatus(PlayerStatusValues.IDLE);
+            sessions.get(usernameForPersonWhoSentTheRequest).setStatus(PlayerStatusValues.IDLE);
+            playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.IDLE, currentPlayer.getStatus());
+            playerMgr.updatePlayerStatusOnDB(usernameForPersonWhoSentTheRequest, PlayerStatusValues.IDLE, currentPlayer.getStatus());
         }).start();
         
         sessions
@@ -441,10 +448,12 @@ public class GameHandler extends Thread {
     private void checkResult(Game temp, String transaction, int result) {//transaction;1;X // 2;O
         switch(result){
             case GameResult.O_WIN:
-                sendGameTransaction(temp, ServerQueries.O_WIN.concat(";").concat(transaction));
+                temp.incremenPlayerOScore();
+                sendGameTransaction(temp, ServerQueries.O_WIN.concat(";").concat(transaction).concat(";").concat(String.valueOf(temp.getPlayerXScore())).concat(";").concat(String.valueOf(temp.getPlayerOScore())));
                 break;
             case GameResult.X_WIN:
-                sendGameTransaction(temp, ServerQueries.X_WIN.concat(";").concat(transaction));
+                temp.incremenPlayerXScore();
+                sendGameTransaction(temp, ServerQueries.X_WIN.concat(";").concat(transaction).concat(";").concat(String.valueOf(temp.getPlayerXScore())).concat(";").concat(String.valueOf(temp.getPlayerOScore())));
                 break;
             case GameResult.TIE:
                 sendGameTransaction(temp, ServerQueries.TIE.concat(";").concat(transaction));
@@ -488,5 +497,17 @@ public class GameHandler extends Thread {
             }
         }
         return temp;
+    }
+
+    private void quitGame() {
+        Game temp = getMyGame();
+        int xScore = playerMgr.getPlayerScore(temp.getPlayerX().getUsername()) + temp.getPlayerXScore();
+        int yScore = playerMgr.getPlayerScore(temp.getPlayerO().getUsername()) + temp.getPlayerOScore();
+        playerMgr.updatePlayerStatusOnDB(temp.getPlayerX().getUsername(),PlayerStatusValues.IDLE ,temp.getPlayerX().getStatus());
+        playerMgr.updatePlayerStatusOnDB(temp.getPlayerO().getUsername(),PlayerStatusValues.IDLE , temp.getPlayerO().getStatus());
+        playerMgr.updatePlayerScore(temp.getPlayerX().getUsername(), xScore);
+        playerMgr.updatePlayerScore(temp.getPlayerO().getUsername(), yScore);
+        temp.getPlayerX().getHandler().ps.println(ServerQueries.QUIT_GAME.concat(";").concat(currentPlayer.getUsername()));
+        temp.getPlayerO().getHandler().ps.println(ServerQueries.QUIT_GAME.concat(";").concat(currentPlayer.getUsername()));
     }
 }

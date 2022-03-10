@@ -17,6 +17,7 @@ public interface PlayerManager extends PlayerCountChangeUpdater {
     int addNewPlayer(String username, String password, int score, boolean isOnline);
 
     boolean updatePlayerScore(String username, int score);
+    int getPlayerScore(String username);
 
     boolean updateIsPlayerOnline(String username, boolean isOnline);
 

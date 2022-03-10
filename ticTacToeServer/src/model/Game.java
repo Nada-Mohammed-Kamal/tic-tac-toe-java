@@ -19,8 +19,11 @@ public class Game{
     private PlayerDto playerO;
     private ArrayList<Integer> playerXSteps = new ArrayList<Integer>();
     private ArrayList<Integer> playerOSteps = new ArrayList<Integer>();
+    private int playerXScore = 0;
+    private int playerOScore = 0;
     private int state = 0;
 
+    
     public void setState(int state) {
         this.state = state;
     }
@@ -76,4 +79,22 @@ public class Game{
        playerXSteps.clear();
        playerOSteps.clear();
    }
+
+    public int getPlayerXScore() {
+        return playerXScore;
+    }
+
+    public int getPlayerOScore() {
+        return playerOScore;
+    }
+   
+    public void incremenPlayerXScore() {
+        playerXScore++;
+    }
+    
+    public void incremenPlayerOScore() {
+        playerOScore++;
+    }
+    
+   
 }

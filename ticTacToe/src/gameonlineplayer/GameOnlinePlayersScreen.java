@@ -35,6 +35,7 @@ interface GameOnlinePlayersScreenInterface {
     void hideAllXOButtonWhenGameFinished();
     void displayPlayersData(String firstName, String firstPlayerRole, String secondName, String secondPlayerRole);
     void setGameResultId(String result);
+    void updatePlayersScores(String playerXScore , String playerOScore);
 }
 
 public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePlayersScreenInterface{
@@ -70,7 +71,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
     protected final Label playerOName;
     protected final Label playerOResult;
     protected final AnchorPane anchorPane4;
-    protected final Button button;
+    protected final Button backbutton;
     protected final ImageView imageView1;
     protected final Label GameResultId;
     protected final Button SaveButtonid;
@@ -170,8 +171,8 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         playerOName = new Label();
         playerOResult = new Label();
         anchorPane4 = new AnchorPane();
-        button = new Button();
-        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(button, stage);
+        backbutton = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(backbutton, stage);
         imageView1 = new ImageView();
 
         setId("AnchorPane");
@@ -408,14 +409,14 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         anchorPane4.setLayoutX(29.0);
         anchorPane4.setLayoutY(501.0);
 
-        button.setMnemonicParsing(false);
-        button.setPrefHeight(75.0);
-        button.setPrefWidth(185.0);
-        button.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
-        button.setText("       Back");
-        button.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
-        button.setFont(new Font("Berlin Sans FB", 33.0));
-        button.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+        backbutton.setMnemonicParsing(false);
+        backbutton.setPrefHeight(75.0);
+        backbutton.setPrefWidth(185.0);
+        backbutton.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
+        backbutton.setText("       Back");
+        backbutton.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
+        backbutton.setFont(new Font("Berlin Sans FB", 33.0));
+        backbutton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 gameOnlinePlayerController.onBackButtonPressed(stage);
@@ -457,7 +458,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         anchorPane2.getChildren().add(anchorPane3);
         anchorPane2.getChildren().add(playerOResult);
         getChildren().add(anchorPane2);
-        anchorPane4.getChildren().add(button);
+        anchorPane4.getChildren().add(backbutton);
         anchorPane4.getChildren().add(imageView1);
         getChildren().add(anchorPane4);
         anchorPanePlayAgain.getChildren().add(PlayAgainButtonid);
@@ -570,5 +571,11 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
     @Override
     public void setGameResultId(String result) {
         GameResultId.setText(result);
+    }
+
+    @Override
+    public void updatePlayersScores(String playerXScore, String playerOScore) {
+        playerXResult.setText(playerXScore);
+        playerOResult.setText(playerOScore);
     }
 }

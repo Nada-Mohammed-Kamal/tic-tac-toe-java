@@ -2,20 +2,14 @@ package GameLocalMultiPlayersScreenWithAlert;
 import DisplayAlert.PlayersNames;
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import SaveGame.SaveGame;
-import java.io.*;
-import java.text.*;
 import java.util.*;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -624,10 +618,10 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
                 {
                     return  "player2";
                 }
-                else if(player1Moves.size()+ player2Moves.size() == 9)
-                {
-                    return "tie";
-                }
+            }
+            if(player1Moves.size()+ player2Moves.size() == 9)
+            {
+                return "tie";
             }
         }
         return "";

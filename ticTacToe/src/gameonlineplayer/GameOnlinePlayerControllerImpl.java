@@ -101,12 +101,16 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
                 break;
             case ServerQueries.QUIT_GAME:
                 if(stringTokenizer.nextToken().equals(networkLayer.getUsername())) {
-                    networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerXScore));
+                    if (playerXScore != null && !playerXScore.isEmpty()) {
+                        networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerXScore));
+                    }
                     Navigation.navigateToOnlinePlayersScreen(stage);
                 }
                 else {
                     //show warnig alert that the other player left and when ok pressed navigate
-                    networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerOScore));
+                    if (playerOScore != null && !playerOScore.isEmpty()) {
+                        networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerOScore));
+                    }
                     Navigation.navigateToOnlinePlayersScreen(stage);
                 }
                 break;

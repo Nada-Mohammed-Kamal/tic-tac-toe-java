@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
+import tictactoe.PlayVideo;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
@@ -23,6 +24,8 @@ interface GameOnlinePlayerController {
 
     void onBackButtonPressed(Stage stage);
     void onTakeStep(String step, String btnText);
+    Vector<Integer> getPlayerMoves();
+    void playAgianButtonPressed();
 }
 
 public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerController, NetworkUser {
@@ -81,6 +84,9 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
             case ServerQueries.TIE:
                 handleTie();
                 break;
+            case ServerQueries.PLAY_AGAIN:
+                gameOnlinePlayersScreenInterface.startPlayAgain();
+                break;
                 
         }
     }
@@ -112,16 +118,34 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
 
     private void handleWin() {
         handleTransaction();
+        gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
+        PlayVideo.displayVideo("winner","");
+        gameOnlinePlayersScreenInterface.setGameResultId("You win");
         System.out.println("handleWin");
     }
 
     private void handleLoose() {
         handleTransaction();
+        gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
+        PlayVideo.displayVideo("loser","");
+        gameOnlinePlayersScreenInterface.setGameResultId("You lost");
         System.out.println("handleLoose");
     }
 
     private void handleTie() {
         handleTransaction();
+        gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
+        PlayVideo.displayVideo("draw","");
+        gameOnlinePlayersScreenInterface.setGameResultId("It's a tie");
         System.out.println("handleTie");
+    }
+
+    @Override
+    public Vector<Integer> getPlayerMoves() {
+        return playerMoves;
+    }
+    @Override
+    public void playAgianButtonPressed() {
+        networkLayer.printStream(ServerQueries.PLAY_AGAIN);
     }
 }

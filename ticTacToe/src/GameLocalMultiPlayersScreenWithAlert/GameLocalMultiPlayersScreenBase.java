@@ -560,8 +560,8 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
         }
         else
         {
-             GameResultId.setText(playerName + " Wins");
-             PlayVideo.displayVideo("winner",playerName);
+            GameResultId.setText(playerName + " Wins");
+            PlayVideo.displayVideo("winner",playerName);
         }
         saveAchorPane.setVisible(true);
         anchorPanePlayAgain.setVisible(true);

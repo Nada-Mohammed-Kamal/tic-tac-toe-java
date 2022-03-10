@@ -181,7 +181,6 @@ public class PlayerManagerImpl implements PlayerManager {
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
-
             while (rs.next()) {
                 onlinePlayers.add(rs.getString(AttributeConstants.USERNAME));
             }

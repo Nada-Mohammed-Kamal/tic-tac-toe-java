@@ -9,11 +9,14 @@ package gameonlineplayer;
  *
  * @author Esraa
  */
+import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
+import DisplayAlert.PlayersNames;
+import SaveGame.SaveGame;
+import java.util.Vector;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -27,10 +30,11 @@ import javafx.stage.Stage;
 import utils.Role;
 
 interface GameOnlinePlayersScreenInterface {
-
+    void startPlayAgain();
     void displayStepOnBtn(String role, String step);
-
+    void hideAllXOButtonWhenGameFinished();
     void displayPlayersData(String firstName, String firstPlayerRole, String secondName, String secondPlayerRole);
+    void setGameResultId(String result);
 }
 
 public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePlayersScreenInterface{
@@ -75,11 +79,11 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
     protected final ImageView playAgainIcon;
 
     protected final AnchorPane anchorPanePlayAgain;
-
+    private String xName,oName;
     GameOnlinePlayerController gameOnlinePlayerController;
-
+    Vector<Integer> vc;
     public GameOnlinePlayersScreen(Stage stage, String secondPlayerName, String secondPlayerRole) {
-
+        vc = new Vector<Integer>();
         anchorPane = new AnchorPane();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -102,6 +106,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         b7 = new Button();
         savImageIcon = new ImageView();
         SaveButtonid = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(SaveButtonid , stage);
         saveAchorPane = new AnchorPane();
         saveAchorPane.setVisible(false);
 
@@ -119,7 +124,8 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
                 //Note : There's a class named PlayersNames that contain 
                 //two string and it's getter and setter please use it.
                 //Ex:
-                //SaveGame.saveFile(new PlayersNames(playersName,"Computer"),vc);
+                Vector<Integer> vc = gameOnlinePlayerController.getPlayerMoves();
+                SaveGame.saveFile(new PlayersNames(xName,oName),vc);
                 SaveButtonid.setDisable(true);
             }
         });
@@ -142,6 +148,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         saveAchorPane.setLayoutY(500.0);
 
         PlayAgainButtonid = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(PlayAgainButtonid, stage);
         playAgainIcon = new ImageView();
         playAgainIcon.setFitHeight(54.0);
         playAgainIcon.setFitWidth(62.0);
@@ -164,6 +171,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         playerOResult = new Label();
         anchorPane4 = new AnchorPane();
         button = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(button, stage);
         imageView1 = new ImageView();
 
         setId("AnchorPane");
@@ -314,15 +322,11 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         PlayAgainButtonid.setText("       Play Again");
         PlayAgainButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         PlayAgainButtonid.setFont(new Font("Berlin Sans FB", 33.0));
-        PlayAgainButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-            }
+        PlayAgainButtonid.setOnAction(value ->{
+            //playAgainButtonPressed();
+            gameOnlinePlayerController.playAgianButtonPressed();
         });
-        PlayAgainButtonid.setOnMouseEntered((event) -> {
-            stage.getScene().setCursor(Cursor.HAND);
-        });
+        
         gridPane.setPadding(new Insets(10.0, 0.0, 10.0, 10.0));
 
         anchorPane0.setLayoutX(49.0);
@@ -365,7 +369,7 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         GameResultId.setText("game Result");
         GameResultId.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         GameResultId.setTextOverrun(javafx.scene.control.OverrunStyle.CENTER_ELLIPSIS);
-        GameResultId.setFont(new Font("Berlin Sans FB", 24.0));
+        GameResultId.setFont(new Font("Berlin Sans FB", 28.0));
 
         anchorPane2.setLayoutX(763.0);
         anchorPane2.setLayoutY(104.0);
@@ -467,14 +471,14 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         gameOnlinePlayerController = new GameOnlinePlayerControllerImpl(this, stage, secondPlayerName, secondPlayerRole);
     }
 
-    void hideAllXOButtonWhenGameFinished() {
+    public void hideAllXOButtonWhenGameFinished() {
         gridPane.setVisible(false);
         anchorPanePlayAgain.setVisible(true);
         GameResultId.setVisible(true);
         saveAchorPane.setVisible(true);
     }
 
-    void playAgainButtonPressed(Stage stage) {
+    public void startPlayAgain() {
         gridPane.setVisible(true);
         b1.setDisable(false);
         b2.setDisable(false);
@@ -495,24 +499,23 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         b7.setText("");
         b8.setText("");
         b9.setText("");
-//        vc.clear();
+        vc.clear();
         SaveButtonid.setDisable(false);
         anchorPanePlayAgain.setVisible(false);
         GameResultId.setVisible(false);
         saveAchorPane.setVisible(false);
-        stage.getScene().setCursor(Cursor.DEFAULT);
     }
-    //Use it to store a moves of players in vector
-//    void addMovesPlayers(int x) {
-//        vc.add(x);
-//    }
-
     @Override
     public void displayPlayersData(String firstName, String firstPlayerRole, String secondName, String secondPlayerRole) {
         if (firstPlayerRole.equals(Role.X)) {
+            this.xName = firstName;
+            this.oName = secondName;
             playerXName.setText(firstName);
             playerOName.setText(secondName);
-        } else {
+           
+        } else { 
+            this.xName = secondName;
+            this.oName = firstName;
             playerXName.setText(secondName);
             playerOName.setText(firstName);
         }
@@ -561,4 +564,8 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         }
     }
 
+    @Override
+    public void setGameResultId(String result) {
+        GameResultId.setText(result);
+    }
 }

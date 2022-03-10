@@ -31,5 +31,6 @@ public class ServerQueries {
     public static final String X_WIN = "X win";//; + transaction
     public static final String O_WIN = "O win";//; + transaction
     public static final String TIE = "tie";//; + transaction
+    public static final String PLAY_AGAIN = "Play again";
 
 }

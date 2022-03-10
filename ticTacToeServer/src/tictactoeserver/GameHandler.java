@@ -242,6 +242,9 @@ public class GameHandler extends Thread {
             case ServerQueries.TRANSACTION:
                 handleTransaction();
                 break;
+            case ServerQueries.PLAY_AGAIN:
+                handlePlayAgainRequest();
+                break;
             default:
                 System.out.println("UNEXPECTED ERROR MSG: " + msg);
         }
@@ -418,16 +421,10 @@ public class GameHandler extends Thread {
     }
 
     private void handleTransaction() {
-        Game temp = new Game(currentPlayer, currentPlayer);
+        Game temp = getMyGame();
         int step = Integer.parseInt(stringTokenizer.nextToken());
         String role = stringTokenizer.nextToken();
         String transaction = "".concat(""+step).concat(";").concat(role);
-        for (Game g : currentGames) {
-            if (g.equals(temp)) {
-                temp = g;
-                break;
-            }
-        }
         int result = addStepForPlayer(temp, role, step);
         
         checkResult(temp , transaction, result);
@@ -462,8 +459,34 @@ public class GameHandler extends Thread {
         temp.getPlayerX().getHandler().ps.println(query);
         temp.getPlayerO().getHandler().ps.println(query);
     }
-    
-    
-    
 
+    private void handlePlayAgainRequest() {
+        Game temp = getMyGame();
+        if(temp.getState() == 1){
+            temp.clearPlayersSteps();
+            temp
+                .getPlayerX()
+                .getHandler()
+                .ps
+                .println(ServerQueries.PLAY_AGAIN);
+            temp
+                .getPlayerO()
+                .getHandler()
+                .ps
+                .println(ServerQueries.PLAY_AGAIN);
+            temp.setState(0);
+        }
+        else
+           temp.setState(1);
+    }
+    private Game getMyGame(){
+        Game temp = new Game(currentPlayer, currentPlayer);
+        for (Game g : currentGames) {
+            if (g.equals(temp)) {
+                temp = g;
+                break;
+            }
+        }
+        return temp;
+    }
 }

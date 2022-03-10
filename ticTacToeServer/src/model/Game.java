@@ -17,9 +17,17 @@ public class Game{
     
     private PlayerDto playerX;
     private PlayerDto playerO;
-    ArrayList<Integer> playerXSteps = new ArrayList<Integer>();
-    ArrayList<Integer> playerOSteps = new ArrayList<Integer>();
+    private ArrayList<Integer> playerXSteps = new ArrayList<Integer>();
+    private ArrayList<Integer> playerOSteps = new ArrayList<Integer>();
+    private int state = 0;
 
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public int getState() {
+        return state;
+    }
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Game && (((Game) obj).playerX.equals(playerX) || ((Game) obj).playerX.equals(playerO) || ((Game) obj).playerO.equals(playerX) || ((Game) obj).playerO.equals(playerO));
@@ -63,4 +71,9 @@ public class Game{
     ArrayList<Integer> getPlayerOSteps() {
         return playerOSteps;
     }
+    //TO play again
+   public void clearPlayersSteps(){
+       playerXSteps.clear();
+       playerOSteps.clear();
+   }
 }

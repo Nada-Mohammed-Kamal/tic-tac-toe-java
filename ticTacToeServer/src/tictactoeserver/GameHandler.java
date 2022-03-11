@@ -335,6 +335,7 @@ public class GameHandler extends Thread {
     public static void closeAllResourses() {
         for(Map.Entry<String, PlayerDto> session : sessions.entrySet()) {
             System.out.println("session " + session);
+            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).setAllPlayersOffline();
             session.getValue().getHandler().serverClosePlayerStream(ErrorConstants.CLOSED_ABBNORMALLY);
         }
         sessions.clear();
@@ -361,8 +362,11 @@ public class GameHandler extends Thread {
     //client1 <= server  recieve respose
     private void sendRequestToPlayer(String usernameForPersonWhoReceiveTheRequest) {
         new Thread(() -> {
+            PlayerDto secondPlayer = sessions.get(usernameForPersonWhoReceiveTheRequest);
             playerMgr.updatePlayerStatusOnDB(currentPlayer.getUsername(), PlayerStatusValues.WAITING, currentPlayer.getStatus());
             currentPlayer.setStatus(PlayerStatusValues.WAITING);
+            playerMgr.updatePlayerStatusOnDB(usernameForPersonWhoReceiveTheRequest, PlayerStatusValues.WAITING, secondPlayer.getStatus());
+            secondPlayer.setStatus(PlayerStatusValues.WAITING);
         }).start();
         sessions
                 .get(usernameForPersonWhoReceiveTheRequest)

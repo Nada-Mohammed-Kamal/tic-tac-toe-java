@@ -21,7 +21,7 @@ public class ConnectionDB {
     private Connection con;
     private static ConnectionDB connectionDB;
     
-    private ConnectionDB(){
+    private ConnectionDB() {
         
         try {
             DriverManager.registerDriver(new ClientDriver());

@@ -48,6 +48,7 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
     ServerSocket serverSocket;
     private boolean turnServerOn = false;
     Thread thread;
+    ConnectionDB connectionDBInstance;
     
     public FXMLDocumentBase(Stage stage) {
         
@@ -78,7 +79,8 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
         label2 = new Label();
         imageView0 = new ImageView();
         statusOfUserOnButton = new Label();
-        playerCountChangeUpdater = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
+        connectionDBInstance = ConnectionDB.getInstance();
+        playerCountChangeUpdater = PlayerManagerImpl.getInstance(connectionDBInstance);
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);

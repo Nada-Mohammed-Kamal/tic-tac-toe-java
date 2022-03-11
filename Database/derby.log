@@ -1,7 +1,7 @@
-Fri Mar 11 18:52:08 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
+Fri Mar 11 19:14:04 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Fri Mar 11 18:52:09 EET 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-79e5-0c12-ffff9616a63f 
+Fri Mar 11 19:16:12 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-79f9-209f-ffff9616a63f 
 on database directory C:\Users\nados\OneDrive\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -13,8 +13,8 @@ os.version=10.0
 derby.system.home=C:\Users\nados\OneDrive\Documents\GitHub\tic-tac-toe-java\Database
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Fri Mar 11 19:03:12 EET 2022: Shutting down Derby engine
+Fri Mar 11 22:14:36 EET 2022: Shutting down Derby engine
 ----------------------------------------------------------------
-Fri Mar 11 19:03:12 EET 2022:
-Shutting down instance a816c00e-017f-79e5-0c12-ffff9616a63f on database directory C:\Users\nados\OneDrive\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri Mar 11 22:14:36 EET 2022:
+Shutting down instance a816c00e-017f-79f9-209f-ffff9616a63f on database directory C:\Users\nados\OneDrive\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 ----------------------------------------------------------------

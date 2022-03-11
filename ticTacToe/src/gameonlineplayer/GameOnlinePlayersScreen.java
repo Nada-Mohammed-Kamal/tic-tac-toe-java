@@ -358,9 +358,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         playerXResult.setLayoutX(32.0);
         playerXResult.setLayoutY(297.0);
         playerXResult.setPrefHeight(54.0);
+        playerXResult.setText("0");
         playerXResult.setPrefWidth(109.0);
         playerXResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        playerXResult.setFont(new Font("Berlin Sans FB", 24.0));
+        playerXResult.setFont(new Font("Berlin Sans FB", 45.0));
 
         GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
         GameResultId.setLayoutX(339.0);
@@ -404,8 +405,9 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         playerOResult.setLayoutY(294.0);
         playerOResult.setPrefHeight(54.0);
         playerOResult.setPrefWidth(109.0);
+        playerOResult.setText("0");
         playerOResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        playerOResult.setFont(new Font("Berlin Sans FB", 24.0));
+        playerOResult.setFont(new Font("Berlin Sans FB", 45.0));
 
         anchorPane4.setLayoutX(29.0);
         anchorPane4.setLayoutY(501.0);
@@ -521,12 +523,14 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
             this.oName = secondName;
             playerXName.setText(firstName);
             playerOName.setText(secondName);
+            playerXResult.setText("0");
            
         } else { 
             this.xName = secondName;
             this.oName = firstName;
             playerXName.setText(secondName);
             playerOName.setText(firstName);
+            playerOResult.setText("0");
         }
 
     }

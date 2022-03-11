@@ -57,12 +57,15 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
                 showOnlineUsers();
                 break;
             case ServerQueries.PLAYER_IS_ALREADY_IN_GAME:
+                mDialog.close();
                 DisplayAlert.informationAlert("Request Cancelled", stage);
                 break;
             case ServerQueries.PLAYER_IS_OFFLINE:
+                mDialog.close();
                 DisplayAlert.informationAlert("Request Cancelled", stage);
                 break;
             case ServerQueries.PLAYER_IS_ALREADY_WAITING_FOR_ANOTHER_GAME:
+                mDialog.close();
                 DisplayAlert.informationAlert("Request Cancelled", stage);
                 break;
             case ServerQueries.GAME_REQUESTED_FROM://; sender request username    
@@ -91,7 +94,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         players.remove(new PlayerDto(networkLayer.getUsername(), "", 0, true));
         onlinePlayerScreenInterface.updateOnlinePlayersList(players);
     }
-
+    
     @Override
     public void onBackButtonPressed(Stage stage) {
         if (networkLayer != null) {
@@ -132,7 +135,6 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         } else {
             networkLayer.printStream(ServerQueries.REJECT_GAME.concat(";").concat(senderRequestUsername));
         }
-
     }
 
     @Override
@@ -143,7 +145,6 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     }
 
     private void cancelDialog(String msg) {
-       
         DisplayAlert.informationAlert(msg, stage);
         mDialog.close();
     }

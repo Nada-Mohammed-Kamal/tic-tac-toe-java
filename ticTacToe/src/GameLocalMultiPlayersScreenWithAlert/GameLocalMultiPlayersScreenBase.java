@@ -22,7 +22,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tictactoe.HomeScreen;
 import tictactoe.Navigation;
-import tictactoe.PlayVideo;
+import MediaPlayer.PlayVideo;
 public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
@@ -90,9 +90,11 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     String getSubStringForNames = "";
     String nameOfPlayerOneRecorder = "";
     String nameOfPlayerTwoRecorder = "";
+    Stage stage;
     public GameLocalMultiPlayersScreenBase(Stage stage,PlayersNames names) {
         System.out.println("In Game : "+ names.getPlayer1() + "   "+ names.getPlayer2());
-                
+        //To play video in the middle of stage
+        this.stage = stage;
         playerOneName = names.getPlayer1();
         playerTwoName = names.getPlayer2();
         allWinningLists = new ArrayList<>();
@@ -554,14 +556,14 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
 
         if(playerName.equals("No one"))
         {
-            PlayVideo.displayVideo("draw","");
+            PlayVideo.displayVideo("draw","",stage);
             GameResultId.setText("It's a tie");
             
         }
         else
         {
             GameResultId.setText(playerName + " Wins");
-            PlayVideo.displayVideo("winner",playerName);
+            PlayVideo.displayVideo("winner",playerName,stage);
         }
         saveAchorPane.setVisible(true);
         anchorPanePlayAgain.setVisible(true);

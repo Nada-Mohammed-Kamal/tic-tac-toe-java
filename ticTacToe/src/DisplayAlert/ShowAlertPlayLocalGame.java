@@ -1,6 +1,9 @@
-package PersonVSBootWithAlert;
+package DisplayAlert;
 
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
+import DisplayAlert.PlayersNames;
+import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
+import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -11,26 +14,29 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
 
-public class SinglePlayerAlert extends AnchorPane {
+public class ShowAlertPlayLocalGame extends AnchorPane {
 
     protected final Label label;
     protected final AnchorPane anchorPane;
     protected final TextField player1Name;
     protected final Label label0;
-    protected final Button Start;
+    protected final Label label1;
+    protected final TextField player2Name;
+    public final Button Start;
 
-    public SinglePlayerAlert(Stage myStage,Stage alertStage) {
+    public ShowAlertPlayLocalGame(Stage myStage,Stage alertStage) {
 
         label = new Label();
         anchorPane = new AnchorPane();
         player1Name = new TextField();
         label0 = new Label();
+        label1 = new Label();
+        player2Name = new TextField();
         Start = new Button();
 
         setId("AnchorPane");
-        setPrefHeight(213.0);
-        setPrefWidth(309.0);
-        setStyle("-fx-background-radius: 0 0 20 20; -fx-border-radius: 0 0 20 20;");
+        setPrefHeight(270.0);
+        setPrefWidth(443.0);
 
         AnchorPane.setLeftAnchor(label, 8.0);
         AnchorPane.setRightAnchor(label, 8.0);
@@ -51,29 +57,39 @@ public class SinglePlayerAlert extends AnchorPane {
         anchorPane.setLayoutY(48.0);
         anchorPane.setPrefHeight(215.0);
         anchorPane.setPrefWidth(600.0);
-        anchorPane.setStyle("-fx-background-color: #AAAAAA;");
+        anchorPane.setStyle("-fx-background-color: #AAAAAA");
 
-        AnchorPane.setLeftAnchor(player1Name, 16.0);
-        AnchorPane.setRightAnchor(player1Name, 16.0);
-        player1Name.setLayoutX(14.0);
-        player1Name.setLayoutY(68.0);
+        player1Name.setLayoutX(100.0);
+        player1Name.setLayoutY(55.0);
         player1Name.setPrefHeight(26.0);
-        player1Name.setPrefWidth(284.0);
+        player1Name.setPrefWidth(285.0);
 
-        AnchorPane.setLeftAnchor(label0, 16.0);
         label0.setLayoutX(14.0);
-        label0.setLayoutY(38.0);
+        label0.setLayoutY(53.0);
         label0.setPrefHeight(30.0);
-        label0.setPrefWidth(129.0);
-        label0.setText("Your name :");
+        label0.setPrefWidth(99.0);
+        label0.setText("Palyer1: ");
         label0.setTextFill(javafx.scene.paint.Color.WHITE);
         label0.setFont(new Font("System Bold", 20.0));
-        
-        Start.setLayoutX(195.0);
-        Start.setLayoutY(112.0);
+
+        label1.setLayoutX(14.0);
+        label1.setLayoutY(119.0);
+        label1.setPrefHeight(30.0);
+        label1.setPrefWidth(99.0);
+        label1.setText("Palyer2: ");
+        label1.setTextFill(javafx.scene.paint.Color.WHITE);
+        label1.setFont(new Font("System Bold", 20.0));
+
+        player2Name.setLayoutX(100.0);
+        player2Name.setLayoutY(121.0);
+        player2Name.setPrefHeight(26.0);
+        player2Name.setPrefWidth(285.0);
+
+        Start.setLayoutX(270.0);
+        Start.setLayoutY(170.0);
         Start.setMnemonicParsing(false);
-        Start.setPrefHeight(10.0);
-        Start.setPrefWidth(99.0);
+        Start.setPrefHeight(40.0);
+        Start.setPrefWidth(150.0);
         Start.setStyle("-fx-background-color: #1FA4E5;");
         Start.setText("Start");
         Start.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
@@ -83,14 +99,17 @@ public class SinglePlayerAlert extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 alertStage.close();
-                System.out.println("In Alert : "+ player1Name.getText());
-                Navigation.navigateTo(myStage, new PersonVSBoot(myStage,player1Name.getText()), "Local Game");
+                PlayersNames playersNames = new PlayersNames(player1Name.getText(),player2Name.getText());
+                System.out.println("In Alert : "+ playersNames.getPlayer1() + "   "+ playersNames.getPlayer2());
+                Navigation.navigateTo(myStage, new GameLocalMultiPlayersScreenBase(myStage,playersNames), "Local Game");
                 }
         });
         CursorHANDWhenMoveToIntoButton.getCurserOnbutton(Start, alertStage);
         getChildren().add(label);
         anchorPane.getChildren().add(player1Name);
         anchorPane.getChildren().add(label0);
+        anchorPane.getChildren().add(label1);
+        anchorPane.getChildren().add(player2Name);
         anchorPane.getChildren().add(Start);
         getChildren().add(anchorPane);
 

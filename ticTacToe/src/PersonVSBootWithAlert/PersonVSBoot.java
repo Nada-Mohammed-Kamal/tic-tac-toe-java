@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tictactoe.HomeScreen;
 import tictactoe.Navigation;
-import tictactoe.PlayVideo;
+import MediaPlayer.PlayVideo;
 import tictactoe.TicTacToeAI;
 
 public class PersonVSBoot extends AnchorPane {
@@ -78,7 +78,10 @@ public class PersonVSBoot extends AnchorPane {
     private int newYResult = 0;
     private TicTacToeAI TTT;
     Vector<Integer> vc;
+    Stage stage;
     public PersonVSBoot(Stage stage,String playersName) {
+        //To play video in the center of screen 
+        this.stage = stage;
         TTT = new TicTacToeAI();
         TTT.NewGame();
         vc = new Vector();
@@ -571,21 +574,21 @@ public class PersonVSBoot extends AnchorPane {
                     GameResultId.setText("Congratulations you won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("winner","");
+                    PlayVideo.displayVideo("winner","",stage);
                 }
                 else  if(newXResult < newYResult)
                 {
                     GameResultId.setText("Unfortunately, the computer won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("winner","");
+                    PlayVideo.displayVideo("winner","",stage);
                 }
                 else 
                 {
                     GameResultId.setText("Game over,no one won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("winner","");
+                    PlayVideo.displayVideo("winner","",stage);
                 }
                 for(int i=0;i<vc.size();i++)
                 {

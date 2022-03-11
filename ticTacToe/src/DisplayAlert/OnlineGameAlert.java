@@ -1,4 +1,4 @@
-package OnlineGameAlert;
+package DisplayAlert;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +16,7 @@ public class OnlineGameAlert extends AnchorPane {
     protected final Button Reject;
     protected final Button Accept;
     public static boolean flag;
-    public OnlineGameAlert(Stage window,String messege) {
+    public OnlineGameAlert(Stage window,String messege,String leftButtonText,String rightButtonText) {
 
       label = new Label();
         anchorPane = new AnchorPane();
@@ -69,7 +69,7 @@ public class OnlineGameAlert extends AnchorPane {
         Reject.setPrefHeight(34.0);
         Reject.setPrefWidth(99.0);
         Reject.setStyle("-fx-background-color: #1FA4E5;");
-        Reject.setText("Reject");
+        Reject.setText(rightButtonText);
         Reject.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         Reject.setTextFill(javafx.scene.paint.Color.WHITE);
         Reject.setFont(new Font("Arial Bold", 20.0));
@@ -89,7 +89,7 @@ public class OnlineGameAlert extends AnchorPane {
         Accept.setPrefHeight(34.0);
         Accept.setPrefWidth(99.0);
         Accept.setStyle("-fx-background-color: #1FA4E5;");
-        Accept.setText("Accept");
+        Accept.setText(leftButtonText);
         Accept.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         Accept.setTextFill(javafx.scene.paint.Color.WHITE);
         Accept.setFont(new Font("Arial Bold", 20.0));

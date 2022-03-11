@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package MediaPlayer;
 
 import MediaPlayer.VideoFXMLBase;
 import javafx.animation.PauseTransition;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 /**
@@ -20,7 +22,7 @@ import javafx.util.Duration;
  */
 public class PlayVideo {
     //winner .. loser .. draw
-    public static void displayVideo(String playerWinnerOrNot,String WinnerName){
+    public static void displayVideo(String playerWinnerOrNot,String WinnerName,Stage myStage){
             Parent root = new VideoFXMLBase(playerWinnerOrNot,WinnerName);
             Scene registerScene = new Scene(root);
             //get stage information
@@ -31,6 +33,14 @@ public class PlayVideo {
             window.setMinWidth(400);
             window.initStyle(StageStyle.UNDECORATED);
             window.setResizable(false);
+            window.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    window.setX(((myStage.getWidth()-200)/2) + myStage.getX());
+                    window.setY(10 + myStage.getY());
+
+                }
+            });
             window.show();
             
                 PauseTransition wait = new PauseTransition(Duration.seconds(5));

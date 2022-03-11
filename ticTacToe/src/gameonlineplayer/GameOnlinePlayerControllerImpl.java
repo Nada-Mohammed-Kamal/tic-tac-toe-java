@@ -5,11 +5,12 @@
  */
 package gameonlineplayer;
 
+import DisplayAlert.DisplayAlert;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
-import tictactoe.PlayVideo;
+import MediaPlayer.PlayVideo;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
@@ -51,8 +52,11 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     @Override
     public void onBackButtonPressed(Stage stage) {
         // show confirmation dialog
-        networkLayer.printStream(ServerQueries.QUIT_GAME);
-        
+         boolean requestExitGame = DisplayAlert.confirmationDialog(stage,"Are you sure?","OK","Cancel");
+        if (requestExitGame) {
+             networkLayer.printStream(ServerQueries.QUIT_GAME);
+        } 
+  
     }
 
     
@@ -111,6 +115,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
                     if (playerOScore != null && !playerOScore.isEmpty()) {
                         networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerOScore));
                     }
+                    DisplayAlert.informationAlert("The Second Player Left", stage);
                     Navigation.navigateToOnlinePlayersScreen(stage);
                 }
                 break;
@@ -145,7 +150,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     private void handleWin() {
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
-        PlayVideo.displayVideo("winner","");
+        PlayVideo.displayVideo("winner","",stage);
         //
         gameOnlinePlayersScreenInterface.setGameResultId("You win");
         System.out.println("handleWin");
@@ -154,7 +159,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     private void handleLoose() {
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
-        PlayVideo.displayVideo("loser","");
+        PlayVideo.displayVideo("loser","",stage);
         //
         gameOnlinePlayersScreenInterface.setGameResultId("You lost");
         System.out.println("handleLoose");
@@ -163,7 +168,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     private void handleTie() {
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
-        PlayVideo.displayVideo("draw","");
+        PlayVideo.displayVideo("draw","",stage);
         gameOnlinePlayersScreenInterface.setGameResultId("It's a tie");
         System.out.println("handleTie");
     }

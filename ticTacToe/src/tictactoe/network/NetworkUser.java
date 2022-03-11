@@ -8,7 +8,6 @@ package tictactoe.network;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 import tictactoe.login.LoginScreenControllerImpl;
 import utils.ErrorConstants;
 import utils.UIHelper;

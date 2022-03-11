@@ -18,7 +18,6 @@ import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
 import utils.ErrorConstants;
 import utils.ServerQueries;
-import utils.UIHelper;
 
 /**
  *
@@ -34,7 +33,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
 
     OnlinePlayerScreenInterface onlinePlayerScreenInterface;
     Stage stage;
-    Stage mDialog=null;
+    Stage mDialog = null;
     NetworkLayer networkLayer;
     private StringTokenizer stringTokenizer;
     Alert showWaitingAlertMessage;
@@ -60,13 +59,13 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
                 showOnlineUsers();
                 break;
             case ServerQueries.PLAYER_IS_ALREADY_IN_GAME:
-                cancelDialog("Request Cancelled", ServerQueries.PLAYER_IS_ALREADY_IN_GAME);
+                DisplayAlert.informationAlert("Request Cancelled", stage);
                 break;
             case ServerQueries.PLAYER_IS_OFFLINE:
-                cancelDialog("Request Cancelled", ServerQueries.PLAYER_IS_OFFLINE);
+                DisplayAlert.informationAlert("Request Cancelled", stage);
                 break;
             case ServerQueries.PLAYER_IS_ALREADY_WAITING_FOR_ANOTHER_GAME:
-                cancelDialog("Request Cancelled", ServerQueries.PLAYER_IS_ALREADY_WAITING_FOR_ANOTHER_GAME);
+                DisplayAlert.informationAlert("Request Cancelled", stage);
                 break;
             case ServerQueries.GAME_REQUESTED_FROM://; sender request username    
                 Platform.runLater(() -> {
@@ -77,7 +76,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
                 initializeGame(stringTokenizer.nextToken());
                 break;
             case ServerQueries.REJECT_GAME:
-                cancelDialog("Request Rejected", ServerQueries.REJECT_GAME);
+                cancelDialog("Request Rejected");
                 break;
             case ServerQueries.START_GAME:
                 startGame();
@@ -98,7 +97,6 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     @Override
     public void onBackButtonPressed(Stage stage) {
         networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
-        // networkLayer.closeConnection();
         Navigation.navigateToHome(stage);
     }
 
@@ -106,7 +104,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     public void exitNetwork(String msg) {
         networkLayer = null;
         if (msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)) {
-            UIHelper.showAlertMessage("Error", ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+            DisplayAlert.informationAlert(ErrorConstants.SERVER_CLOSED, stage);
         }
         Platform.runLater(() -> {
             Navigation.navigateToHome(stage);
@@ -117,14 +115,12 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         String senderRequestUsername = stringTokenizer.nextToken();
         String contentText = senderRequestUsername.concat(" wants to play a game with you, Accept?");
         
-        boolean requestPlayGame = DisplayAlert.requestPlayGame(contentText);
+        boolean requestPlayGame = DisplayAlert.confirmationDialog(stage,contentText,"Accept","Reject");
         if (requestPlayGame) {
-            System.out.println("OK OK OK OK OK OK OK OK OK OK OK OK OK OK OK ");
             networkLayer.printStream(ServerQueries.ACCEPT_GAME.concat(";").concat(senderRequestUsername));
-            mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until "+senderRequestUsername+" confirm.");
+            mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until "+senderRequestUsername+" confirm.",stage);
             mDialog.showAndWait();
         } else {
-            System.out.println("NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO ");
             networkLayer.printStream(ServerQueries.REJECT_GAME.concat(";").concat(senderRequestUsername));
         }
 
@@ -133,13 +129,14 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
     @Override
     public void requestGameFrom(String playerName) {
         networkLayer.printStream(ServerQueries.REQUEST_GAME.concat(";").concat(playerName));
-        mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until " + playerName + " accept.");
+        mDialog = DisplayAlert.waitingAlertOnlineGame("Please wait until " + playerName + " accept.",stage);
         mDialog.showAndWait();
     }
 
-    private void cancelDialog(String title, String msg) {
+    private void cancelDialog(String msg) {
+       
+        DisplayAlert.informationAlert(msg, stage);
         mDialog.close();
-        UIHelper.showAlertMessage(title, msg, Alert.AlertType.INFORMATION);
     }
 
     private void initializeGame(String acceptedUsername) {

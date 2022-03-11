@@ -580,14 +580,14 @@ public class MediumLevelScreen extends AnchorPane {
                     GameResultId.setText("Unfortunately, the computer won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("winner","",stage);
+                    PlayVideo.displayVideo("loser","",stage);
                 }
                 else 
                 {
                     GameResultId.setText("Game over,no one won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("winner","",stage);
+                    PlayVideo.displayVideo("draw","",stage);
                 }
                 for(int i=0;i<vc.size();i++)
                 {

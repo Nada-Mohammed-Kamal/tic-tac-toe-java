@@ -43,11 +43,10 @@ public class PlayVideo {
             });
             window.show();
             
-                PauseTransition wait = new PauseTransition(Duration.seconds(5));
+                PauseTransition wait = new PauseTransition(Duration.seconds(7));
                 wait.setOnFinished((e) -> {
+                    VideoFXMLBase.mp.stop();
                     window.close();
-                     VideoFXMLBase.mp.stop();
-                    wait.playFromStart();
                 });
                 wait.play();
                             

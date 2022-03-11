@@ -6,11 +6,13 @@
 package tictactoe;
 
 import gameonlineplayer.GameOnlinePlayersScreen;
+import javafx.event.EventHandler;
 import onlineplayerscreen.OnlinePlayersScreen;
 import tictactoe.signup.SignUp;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import tictactoe.login.LoginScreenBase;
 import utils.Constants;
 
@@ -34,6 +36,12 @@ public class Navigation {
     }
         
     public static void navigateToHome(Stage stage) {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                System.exit(0);
+            }
+        });
         navigateTo(stage, new HomeScreen(stage), Constants.HOME);
     }
     

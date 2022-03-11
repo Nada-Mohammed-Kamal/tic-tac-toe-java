@@ -54,13 +54,15 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     @Override
     public void onBackButtonPressed(Stage stage) {
         boolean requestExitGame = DisplayAlert.confirmationDialog(stage,"Are you sure?","OK","Cancel");
-        if (requestExitGame && networkLayer != null) {
-             networkLayer.printStream(ServerQueries.QUIT_GAME);
-        } else {
-            Platform.runLater(() -> {
-                Navigation.navigateToHome(stage);
-            });
-        }
+        if(requestExitGame){
+            if (networkLayer != null) {
+                networkLayer.printStream(ServerQueries.QUIT_GAME);
+            } else {
+                Platform.runLater(() -> {
+                    Navigation.navigateToHome(stage);
+                });
+            }
+        } 
     }
 
     

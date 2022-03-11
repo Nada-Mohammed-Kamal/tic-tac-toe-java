@@ -27,6 +27,7 @@ interface OnlinePlayerScreenController {
 
     void onBackButtonPressed(Stage stage);
     void requestGameFrom(String playerName);
+    public void closeWindow();
 }
 
 public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenController, NetworkUser {
@@ -97,6 +98,15 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
             networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
         }
         Navigation.navigateToHome(stage);
+    }
+    
+    @Override
+    public void closeWindow() {
+        if (networkLayer != null) {
+            networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+            networkLayer.closeConnection("closing window...");
+        }
+        System.exit(0);
     }
 
     @Override

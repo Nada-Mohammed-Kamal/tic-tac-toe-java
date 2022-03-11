@@ -230,7 +230,7 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         onlinePlayerScreenController = new OnlinePlayerScreenControllerImpl(this, stage);
 
         stage.setOnCloseRequest((event) -> {
-            onlinePlayerScreenController.onBackButtonPressed(stage);
+            onlinePlayerScreenController.closeWindow();
         });
         //onlinePlayerScreenController.showOnlineUsers();
     }

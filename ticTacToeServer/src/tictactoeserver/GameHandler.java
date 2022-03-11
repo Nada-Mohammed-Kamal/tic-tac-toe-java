@@ -503,11 +503,11 @@ public class GameHandler extends Thread {
         Game temp = getMyGame();
         int xScore = playerMgr.getPlayerScore(temp.getPlayerX().getUsername()) + temp.getPlayerXScore();
         int yScore = playerMgr.getPlayerScore(temp.getPlayerO().getUsername()) + temp.getPlayerOScore();
+        temp.getPlayerX().getHandler().ps.println(ServerQueries.QUIT_GAME.concat(";").concat(currentPlayer.getUsername()));
+        temp.getPlayerO().getHandler().ps.println(ServerQueries.QUIT_GAME.concat(";").concat(currentPlayer.getUsername()));
         playerMgr.updatePlayerStatusOnDB(temp.getPlayerX().getUsername(),PlayerStatusValues.IDLE ,temp.getPlayerX().getStatus());
         playerMgr.updatePlayerStatusOnDB(temp.getPlayerO().getUsername(),PlayerStatusValues.IDLE , temp.getPlayerO().getStatus());
         playerMgr.updatePlayerScore(temp.getPlayerX().getUsername(), xScore);
         playerMgr.updatePlayerScore(temp.getPlayerO().getUsername(), yScore);
-        temp.getPlayerX().getHandler().ps.println(ServerQueries.QUIT_GAME.concat(";").concat(currentPlayer.getUsername()));
-        temp.getPlayerO().getHandler().ps.println(ServerQueries.QUIT_GAME.concat(";").concat(currentPlayer.getUsername()));
     }
 }

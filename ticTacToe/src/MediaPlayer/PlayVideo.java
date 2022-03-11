@@ -36,8 +36,8 @@ public class PlayVideo {
             window.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
-                    window.setX(((myStage.getWidth()-200)/2) + myStage.getX());
-                    window.setY(10 + myStage.getY());
+                    window.setX(((myStage.getWidth()-300)/2) + myStage.getX());
+                    window.setY( 100+ myStage.getY());
 
                 }
             });

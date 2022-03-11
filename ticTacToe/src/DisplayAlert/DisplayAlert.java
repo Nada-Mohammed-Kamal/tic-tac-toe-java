@@ -40,9 +40,9 @@ public class DisplayAlert {
             });
             window.showAndWait();
     }
-    public static void getPlayerNameOnOnePlayer(Stage myStage){
+    public static void getPlayerNameOnOnePlayer(Stage myStage,String whichLevel){
             Stage window = new Stage();
-            Parent root = new SinglePlayerAlert(myStage,window);
+            Parent root = new SinglePlayerAlert(myStage,window,whichLevel);
             Scene registerScene = new Scene(root);
             //get stage information
             window.initModality(Modality.APPLICATION_MODAL);

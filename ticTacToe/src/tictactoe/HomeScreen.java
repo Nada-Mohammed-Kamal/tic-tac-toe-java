@@ -1,6 +1,7 @@
 package tictactoe;
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import DisplayAlert.DisplayAlert;
+import SinglePlayerLevels.SinglePlayerChooseLevel;
 import tictactoe.login.LoginScreenBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -114,8 +115,8 @@ public class HomeScreen extends AnchorPane {
         singlePlayer.addEventHandler(ActionEvent.ACTION , new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                 DisplayAlert.getPlayerNameOnOnePlayer(stage);    
-                //Navigation.navigateTo(stage, new PersonVSBoot(stage), "Home Screen");
+                 //DisplayAlert.getPlayerNameOnOnePlayer(stage);    
+                Navigation.navigateTo(stage, new SinglePlayerChooseLevel(stage), "Choose Level");
                  
             }
         });

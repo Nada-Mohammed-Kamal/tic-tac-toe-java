@@ -1,7 +1,9 @@
 package DisplayAlert;
 
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
-import PersonVSBootWithAlert.PersonVSBoot;
+import PersonVSBootWithAlert.EasyLevelScreen;
+import PersonVSBootWithAlert.HardLevelScreen;
+import PersonVSBootWithAlert.MediumLevelScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -20,7 +22,7 @@ public class SinglePlayerAlert extends AnchorPane {
     protected final Label label0;
     protected final Button Start;
 
-    public SinglePlayerAlert(Stage myStage,Stage alertStage) {
+    public SinglePlayerAlert(Stage myStage,Stage alertStage,String whichLevel) {
 
         label = new Label();
         anchorPane = new AnchorPane();
@@ -85,8 +87,14 @@ public class SinglePlayerAlert extends AnchorPane {
             public void handle(ActionEvent event) {
                 alertStage.close();
                 System.out.println("In Alert : "+ player1Name.getText());
-                Navigation.navigateTo(myStage, new PersonVSBoot(myStage,player1Name.getText()), "Local Game");
-                }
+                //easy .. medium .. hard
+                if(whichLevel.equals("medium"))
+                   Navigation.navigateTo(myStage, new MediumLevelScreen(myStage,player1Name.getText()), "Local Game Medim");
+                else if(whichLevel.equals("easy"))
+                    Navigation.navigateTo(myStage, new EasyLevelScreen(myStage,player1Name.getText()), "Local Game Easy");
+                else if(whichLevel.equals("hard"))
+                    Navigation.navigateTo(myStage, new HardLevelScreen(myStage,player1Name.getText()), "Local Game Hard");
+            }
         });
         CursorHANDWhenMoveToIntoButton.getCurserOnbutton(Start, alertStage);
         getChildren().add(label);

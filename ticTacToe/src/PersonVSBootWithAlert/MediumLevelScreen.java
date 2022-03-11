@@ -19,12 +19,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tictactoe.HomeScreen;
 import tictactoe.Navigation;
 import MediaPlayer.PlayVideo;
+import SinglePlayerLevels.SinglePlayerChooseLevel;
 import tictactoe.TicTacToeAI;
 
-public class PersonVSBoot extends AnchorPane {
+public class MediumLevelScreen extends AnchorPane {
     
     protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
@@ -46,19 +46,19 @@ public class PersonVSBoot extends AnchorPane {
     protected final Button PlayAgainButtonid;
     protected final AnchorPane anchorPane0;
     protected final AnchorPane anchorPane1;
-    protected final ImageView imageView;
-    protected final Label label;
-    protected final Label label0;
+    protected final ImageView logoImage;
+    protected final Label labelXText;
+    protected final Label playXName;
     protected final Label playerXresult;
     protected final AnchorPane anchorPane2;
     protected final AnchorPane anchorPane3;
-    protected final ImageView imageView0;
-    protected final Label label1;
-    protected final Label label2;
+    protected final ImageView player2Image;
+    protected final Label labelOText;
+    protected final Label playerOName;
     protected final Label computerYResult;
     protected final AnchorPane anchorPane4;
-    protected final Button button;
-    protected final ImageView imageView1;
+    protected final Button backButton;
+    protected final ImageView backButtonImage;
     protected final Label GameResultId;
     protected final Button SaveButtonid;
     protected final ImageView savImageIcon;
@@ -67,7 +67,7 @@ public class PersonVSBoot extends AnchorPane {
     ArrayList<Integer> playersRecorderMoves;
     String movesAsAString;
     String getSubStringForNames = "";
-     String nameOfPlayerOneRecorder = "";
+    String nameOfPlayerOneRecorder = "";
     String nameOfPlayerTwoRecorder = "";
     protected final AnchorPane anchorPanePlayAgain;
         
@@ -79,7 +79,7 @@ public class PersonVSBoot extends AnchorPane {
     private TicTacToeAI TTT;
     Vector<Integer> vc;
     Stage stage;
-    public PersonVSBoot(Stage stage,String playersName) {
+    public MediumLevelScreen(Stage stage,String playerName) {
         //To play video in the center of screen 
         this.stage = stage;
         TTT = new TicTacToeAI();
@@ -120,7 +120,7 @@ public class PersonVSBoot extends AnchorPane {
         SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                        SaveGame.saveFile(new PlayersNames(playersName,"Computer"),vc);
+                        SaveGame.saveFile(new PlayersNames(playerName,"Computer"),vc);
                         SaveButtonid.setDisable(true);
                   }
         });
@@ -154,19 +154,19 @@ public class PersonVSBoot extends AnchorPane {
        
         anchorPane0 = new AnchorPane();
         anchorPane1 = new AnchorPane();
-        imageView = new ImageView();
-        label = new Label();
-        label0 = new Label();
+        logoImage = new ImageView();
+        labelXText = new Label();
+        playXName = new Label();
         playerXresult = new Label();
         anchorPane2 = new AnchorPane();
         anchorPane3 = new AnchorPane();
-        imageView0 = new ImageView();
-        label1 = new Label();
-        label2 = new Label();
+        player2Image = new ImageView();
+        labelOText = new Label();
+        playerOName = new Label();
         computerYResult = new Label();
         anchorPane4 = new AnchorPane();
-        button = new Button();
-        imageView1 = new ImageView();
+        backButton = new Button();
+        backButtonImage = new ImageView();
       
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
@@ -203,8 +203,46 @@ public class PersonVSBoot extends AnchorPane {
         rowConstraints1.setMinHeight(10.0);
         rowConstraints1.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
 
-        GridPane.setColumnIndex(b3, 2);
+        b1.setMnemonicParsing(false);
+        b1.setPrefHeight(95.0);
+        b1.setPrefWidth(133.0);
+        b1.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
+        b1.setFont(new Font("Berlin Sans FB", 42.0));
+        b1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            int GO = TTT.isGameOver();
+            if (TTT.Move(1, 1) && GO == 0) {
+                System.out.println("YES");
+                b1.setDisable(true);
+                b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
+                b1.setText("X");
+                addMovesPlayers(1);
+                ComputerMove(-1,0);
+                if ((GO = TTT.isGameOver()) != 0)
+                    SetCounters(GO);
+            }
+        });
         
+        GridPane.setColumnIndex(b2, 1);
+        b2.setMnemonicParsing(false);
+        b2.setPrefHeight(95.0);
+        b2.setPrefWidth(133.0);
+        b2.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
+        b2.setFont(new Font("Berlin Sans FB", 42.0));
+        b2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            int GO = TTT.isGameOver();
+            if (TTT.Move(2, 1) && GO == 0) {
+                System.out.println("YES");
+                b2.setDisable(true); 
+                addMovesPlayers(2);
+                b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
+                b2.setText("X");
+                ComputerMove(-1,0);
+                if ((GO = TTT.isGameOver()) != 0)
+                    SetCounters(GO);
+            }
+        });
+        
+        GridPane.setColumnIndex(b3, 2);
         b3.setMnemonicParsing(false);
         b3.setPrefHeight(95.0);
         b3.setPrefWidth(133.0);
@@ -218,6 +256,47 @@ public class PersonVSBoot extends AnchorPane {
                 b3.setDisable(true);
                 b3.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
                 b3.setText("X");
+                ComputerMove(-1,0);
+                if ((GO = TTT.isGameOver()) != 0)
+                    SetCounters(GO);
+            }
+        });
+        
+        GridPane.setRowIndex(b4, 1);
+        b4.setMnemonicParsing(false);
+        b4.setPrefHeight(95.0);
+        b4.setPrefWidth(133.0);
+        b4.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
+        b4.setFont(new Font("Berlin Sans FB", 42.0));
+        b4.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            int GO = TTT.isGameOver();
+            if (TTT.Move(4, 1) && GO == 0) {
+                System.out.println("YES");
+                b4.setDisable(true);
+                b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
+                b4.setText("X");
+                addMovesPlayers(4);
+                ComputerMove(-1,0);
+                if ((GO = TTT.isGameOver()) != 0)
+                    SetCounters(GO);
+            }
+        });
+        
+        GridPane.setColumnIndex(b5, 1);
+        GridPane.setRowIndex(b5, 1);
+        b5.setMnemonicParsing(false);
+        b5.setPrefHeight(95.0);
+        b5.setPrefWidth(133.0);
+        b5.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
+        b5.setFont(new Font("Berlin Sans FB", 42.0));
+        b5.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            int GO = TTT.isGameOver();
+            if (TTT.Move(5, 1) && GO == 0) {
+                System.out.println("YES");
+                b5.setDisable(true);
+                addMovesPlayers(5);
+                b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
+                b5.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
@@ -245,60 +324,20 @@ public class PersonVSBoot extends AnchorPane {
             }
         });
         
-        GridPane.setColumnIndex(b2, 1);
-        b2.setMnemonicParsing(false);
-        b2.setPrefHeight(95.0);
-        b2.setPrefWidth(133.0);
-        b2.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b2.setFont(new Font("Berlin Sans FB", 42.0));
-        b2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+        GridPane.setRowIndex(b7, 2);
+        b7.setMnemonicParsing(false);
+        b7.setPrefHeight(95.0);
+        b7.setPrefWidth(133.0);
+        b7.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
+        b7.setFont(new Font("Berlin Sans FB", 42.0));
+        b7.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             int GO = TTT.isGameOver();
-            if (TTT.Move(2, 1) && GO == 0) {
+            if (TTT.Move(7, 1) && GO == 0) {
                 System.out.println("YES");
-                b2.setDisable(true); 
-                addMovesPlayers(2);
-                b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-                b2.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
-        });
-        
-        b1.setMnemonicParsing(false);
-        b1.setPrefHeight(95.0);
-        b1.setPrefWidth(133.0);
-        b1.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b1.setFont(new Font("Berlin Sans FB", 42.0));
-        b1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(1, 1) && GO == 0) {
-                System.out.println("YES");
-                b1.setDisable(true);
-                b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-                b1.setText("X");
-                addMovesPlayers(1);
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
-        });
-        
-        GridPane.setColumnIndex(b5, 1);
-        GridPane.setRowIndex(b5, 1);
-        b5.setMnemonicParsing(false);
-        b5.setPrefHeight(95.0);
-        b5.setPrefWidth(133.0);
-        b5.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b5.setFont(new Font("Berlin Sans FB", 42.0));
-        b5.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(5, 1) && GO == 0) {
-                System.out.println("YES");
-                b5.setDisable(true);
-                addMovesPlayers(5);
-                b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-                b5.setText("X");
+                b7.setDisable(true);
+                addMovesPlayers(7);
+                b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
+                b7.setText("X");
                 ComputerMove(-1,0);
                 if ((GO = TTT.isGameOver()) != 0)
                     SetCounters(GO);
@@ -346,47 +385,7 @@ public class PersonVSBoot extends AnchorPane {
                     SetCounters(GO);
             }
         });
-        
-        GridPane.setRowIndex(b4, 1);
-        b4.setMnemonicParsing(false);
-        b4.setPrefHeight(95.0);
-        b4.setPrefWidth(133.0);
-        b4.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b4.setFont(new Font("Berlin Sans FB", 42.0));
-        b4.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(4, 1) && GO == 0) {
-                System.out.println("YES");
-                b4.setDisable(true);
-                b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-                b4.setText("X");
-                addMovesPlayers(4);
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
-        });
-        
-        GridPane.setRowIndex(b7, 2);
-        b7.setMnemonicParsing(false);
-        b7.setPrefHeight(95.0);
-        b7.setPrefWidth(133.0);
-        b7.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
-        b7.setFont(new Font("Berlin Sans FB", 42.0));
-        b7.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            int GO = TTT.isGameOver();
-            if (TTT.Move(7, 1) && GO == 0) {
-                System.out.println("YES");
-                b7.setDisable(true);
-                addMovesPlayers(7);
-                b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-                b7.setText("X");
-                ComputerMove(-1,0);
-                if ((GO = TTT.isGameOver()) != 0)
-                    SetCounters(GO);
-            }
-        });
-        
+
         AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
         AnchorPane.setLeftAnchor(PlayAgainButtonid, 0.0);
         AnchorPane.setRightAnchor(PlayAgainButtonid, 0.0);
@@ -410,25 +409,25 @@ public class PersonVSBoot extends AnchorPane {
         anchorPane0.setLayoutX(49.0);
         anchorPane0.setLayoutY(101.0);
 
-        imageView.setFitHeight(142.0);
-        imageView.setFitWidth(154.0);
-        imageView.setLayoutX(9.0);
-        imageView.setLayoutY(94.0);
-        imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        imageView.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
+        logoImage.setFitHeight(142.0);
+        logoImage.setFitWidth(154.0);
+        logoImage.setLayoutX(9.0);
+        logoImage.setLayoutY(94.0);
+        logoImage.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+        logoImage.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play1.png")));
        
-        label.setLayoutX(144.0);
-        label.setLayoutY(222.0);
-        label.setText("X");
-        label.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-        label.setFont(new Font("Berlin Sans FB", 68.0));
+        labelXText.setLayoutX(144.0);
+        labelXText.setLayoutY(222.0);
+        labelXText.setText("X");
+        labelXText.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
+        labelXText.setFont(new Font("Berlin Sans FB", 68.0));
         
-        label0.setLayoutX(5.0);
-        label0.setPrefHeight(75.0);
-        label0.setPrefWidth(193.0);
-        label0.setText(playersName);
-        label0.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        label0.setFont(new Font("Berlin Sans FB", 36.0));
+        playXName.setLayoutX(5.0);
+        playXName.setPrefHeight(75.0);
+        playXName.setPrefWidth(193.0);
+        playXName.setText(playerName);
+        playXName.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        playXName.setFont(new Font("Berlin Sans FB", 36.0));
 
         playerXresult.setLayoutX(32.0);
         playerXresult.setLayoutY(297.0);
@@ -456,25 +455,25 @@ public class PersonVSBoot extends AnchorPane {
         anchorPane3.setPrefHeight(305.0);
         anchorPane3.setPrefWidth(196.0);
 
-        imageView0.setFitHeight(142.0);
-        imageView0.setFitWidth(154.0);
-        imageView0.setLayoutX(9.0);
-        imageView0.setLayoutY(94.0);
-        imageView0.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        imageView0.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play2.png")));
+        player2Image.setFitHeight(142.0);
+        player2Image.setFitWidth(154.0);
+        player2Image.setLayoutX(9.0);
+        player2Image.setLayoutY(94.0);
+        player2Image.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+        player2Image.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/play2.png")));
 
-        label1.setLayoutX(144.0);
-        label1.setLayoutY(222.0);
-        label1.setText("O");
-        label1.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        label1.setFont(new Font("Berlin Sans FB", 68.0));
+        labelOText.setLayoutX(144.0);
+        labelOText.setLayoutY(222.0);
+        labelOText.setText("O");
+        labelOText.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        labelOText.setFont(new Font("Berlin Sans FB", 68.0));
 
-        label2.setLayoutX(3.0);
-        label2.setPrefHeight(64.0);
-        label2.setPrefWidth(193.0);
-        label2.setText("Computer");
-        label2.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        label2.setFont(new Font("Berlin Sans FB", 36.0));
+        playerOName.setLayoutX(3.0);
+        playerOName.setPrefHeight(64.0);
+        playerOName.setPrefWidth(193.0);
+        playerOName.setText("Computer");
+        playerOName.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
+        playerOName.setFont(new Font("Berlin Sans FB", 36.0));
 
         computerYResult.setLayoutX(44.0);
         computerYResult.setLayoutY(294.0);
@@ -486,26 +485,26 @@ public class PersonVSBoot extends AnchorPane {
         anchorPane4.setLayoutX(29.0);
         anchorPane4.setLayoutY(501.0);
 
-        button.setMnemonicParsing(false);
-        button.setPrefHeight(75.0);
-        button.setPrefWidth(185.0);
-        button.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
-        button.setText("       Back");
-        button.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
-        button.setFont(new Font("Berlin Sans FB", 33.0));
-        button.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
+        backButton.setMnemonicParsing(false);
+        backButton.setPrefHeight(75.0);
+        backButton.setPrefWidth(185.0);
+        backButton.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
+        backButton.setText("       Back");
+        backButton.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
+        backButton.setFont(new Font("Berlin Sans FB", 33.0));
+        backButton.addEventHandler(ActionEvent.ACTION ,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    Navigation.navigateTo(stage, new HomeScreen(stage), "Home Screen");
+                    Navigation.navigateTo(stage, new SinglePlayerChooseLevel(stage), "Choose Level");
                  }
         });
-        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(button, stage);
-        imageView1.setFitHeight(50.0);
-        imageView1.setFitWidth(52.0);
-        imageView1.setLayoutX(16.0);
-        imageView1.setLayoutY(11.0);
-        imageView1.setOpacity(0.47);
-        imageView1.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(backButton, stage);
+        backButtonImage.setFitHeight(50.0);
+        backButtonImage.setFitWidth(52.0);
+        backButtonImage.setLayoutX(16.0);
+        backButtonImage.setLayoutY(11.0);
+        backButtonImage.setOpacity(0.47);
+        backButtonImage.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/backbutton.jfif")));
 
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
@@ -524,20 +523,20 @@ public class PersonVSBoot extends AnchorPane {
         gridPane.getChildren().add(b7);
         anchorPane.getChildren().add(gridPane);
         getChildren().add(anchorPane);
-        anchorPane1.getChildren().add(imageView);
-        anchorPane1.getChildren().add(label);
-        anchorPane1.getChildren().add(label0);
+        anchorPane1.getChildren().add(logoImage);
+        anchorPane1.getChildren().add(labelXText);
+        anchorPane1.getChildren().add(playXName);
         anchorPane0.getChildren().add(anchorPane1);
         anchorPane0.getChildren().add(playerXresult);
         getChildren().add(anchorPane0);
-        anchorPane3.getChildren().add(imageView0);
-        anchorPane3.getChildren().add(label1);
-        anchorPane3.getChildren().add(label2);
+        anchorPane3.getChildren().add(player2Image);
+        anchorPane3.getChildren().add(labelOText);
+        anchorPane3.getChildren().add(playerOName);
         anchorPane2.getChildren().add(anchorPane3);
         anchorPane2.getChildren().add(computerYResult);
         getChildren().add(anchorPane2);
-        anchorPane4.getChildren().add(button);
-        anchorPane4.getChildren().add(imageView1);
+        anchorPane4.getChildren().add(backButton);
+        anchorPane4.getChildren().add(backButtonImage);
         getChildren().add(anchorPane4);
         anchorPanePlayAgain.getChildren().add(PlayAgainButtonid);
         anchorPanePlayAgain.getChildren().add(playAgainIcon);

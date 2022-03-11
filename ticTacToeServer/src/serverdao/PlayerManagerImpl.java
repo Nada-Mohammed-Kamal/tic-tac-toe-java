@@ -124,26 +124,38 @@ public class PlayerManagerImpl implements PlayerManager {
         return result;
     }
 
-    private ResultSet rs;
+    
 
     @Override
     public int getAllPlayersCount() {
-
-        rs = null;
+        ResultSet rs = null;
+        PreparedStatement ps= null;
+        
         int sum = 0;
 
         try {
-            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
 
             while (rs.next()) {
                 sum++;
             }
 
-            ps.close();
-            rs.close();
+            
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if(ps != null && rs != null) {
+                    ps.close();
+                    rs.close();
+                } else {
+                    System.out.println("ps or rs is null ps != null && rs != null");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return sum;
@@ -151,8 +163,8 @@ public class PlayerManagerImpl implements PlayerManager {
 
     @Override
     public int getOnlinePlayersCount() {
-
-        rs = null;
+        ResultSet rs;
+        
         Vector<PlayerDto> allPlayers = new Vector<>();
 
         try {
@@ -174,21 +186,26 @@ public class PlayerManagerImpl implements PlayerManager {
 
     @Override
     public List<String> getOnlinePlayers() {
-
-        rs = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        
         List<String> onlinePlayers = new ArrayList<>();
 
         try {
-            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
             while (rs.next()) {
                 onlinePlayers.add(rs.getString(AttributeConstants.USERNAME));
             }
-
-            ps.close();
-            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            try {
+                ps.close();
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PlayerManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return onlinePlayers;
@@ -196,7 +213,7 @@ public class PlayerManagerImpl implements PlayerManager {
 
     @Override
     public int login(String userName, String password, Integer scoreRefrence) {
-        rs = null;
+        ResultSet rs;
         int result = ResultConstants.DB_ERROR;
 
         try {
@@ -240,7 +257,7 @@ public class PlayerManagerImpl implements PlayerManager {
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_COL_FOR_USERNAME, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, username);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 result = true;
             } else {
@@ -303,12 +320,12 @@ public class PlayerManagerImpl implements PlayerManager {
     //init 
     @Override
     public List<PlayerDto> getAvilableOnlinePlayersWithScores() {
-
-        rs = null;
+        
+        ResultSet rs;
         List<PlayerDto> availableOnlinePlayers = new ArrayList<>();
 
-        try {
-            PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        try(PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ONLINE_PLAYERS, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -319,7 +336,8 @@ public class PlayerManagerImpl implements PlayerManager {
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
+        
 
         return availableOnlinePlayers;
     }
@@ -333,7 +351,7 @@ public class PlayerManagerImpl implements PlayerManager {
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.SELECT_ALL_COL_FOR_USERNAME, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, username);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 player = new PlayerDto(username, "", rs.getInt(AttributeConstants.SCORE), rs.getInt(AttributeConstants.STATUS), rs.getBoolean(AttributeConstants.ISONLINE));
             }
@@ -385,7 +403,7 @@ public class PlayerManagerImpl implements PlayerManager {
     @Override
     public int getPlayerScore(String username) {
         int score = 0;
-        rs = null;
+        ResultSet rs;
         
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.GET_SCORE);

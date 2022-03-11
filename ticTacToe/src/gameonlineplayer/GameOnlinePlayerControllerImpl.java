@@ -51,8 +51,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     
     @Override
     public void onBackButtonPressed(Stage stage) {
-        // show confirmation dialog
-         boolean requestExitGame = DisplayAlert.confirmationDialog(stage,"Are you sure?","OK","Cancel");
+        boolean requestExitGame = DisplayAlert.confirmationDialog(stage,"Are you sure?","OK","Cancel");
         if (requestExitGame) {
              networkLayer.printStream(ServerQueries.QUIT_GAME);
         } 
@@ -115,8 +114,9 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
                     if (playerOScore != null && !playerOScore.isEmpty()) {
                         networkLayer.setScore(networkLayer.getScore() + Integer.parseInt(playerOScore));
                     }
-                    DisplayAlert.informationAlert("The Second Player Left", stage);
+                    
                     Navigation.navigateToOnlinePlayersScreen(stage);
+                    DisplayAlert.informationAlert("The Second Player Left", stage);
                 }
                 break;
         }

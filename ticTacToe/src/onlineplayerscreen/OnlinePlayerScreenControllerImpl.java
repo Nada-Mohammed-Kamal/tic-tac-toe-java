@@ -43,10 +43,7 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
         this.stage = stage;
         networkLayer = NetworkLayerImpl.getInstance(this);
         //networkLayer.printStream(ServerQueries.GET_ONLINE_USERS);
-        onlinePlayerScreenInterface.displayUserData(networkLayer.getUsername(),
-                networkLayer.getScore());
-        
-        
+        onlinePlayerScreenInterface.displayUserData(networkLayer.getUsername(), networkLayer.getScore());
     }
 
     @Override
@@ -96,7 +93,9 @@ public class OnlinePlayerScreenControllerImpl implements OnlinePlayerScreenContr
 
     @Override
     public void onBackButtonPressed(Stage stage) {
-        networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+        if (networkLayer != null) {
+            networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+        }
         Navigation.navigateToHome(stage);
     }
 

@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.PlayerDto;
 
 interface OnlinePlayerScreenInterface {
@@ -228,6 +229,9 @@ public class OnlinePlayersScreen extends AnchorPane implements OnlinePlayerScree
         vBox.minHeight(USE_PREF_SIZE);
         onlinePlayerScreenController = new OnlinePlayerScreenControllerImpl(this, stage);
 
+        stage.setOnCloseRequest((event) -> {
+            onlinePlayerScreenController.onBackButtonPressed(stage);
+        });
         //onlinePlayerScreenController.showOnlineUsers();
     }
 

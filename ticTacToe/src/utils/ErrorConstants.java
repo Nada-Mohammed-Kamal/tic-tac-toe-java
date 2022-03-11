@@ -14,5 +14,6 @@ public class ErrorConstants {
     public static final String COULD_NOT_RECEIVE_MSG_FROM_SERVER = "Could't receive msg from server!";
     public static final String PROBLEM_WHILE_CLOSING_CONNECTION = "Something went wrong while closing connection!";
     public static final String CLOSED_ABBNORMALLY = "Something went wrong while closing connection!";       
-    public static final String SERVER_CLOSED = "server closed!";      
+    public static final String SERVER_CLOSED = "server closed!"; 
+    public static final String BOOM_SERVER_CLOSED = "Sorry! We have\nmantainance on server now."; 
 }

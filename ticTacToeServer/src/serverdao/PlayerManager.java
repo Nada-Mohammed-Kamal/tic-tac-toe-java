@@ -43,7 +43,7 @@ public interface PlayerManager extends PlayerCountChangeUpdater {
 
     public List<PlayerDto> getAvilableOnlinePlayersWithScores();
 
-    boolean updateSetPlayerOffline();
+    boolean setAllPlayersOffline();
 
-    boolean updateSetPlayerStatusZero();
+    boolean setAllPlayersStatusZero();
 }

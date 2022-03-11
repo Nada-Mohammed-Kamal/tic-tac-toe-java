@@ -89,17 +89,19 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
                 String msg = bufferReader.readLine();
                 System.out.println("msg == " + msg);
                 if (msg != null && !msg.isEmpty()) {
-                    if (msg.equals(ServerQueries.CLOSE_NORMALLY)) {
-                        closeConnection(ServerQueries.CLOSE_NORMALLY);
+                    if (msg.equals(ServerQueries.CLOSE_NORMALLY) || msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)) {
+                        //networkUser.onErrorReceived(ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER);
+                        closeConnection(msg);
                         flag = false;
                         return;
+                    } else {
+                        Platform.runLater(() -> {
+                            networkUser.onMsgReceived(msg);
+                        });
                     }
-                    Platform.runLater(() -> {
-                        networkUser.onMsgReceived(msg);
-                    });
                 }
             } catch (IOException ex) {
-                networkUser.onErrorReceived(ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER);
+                //networkUser.onErrorReceived(ErrorConstants.COULD_NOT_RECEIVE_MSG_FROM_SERVER);
                 flag = false;
                 closeConnection(ErrorConstants.CLOSED_ABBNORMALLY);
                 return;

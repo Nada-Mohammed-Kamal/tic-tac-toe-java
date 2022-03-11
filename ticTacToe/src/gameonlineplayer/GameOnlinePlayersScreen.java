@@ -27,6 +27,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import utils.Role;
 
 interface GameOnlinePlayersScreenInterface {
@@ -471,6 +472,10 @@ public class GameOnlinePlayersScreen extends AnchorPane implements GameOnlinePla
         getChildren().add(saveAchorPane);
 
         gameOnlinePlayerController = new GameOnlinePlayerControllerImpl(this, stage, secondPlayerName, secondPlayerRole);
+        
+        stage.setOnCloseRequest((event) -> {
+            gameOnlinePlayerController.onBackButtonPressed(stage);
+        });
     }
 
     public void hideAllXOButtonWhenGameFinished() {

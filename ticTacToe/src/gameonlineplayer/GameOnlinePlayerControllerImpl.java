@@ -11,9 +11,11 @@ import java.util.Vector;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
 import MediaPlayer.PlayVideo;
+import javafx.application.Platform;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
+import utils.ErrorConstants;
 import utils.Role;
 import utils.ServerQueries;
 
@@ -52,16 +54,25 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     @Override
     public void onBackButtonPressed(Stage stage) {
         boolean requestExitGame = DisplayAlert.confirmationDialog(stage,"Are you sure?","OK","Cancel");
-        if (requestExitGame) {
+        if (requestExitGame && networkLayer != null) {
              networkLayer.printStream(ServerQueries.QUIT_GAME);
-        } 
-  
+        } else {
+            Platform.runLater(() -> {
+                Navigation.navigateToHome(stage);
+            });
+        }
     }
 
     
     @Override
     public void exitNetwork(String msg) {
-        
+        networkLayer = null;
+        if (msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)) {
+            DisplayAlert.informationAlert(ErrorConstants.BOOM_SERVER_CLOSED, stage);
+        }
+        Platform.runLater(() -> {
+            Navigation.navigateToHome(stage);
+        });
     }
 
     @Override
@@ -179,6 +190,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     }
     @Override
     public void playAgianButtonPressed() {
+        playerMoves.clear();
         networkLayer.printStream(ServerQueries.PLAY_AGAIN);
     }
 }

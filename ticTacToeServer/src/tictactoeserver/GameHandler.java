@@ -27,6 +27,7 @@ import serverdao.ConnectionDB;
 import serverdao.PlayerManager;
 import serverdao.PlayerManagerImpl;
 import utils.AuthenticationConstants;
+import utils.ErrorConstants;
 import utils.GameResult;
 import utils.PlayerStatusValues;
 import utils.ResultConstants;
@@ -52,6 +53,25 @@ public class GameHandler extends Thread {
     
     private String id = UUID.randomUUID().toString();
     private static Vector<GameHandler> inActiveSession = new Vector<>();
+    
+    static {
+        resetServerAndDBStatus();
+        new Thread(() -> {
+            while (true) {                
+                try {
+                    sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("Sessions count = " + sessions.size());
+                System.out.println("---------------------------------------------");
+                System.out.println("Game count = " + currentGames.size());
+                System.out.println("---------------------------------------------");
+                System.out.println("inActiveSessions count = " + inActiveSession.size());
+                System.out.println("---------------------------------------------");
+            }
+        }).start();
+    }
     
     public GameHandler(Socket cs, Stage stage) {
         try {
@@ -95,11 +115,22 @@ public class GameHandler extends Thread {
 //           clientsVector.get(i).ps.println(msg);
 //        }
 //    }
-    private void closeStream() {
+    private void closeStream(String msg) {
         try {
-            ps.println(ServerQueries.CLOSE_NORMALLY);
+            ps.println(msg);
             stopServerTalkingAndListening();
-            updatePlayerStateDB();
+            updatePlayerStateToClosing();
+            releasePlayersResources();
+            releasePlayerAndStopThreading();
+        } catch (IOException ex1) {
+            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+    }
+    private void serverClosePlayerStream(String msg) {
+        try {
+            ps.println(msg);
+            stopServerTalkingAndListening();
+            updatePlayerStateToClosing();
             releasePlayerAndStopThreading();
         } catch (IOException ex1) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
@@ -109,16 +140,9 @@ public class GameHandler extends Thread {
         releasePlayersResources();
     } 
     private void releasePlayersResources() {
-        try {
-            stopServerTalkingAndListening();
-            //TODO should be in Thread but take care of refrence!
-            updatePlayerStateDB();
-            sessions.remove(currentPlayer.getUsername());
-            currentGames.remove(new Game(currentPlayer, currentPlayer));
-            releasePlayerAndStopThreading();
-        } catch (IOException ex1) {
-            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
-        }
+        //TODO should be in Thread but take care of refrence!
+        sessions.remove(currentPlayer.getUsername());
+        currentGames.remove(new Game(currentPlayer, currentPlayer));
     } 
     
     private void stopServerTalkingAndListening() throws IOException {
@@ -128,15 +152,16 @@ public class GameHandler extends Thread {
         bufferReader.close();
         s.close();
     }
-    private void updatePlayerStateDB() {
+    private void updatePlayerStateToClosing() {
         // handle closing server ya ABDELWAHAB
         playerMgr.updatePlayerStatusOnDB(
             currentPlayer.getUsername(), 
             PlayerStatusValues.CLOSING, 
             currentPlayer.getStatus());
+        currentPlayer.setStatus(PlayerStatusValues.CLOSING);
     }
     private void releasePlayerAndStopThreading() {
-        currentPlayer = null;            
+        currentPlayer = null;
         stop();
     }
     
@@ -196,7 +221,7 @@ public class GameHandler extends Thread {
 
     private void handleClosingServer(Stage stage) {
         stage.setOnCloseRequest((event) -> {
-            closeStream();
+            closeAllResourses();
             System.exit(0);
         });
     }
@@ -214,9 +239,7 @@ public class GameHandler extends Thread {
             case ServerQueries.CLOSE_NORMALLY:
                 System.out.println("Client " + ServerQueries.CLOSE_NORMALLY);
                 playerMgr.logOut(currentPlayer.getUsername(), currentPlayer.getStatus());
-                currentPlayer.setStatus(PlayerStatusValues.CLOSING);
-                ps.println(ServerQueries.CLOSE_NORMALLY);
-                closeStream();
+                closeStream(ServerQueries.CLOSE_NORMALLY);
                 break;
             case ServerQueries.SIGN_UP:
                 registerNewPlayer(stringTokenizer.nextToken(), stringTokenizer.nextToken());
@@ -301,27 +324,21 @@ public class GameHandler extends Thread {
         
     }
     
-    public static void onClosingServer() {
+    public static void resetServerAndDBStatus() {
         new Thread(() -> {
-            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateSetPlayerOffline();
-            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateSetPlayerStatusZero();
+            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).setAllPlayersOffline();
+            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).setAllPlayersStatusZero();
             PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateServerStatistics();
-            closeAllResourses();
-            
         }).start();
-//        sendMsgToAllUsers(msg);
     }
     
     public static void closeAllResourses() {
         for(Map.Entry<String, PlayerDto> session : sessions.entrySet()) {
-            System.out.println("session"+session);
-            session.getValue().getHandler().releasePlayersResources();
+            System.out.println("session " + session);
+            session.getValue().getHandler().serverClosePlayerStream(ErrorConstants.CLOSED_ABBNORMALLY);
         }
         sessions.clear();
-        for(GameHandler game : GameHandler.inActiveSession) {
-            System.out.println("Game   "+game);
-            game.releasePlayersResources();
-        }
+        currentGames.clear();
         inActiveSession.clear();
         
         // close DB
@@ -509,5 +526,9 @@ public class GameHandler extends Thread {
         playerMgr.updatePlayerStatusOnDB(temp.getPlayerO().getUsername(),PlayerStatusValues.IDLE , temp.getPlayerO().getStatus());
         playerMgr.updatePlayerScore(temp.getPlayerX().getUsername(), xScore);
         playerMgr.updatePlayerScore(temp.getPlayerO().getUsername(), yScore);
+        
+        currentGames.remove(temp);
     }
+    
+    
 }

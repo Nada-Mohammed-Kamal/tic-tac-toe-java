@@ -364,7 +364,7 @@ public class PlayerManagerImpl implements PlayerManager {
     }
 
     @Override
-    public boolean updateSetPlayerOffline() {
+    public boolean setAllPlayersOffline() {
         boolean result = true;
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_SET_PLAYERS_OFFLINE);
@@ -380,7 +380,7 @@ public class PlayerManagerImpl implements PlayerManager {
     }
 
     @Override
-    public boolean updateSetPlayerStatusZero() {
+    public boolean setAllPlayersStatusZero() {
         boolean result = true;
         try {
             PreparedStatement ps = con.getConnection().prepareStatement(SQLQueriesConstants.UPDATE_SET_PLAYERS_STATE_ZERO);

@@ -1,5 +1,6 @@
 package tictactoe.login;
 
+import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -42,14 +43,17 @@ public class LoginScreenBase extends AnchorPane {
         label1 = new Label();
         anchorPane0 = new AnchorPane();
         backButtonid = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(backButtonid, stage);
         imageView = new ImageView();
         anchorPane1 = new AnchorPane();
         loginId = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(loginId, stage);
         imageView0 = new ImageView();
         imageView1 = new ImageView();
         anchorPane2 = new AnchorPane();
         label2 = new Label();
         signUpHere = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(signUpHere, stage);
         nameTextBoxid = new TextField();
         passwordtextboxid = new TextField();
 

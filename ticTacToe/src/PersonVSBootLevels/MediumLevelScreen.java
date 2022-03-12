@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tictactoe.Navigation;
+import Navigation.Navigation;
 import MediaPlayer.PlayVideo;
 import SinglePlayerLevels.SinglePlayerChooseLevel;
 

@@ -5,7 +5,7 @@
  */
 package SinglePlayerLevels;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
-import tictactoe.Navigation;
+import Navigation.Navigation;
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import DisplayAlert.DisplayAlert;
 import javafx.event.ActionEvent;

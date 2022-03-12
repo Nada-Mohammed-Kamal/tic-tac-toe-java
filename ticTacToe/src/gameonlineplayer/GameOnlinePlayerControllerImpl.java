@@ -9,7 +9,7 @@ import DisplayAlert.DisplayAlert;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import javafx.stage.Stage;
-import tictactoe.Navigation;
+import Navigation.Navigation;
 import MediaPlayer.PlayVideo;
 import javafx.application.Platform;
 import tictactoe.network.NetworkLayer;

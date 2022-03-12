@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tictactoe.Navigation;
+import Navigation.Navigation;
 
 public class ShowAlertPlayLocalGame extends AnchorPane {
 

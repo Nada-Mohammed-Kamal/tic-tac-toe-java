@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import tictactoe.HomeScreen;
-import tictactoe.Navigation;
+import Navigation.Navigation;
 
 public class SignUp extends AnchorPane {
 

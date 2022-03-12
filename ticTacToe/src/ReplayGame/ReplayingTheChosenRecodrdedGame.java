@@ -1,5 +1,7 @@
-package tictactoe;
+package ReplayGame;
 
+import ReplayGame.ReplayGameService;
+import ReplayGame.RecordedScreen;
 import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -18,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import Navigation.Navigation;
 
 public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
 

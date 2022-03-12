@@ -21,7 +21,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tictactoe.HomeScreen;
-import tictactoe.Navigation;
+import Navigation.Navigation;
 import MediaPlayer.PlayVideo;
 public class GameLocalMultiPlayersScreenBase extends AnchorPane {
     protected final AnchorPane anchorPane;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package Navigation;
 
 import gameonlineplayer.GameOnlinePlayersScreen;
 import javafx.event.EventHandler;
@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import tictactoe.HomeScreen;
 import tictactoe.login.LoginScreenBase;
 import utils.Constants;
 

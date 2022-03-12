@@ -5,6 +5,7 @@
  */
 package tictactoe;
 
+import Navigation.Navigation;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

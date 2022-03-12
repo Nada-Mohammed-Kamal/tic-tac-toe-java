@@ -27,7 +27,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tictactoe.Navigation;
+import Navigation.Navigation;
 
 /**
  *

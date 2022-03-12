@@ -1,4 +1,4 @@
-package tictactoe;
+package ReplayGame;
 
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import java.io.File;
@@ -18,6 +18,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import tictactoe.HomeScreen;
+import Navigation.Navigation;
 
 public class RecordedScreen extends AnchorPane {
 

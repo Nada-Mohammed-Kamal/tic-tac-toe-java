@@ -55,7 +55,8 @@ public class WaitingAlertOnlineGame extends AnchorPane {
         YourMessage.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
         YourMessage.setWrapText(true);
         YourMessage.setFont(new Font("System Bold", 15.0));
-
+        YourMessage.setMaxHeight(USE_COMPUTED_SIZE);
+        
         getChildren().add(label);
         anchorPane.getChildren().add(YourMessage);
         getChildren().add(anchorPane);

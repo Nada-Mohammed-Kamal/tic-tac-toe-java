@@ -56,7 +56,8 @@ only if this player is `online` and if the player is not in `game`.
 <p align="center">
        <img src="https://user-images.githubusercontent.com/53404081/158031031-b2f5ec7b-c5e1-4998-bb25-41f100f5e57c.png" alt="Build Status">
 </p>
-## How to play
+
+### How to play
 
 - First Clone The Project
 - Install java 8.1

@@ -51,9 +51,10 @@ public class InformationAlert extends AnchorPane {
         AnchorPane.setLeftAnchor(YourMessage, 16.0);
         YourMessage.setLayoutX(16.0);
         YourMessage.setLayoutY(24.0);
-        YourMessage.setPrefHeight(30.0);
+        YourMessage.setPrefHeight(60.0);
         YourMessage.setPrefWidth(277.0);
         YourMessage.setStyle("-fx-alignment: center;");
+        YourMessage.setWrapText(true);
         YourMessage.setText(message);
         YourMessage.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         YourMessage.setTextFill(javafx.scene.paint.Color.WHITE);

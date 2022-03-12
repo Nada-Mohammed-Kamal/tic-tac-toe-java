@@ -1,9 +1,9 @@
 package DisplayAlert;
 
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
-import PersonVSBootWithAlert.EasyLevelScreen;
-import PersonVSBootWithAlert.HardLevelScreen;
-import PersonVSBootWithAlert.MediumLevelScreen;
+import PersonVSBootLevels.EasyLevelScreen;
+import PersonVSBootLevels.HardLevelScreen;
+import PersonVSBootLevels.MediumLevelScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

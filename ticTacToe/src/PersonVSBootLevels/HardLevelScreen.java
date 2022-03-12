@@ -1,8 +1,15 @@
-package PersonVSBootWithAlert;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package PersonVSBootLevels;
 
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import DisplayAlert.PlayersNames;
+import MediaPlayer.PlayVideo;
 import SaveGame.SaveGame;
+import SinglePlayerLevels.SinglePlayerChooseLevel;
 import java.util.ArrayList;
 import java.util.Vector;
 import javafx.event.ActionEvent;
@@ -16,17 +23,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
-import MediaPlayer.PlayVideo;
-import SinglePlayerLevels.SinglePlayerChooseLevel;
-import tictactoe.TicTacToeAI;
 
-public class MediumLevelScreen extends AnchorPane {
-    
-    protected final AnchorPane anchorPane;
+/**
+ *
+ * @author Esraa
+ */
+public class HardLevelScreen extends AnchorPane{
+      protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
     protected final ColumnConstraints columnConstraints0;
@@ -76,13 +84,13 @@ public class MediumLevelScreen extends AnchorPane {
     private int Draws = 0;
     private int newXResult = 0;
     private int newYResult = 0;
-    private TicTacToeAI TTT;
+    private TicTacToeAIHard TTT;
     Vector<Integer> vc;
     Stage stage;
-    public MediumLevelScreen(Stage stage,String playerName) {
+    public HardLevelScreen(Stage stage,String playerName) {
         //To play video in the center of screen 
         this.stage = stage;
-        TTT = new TicTacToeAI();
+        TTT = new TicTacToeAIHard();
         TTT.NewGame();
         vc = new Vector();
         anchorPane = new AnchorPane();
@@ -580,14 +588,14 @@ public class MediumLevelScreen extends AnchorPane {
                     GameResultId.setText("Unfortunately, the computer won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("loser","",stage);
+                    PlayVideo.displayVideo("winner","",stage);
                 }
                 else 
                 {
                     GameResultId.setText("Game over,no one won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("draw","",stage);
+                    PlayVideo.displayVideo("winner","",stage);
                 }
                 for(int i=0;i<vc.size();i++)
                 {

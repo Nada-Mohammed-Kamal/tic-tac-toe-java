@@ -53,8 +53,9 @@ public class OnlineGameAlert extends AnchorPane {
         AnchorPane.setLeftAnchor(YourMessage, 16.0);
         YourMessage.setLayoutX(16.0);
         YourMessage.setLayoutY(24.0);
-        YourMessage.setPrefHeight(30.0);
+        YourMessage.setPrefHeight(50.0);
         YourMessage.setPrefWidth(277.0);
+        YourMessage.setWrapText(true);
         YourMessage.setStyle("-fx-alignment: center;");
         YourMessage.setText(messege);
         YourMessage.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);

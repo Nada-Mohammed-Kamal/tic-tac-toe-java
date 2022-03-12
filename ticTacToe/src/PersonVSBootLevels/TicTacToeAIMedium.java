@@ -1,4 +1,4 @@
-package tictactoe;
+package PersonVSBootLevels;
 
 /*
       title: TicTacToe AI-ENGINE 
@@ -30,7 +30,7 @@ package tictactoe;
     public int isGameOver() 
  */
 
-public class TicTacToeAI {
+public class TicTacToeAIMedium {
 	
 /*
    BOARD (int) :

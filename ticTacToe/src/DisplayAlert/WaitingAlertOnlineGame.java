@@ -46,8 +46,9 @@ public class WaitingAlertOnlineGame extends AnchorPane {
         YourMessage.setLayoutX(9.0);
         YourMessage.setLayoutY(24.0);
         YourMessage.setLineSpacing(1.0);
-        YourMessage.setPrefHeight(30.0);
+        YourMessage.setPrefHeight(50.0);
         YourMessage.setPrefWidth(293.0);
+        YourMessage.setWrapText(true);
         YourMessage.setStyle("-fx-alignment: center;");
         YourMessage.setText(msg);
         YourMessage.setTextFill(javafx.scene.paint.Color.WHITE);

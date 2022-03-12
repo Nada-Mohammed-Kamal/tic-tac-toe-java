@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package PersonVSBootWithAlert;
+package PersonVSBootLevels;
 
 import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import DisplayAlert.PlayersNames;
+import MediaPlayer.PlayVideo;
 import SaveGame.SaveGame;
 import SinglePlayerLevels.SinglePlayerChooseLevel;
-import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,14 +28,14 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tictactoe.Navigation;
-import tictactoe.TicTacToeAI;
 
 /**
  *
  * @author Esraa
  */
-public class HardLevelScreen extends AnchorPane{
-     protected final AnchorPane anchorPane;
+public class EasyLevelScreen extends AnchorPane {
+     
+    protected final AnchorPane anchorPane;
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
     protected final ColumnConstraints columnConstraints0;
@@ -72,15 +73,20 @@ public class HardLevelScreen extends AnchorPane{
     protected final ImageView savImageIcon;
     protected final AnchorPane saveAchorPane;
     protected final ImageView playAgainIcon;
-    ArrayList<Integer> playersRecorderMoves;
-    String movesAsAString;
-    String getSubStringForNames = "";
-    String nameOfPlayerOneRecorder = "";
-    String nameOfPlayerTwoRecorder = "";
+    
+    Button[] btnList;
+    private Random rand = new Random();
+    private boolean printRand = true;
+    
     protected final AnchorPane anchorPanePlayAgain;
+        
+    private int newXResult = 0;
+    private int newOResult = 0;
+    
     Vector<Integer> vc;
     Stage stage;
-    public HardLevelScreen(Stage stage,String playerName) {
+    
+    public EasyLevelScreen(Stage stage, String playerName) {
         //To play video in the center of screen 
         this.stage = stage;
       
@@ -105,7 +111,9 @@ public class HardLevelScreen extends AnchorPane{
         b7 = new Button(); 
         b8 = new Button();
         b9 = new Button();
-
+        btnList = new Button[9];
+        addButtonsToArray();
+        
         savImageIcon = new ImageView();
         SaveButtonid = new Button();
         saveAchorPane = new AnchorPane();
@@ -118,20 +126,18 @@ public class HardLevelScreen extends AnchorPane{
         SaveButtonid.setText("       Save");
         SaveButtonid.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         SaveButtonid.setFont(new Font("Berlin Sans FB", 33.0));
-        SaveButtonid.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                        SaveGame.saveFile(new PlayersNames(playerName,"Computer"),vc);
-                        SaveButtonid.setDisable(true);
-                  }
+        SaveButtonid.setOnAction((event) -> {
+            SaveGame.saveFile(new PlayersNames(playerName,"Computer"),vc);
+            SaveButtonid.setDisable(true);
         });
-       CursorHANDWhenMoveToIntoButton.getCurserOnbutton(SaveButtonid,stage);
-       savImageIcon.setFitHeight(40.0);
-       savImageIcon.setFitWidth(48.0);
-       savImageIcon.setLayoutX(16.0);
-       savImageIcon.setLayoutY(16.0);
-       savImageIcon.setOpacity(0.47);
-       savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
+        
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(SaveButtonid,stage);
+        savImageIcon.setFitHeight(40.0);
+        savImageIcon.setFitWidth(48.0);
+        savImageIcon.setLayoutX(16.0);
+        savImageIcon.setLayoutY(16.0);
+        savImageIcon.setOpacity(0.47);
+        savImageIcon.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/Save.png")));
 
         anchorPanePlayAgain = new AnchorPane();
         anchorPanePlayAgain.setLayoutX(378.0);
@@ -210,13 +216,8 @@ public class HardLevelScreen extends AnchorPane{
         b1.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b1.setFont(new Font("Berlin Sans FB", 42.0));
         b1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-           //To disable button and set text when click on it
-            b1.setDisable(true);
-            b1.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b1.setText("X");
             //To insert the move to vector to use it when user decide to save game
-            addMovesPlayers(1);
-               
+            printXOForEasy(0);
         });
         
         GridPane.setColumnIndex(b2, 1);
@@ -226,12 +227,7 @@ public class HardLevelScreen extends AnchorPane{
         b2.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b2.setFont(new Font("Berlin Sans FB", 42.0));
         b2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
-            b2.setDisable(true); 
-            b2.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b2.setText("X");
-            addMovesPlayers(2);
-               
+            printXOForEasy(1);
         });
         
         GridPane.setColumnIndex(b3, 2);
@@ -241,11 +237,7 @@ public class HardLevelScreen extends AnchorPane{
         b3.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b3.setFont(new Font("Berlin Sans FB", 42.0));
         b3.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-           
-            addMovesPlayers(3);
-            b3.setDisable(true);
-            b3.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b3.setText("X");
+            printXOForEasy(2);
         });
         
         GridPane.setRowIndex(b4, 1);
@@ -255,12 +247,7 @@ public class HardLevelScreen extends AnchorPane{
         b4.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b4.setFont(new Font("Berlin Sans FB", 42.0));
         b4.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
-            b4.setDisable(true);
-            b4.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b4.setText("X");
-            addMovesPlayers(4);
-
+            printXOForEasy(3);
         });
         
         GridPane.setColumnIndex(b5, 1);
@@ -271,12 +258,7 @@ public class HardLevelScreen extends AnchorPane{
         b5.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b5.setFont(new Font("Berlin Sans FB", 42.0));
         b5.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-           
-            b5.setDisable(true);
-            addMovesPlayers(5);
-            b5.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b5.setText("X");
-
+            printXOForEasy(4);
         });
         
         GridPane.setColumnIndex(b6, 2);
@@ -287,10 +269,7 @@ public class HardLevelScreen extends AnchorPane{
         b6.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b6.setFont(new Font("Berlin Sans FB", 42.0));
         b6.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-                b6.setDisable(true);
-                addMovesPlayers(6);
-                b6.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-                b6.setText("X");
+            printXOForEasy(5);
         });
         
         GridPane.setRowIndex(b7, 2);
@@ -300,11 +279,7 @@ public class HardLevelScreen extends AnchorPane{
         b7.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b7.setFont(new Font("Berlin Sans FB", 42.0));
         b7.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            b7.setDisable(true);
-            addMovesPlayers(7);
-            b7.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b7.setText("X");
-               
+            printXOForEasy(6);
         });
         
         GridPane.setColumnIndex(b8, 1);
@@ -315,10 +290,7 @@ public class HardLevelScreen extends AnchorPane{
         b8.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b8.setFont(new Font("Berlin Sans FB", 42.0));
         b8.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            b8.setDisable(true);
-            b8.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b8.setText("X");
-            addMovesPlayers(8);
+            printXOForEasy(7);
         });
         
         GridPane.setColumnIndex(b9, 2);
@@ -329,12 +301,7 @@ public class HardLevelScreen extends AnchorPane{
         b9.setStyle("-fx-background-color: #1FA4E5; -fx-background-radius: 13;");
         b9.setFont(new Font("Berlin Sans FB", 42.0));
         b9.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-           
-            b9.setDisable(true);
-            b9.setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
-            b9.setText("X");
-            addMovesPlayers(9);
-                
+            printXOForEasy(8);
         });
 
         AnchorPane.setBottomAnchor(PlayAgainButtonid, 0.0);
@@ -352,7 +319,7 @@ public class HardLevelScreen extends AnchorPane{
             @Override
             public void handle(ActionEvent event) {
                 playAgainFunction(stage);
-                 }
+            }
         });
         
         gridPane.setPadding(new Insets(10.0, 0.0, 10.0, 10.0));
@@ -385,8 +352,7 @@ public class HardLevelScreen extends AnchorPane{
         playerXresult.setPrefHeight(54.0);
         playerXresult.setPrefWidth(109.0);
         playerXresult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        playerXresult.setFont(new Font("Berlin Sans FB", 24.0));
-
+        playerXresult.setFont(new Font("Berlin Sans FB", 32.0));
         
         GameResultId.setAlignment(javafx.geometry.Pos.CENTER);
         GameResultId.setLayoutX(339.0);
@@ -431,7 +397,7 @@ public class HardLevelScreen extends AnchorPane{
         computerYResult.setPrefHeight(54.0);
         computerYResult.setPrefWidth(109.0);
         computerYResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
-        computerYResult.setFont(new Font("Berlin Sans FB", 24.0));
+        computerYResult.setFont(new Font("Berlin Sans FB", 32.0));
 
         anchorPane4.setLayoutX(29.0);
         anchorPane4.setLayoutY(501.0);
@@ -505,8 +471,7 @@ public class HardLevelScreen extends AnchorPane{
    //Ex : PlayVideo.displayVideo("winner","",stage);
     
     //Also call it when game finish
-    void hideAllXOButton()
-    {
+    void hideAllXOButton() {
         gridPane.setVisible(false);
         anchorPanePlayAgain.setVisible(true);
         GameResultId.setVisible(true);
@@ -514,28 +479,14 @@ public class HardLevelScreen extends AnchorPane{
     }
     
     //Use it when play again
-    void playAgainFunction(Stage stage)
-    {
+    void playAgainFunction(Stage stage) {
         gridPane.setVisible(true);
-        b1.setDisable(false);
-        b2.setDisable(false);
-        b3.setDisable(false);
-        b4.setDisable(false);
-        b5.setDisable(false);
-        b6.setDisable(false);
-        b7.setDisable(false);
-        b8.setDisable(false);
-        b9.setDisable(false);
-
-        b1.setText("");
-        b2.setText("");
-        b3.setText("");
-        b4.setText("");
-        b5.setText("");
-        b6.setText("");
-        b7.setText("");
-        b8.setText("");
-        b9.setText("");
+        
+        for (int i = 0; i < 9; i++) {
+            btnList[i].setDisable(false);
+            btnList[i].setText(""); // Remove The Contain Of ButtonXO
+        }
+        
         vc.clear();
         SaveButtonid.setDisable(false);
         anchorPanePlayAgain.setVisible(false);
@@ -543,9 +494,120 @@ public class HardLevelScreen extends AnchorPane{
         saveAchorPane.setVisible(false);
         stage.getScene().setCursor(Cursor.DEFAULT);
     }
-    void addMovesPlayers(int x)
-    {
+    
+    void addMovesPlayers(int x) {
         vc.add(x);
     }
     
+    private void addButtonsToArray() {
+        btnList[0] = b1;
+        btnList[1] = b2;
+        btnList[2] = b3;
+        btnList[3] = b4;
+        btnList[4] = b5;
+        btnList[5] = b6;
+        btnList[6] = b7;
+        btnList[7] = b8;
+        btnList[8] = b9;
+    }
+    
+    private void printXOForEasy(int i) { // Fill The Gaps By XO & Call The Function getResult()
+        if (btnList[i].getText().equals("")) { // Check If The ButtonXO Is Empty To Filling By X or O
+            btnList[i].setText("X");
+            btnList[i].setDisable(true);
+            btnList[i].setTextFill(javafx.scene.paint.Color.valueOf("#CA2727"));
+            addMovesPlayers(i+1);
+            getResult(true); // Check If I Wined !
+
+            computerTurn();
+        }
+    }
+    
+    /*
+    0   1   2
+    3   4   5
+    6   7   8
+    */
+    String winner;
+    int playerX = 0, playerO = 0;
+    private boolean getResult(boolean Player1Win) { // This Function Show A dialog If Any Player Win Or If All Button fill ( Null )
+        if (((btnList[0].getText().equals(btnList[3].getText())) && (btnList[0].getText().equals(btnList[6].getText())) && (!btnList[0].getText().equals("")))
+            || ((btnList[1].getText().equals(btnList[4].getText())) && (btnList[1].getText().equals(btnList[7].getText())) && (!btnList[1].getText().equals("")))
+            || ((btnList[2].getText().equals(btnList[5].getText())) && (btnList[2].getText().equals(btnList[8].getText())) && (!btnList[2].getText().equals("")))
+            || ((btnList[0].getText().equals(btnList[1].getText())) && (btnList[0].getText().equals(btnList[2].getText())) && (!btnList[0].getText().equals("")))
+            || ((btnList[3].getText().equals(btnList[4].getText())) && (btnList[3].getText().equals(btnList[5].getText())) && (!btnList[3].getText().equals("")))
+            || ((btnList[6].getText().equals(btnList[7].getText())) && (btnList[6].getText().equals(btnList[8].getText())) && (!btnList[6].getText().equals("")))
+            || ((btnList[0].getText().equals(btnList[4].getText())) && (btnList[0].getText().equals(btnList[8].getText())) && (!btnList[0].getText().equals("")))
+            || ((btnList[2].getText().equals(btnList[4].getText())) && (btnList[2].getText().equals(btnList[6].getText())) && (!btnList[2].getText().equals("")))) {
+
+            if (Player1Win) {
+                winner = "You";
+                printScore("X");
+            } else {
+                winner = "Bot";
+                printScore("O");
+            }
+            
+            printRand = false;
+            return false;
+        } else {
+            if (!btnList[0].getText().equals("") && !btnList[1].getText().equals("") && !btnList[2].getText().equals("") 
+                    && !btnList[3].getText().equals("") && !btnList[4].getText().equals("") && !btnList[5].getText().equals("")
+                    && !btnList[6].getText().equals("") && !btnList[7].getText().equals("") && !btnList[8].getText().equals("")) {
+                
+                printScore("Draw!");
+
+                printRand = false;
+                return false;
+            } else {
+                printRand = true;
+            }
+        }
+        return true;
+    }
+    
+    public void printScore(String score){
+            
+        hideAllXOButton();
+        switch (score) {
+            case "X":
+                playerX++;
+                
+                playerXresult.setText("   " + playerX);
+                computerYResult.setText("   " + playerO);
+                GameResultId.setText("You Won!");
+                
+                PlayVideo.displayVideo("winner", "", stage);
+                break;
+            case "O":
+                playerO++;
+
+                computerYResult.setText("   " + playerO);
+                playerXresult.setText("   " + playerX);
+                GameResultId.setText("You Lose!");
+                
+                PlayVideo.displayVideo("loser", "", stage);      
+                break;
+            default: 
+                GameResultId.setText("It's a TIE!");
+                PlayVideo.displayVideo("draw", "", stage);   
+                break;
+        }
+    }
+
+    private void computerTurn() {
+        if (printRand) {
+            while (true) { // Execute This Block Until Pc Fill 1 Gaps By The Random Value 
+                int index = rand.nextInt(9); // Get Random Value Between 0 And 8
+                if (btnList[index].getText().equals("")) {
+                    btnList[index].setText("O");
+                    btnList[index].setDisable(true);
+                    btnList[index].setTextFill(javafx.scene.paint.Color.valueOf("#FFFFFF"));
+                    addMovesPlayers(index + 1);
+                    getResult(false); // Check If The Pc Wined !
+                    break;
+                }
+            }
+        }
+    }
 }

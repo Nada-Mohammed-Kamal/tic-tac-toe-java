@@ -14,7 +14,7 @@
       </Label>
       <AnchorPane layoutX="-6.0" layoutY="48.0" prefHeight="215.0" prefWidth="600.0" style="-fx-background-color: #AAAAAA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
-            <Label fx:id="YourMessage" layoutX="16.0" layoutY="24.0" prefHeight="30.0" prefWidth="277.0" style="-fx-alignment: center;" text="Your message" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="16.0">
+            <Label fx:id="YourMessage" layoutX="16.0" layoutY="24.0" prefHeight="87.0" prefWidth="278.0" style="-fx-alignment: center;" text="Ahmed ahli momflksdlfkhsdlkflkdsjlkfjsldkjflksdjlkfjslkdjfklsdjlfkjsdlk" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.leftAnchor="16.0">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

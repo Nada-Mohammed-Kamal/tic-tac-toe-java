@@ -351,6 +351,7 @@ public class EasyLevelScreen extends AnchorPane {
         playerXresult.setLayoutY(297.0);
         playerXresult.setPrefHeight(54.0);
         playerXresult.setPrefWidth(109.0);
+        playerXresult.setText("0");
         playerXresult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         playerXresult.setFont(new Font("Berlin Sans FB", 32.0));
         
@@ -396,6 +397,7 @@ public class EasyLevelScreen extends AnchorPane {
         computerYResult.setLayoutY(294.0);
         computerYResult.setPrefHeight(54.0);
         computerYResult.setPrefWidth(109.0);
+        computerYResult.setText("0");
         computerYResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         computerYResult.setFont(new Font("Berlin Sans FB", 32.0));
 
@@ -573,8 +575,8 @@ public class EasyLevelScreen extends AnchorPane {
             case "X":
                 playerX++;
                 
-                playerXresult.setText("   " + playerX);
-                computerYResult.setText("   " + playerO);
+                playerXresult.setText("" + playerX);
+                computerYResult.setText("" + playerO);
                 GameResultId.setText("You Won!");
                 
                 PlayVideo.displayVideo("winner", "", stage);
@@ -582,8 +584,8 @@ public class EasyLevelScreen extends AnchorPane {
             case "O":
                 playerO++;
 
-                computerYResult.setText("   " + playerO);
-                playerXresult.setText("   " + playerX);
+                computerYResult.setText("" + playerO);
+                playerXresult.setText("" + playerX);
                 GameResultId.setText("You Lose!");
                 
                 PlayVideo.displayVideo("loser", "", stage);      

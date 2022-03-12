@@ -441,6 +441,7 @@ public class HardLevelScreen extends AnchorPane{
         playerXresult.setLayoutY(297.0);
         playerXresult.setPrefHeight(54.0);
         playerXresult.setPrefWidth(109.0);
+        playerXresult.setText("0");
         playerXresult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         playerXresult.setFont(new Font("Berlin Sans FB", 24.0));
 
@@ -487,6 +488,7 @@ public class HardLevelScreen extends AnchorPane{
         computerYResult.setLayoutY(294.0);
         computerYResult.setPrefHeight(54.0);
         computerYResult.setPrefWidth(109.0);
+        computerYResult.setText("0");
         computerYResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         computerYResult.setFont(new Font("Berlin Sans FB", 24.0));
 
@@ -574,9 +576,10 @@ public class HardLevelScreen extends AnchorPane{
 			Draws = 0;
 			break;
 		}
+                //winner .. loser .. draw
                 hideAllXOButton();
-                playerXresult.setText("Result: "+XWins);
-                computerYResult.setText("Result: "+OWins);
+                playerXresult.setText(""+XWins);
+                computerYResult.setText(""+OWins);
                 if(newXResult > newYResult){
                     GameResultId.setText("Congratulations you won");
                     newXResult = 0;
@@ -588,14 +591,15 @@ public class HardLevelScreen extends AnchorPane{
                     GameResultId.setText("Unfortunately, the computer won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("winner","",stage);
+                    PlayVideo.displayVideo("loser","",stage);
                 }
+                
                 else 
                 {
                     GameResultId.setText("Game over,no one won");
                     newXResult = 0;
                     newYResult = 0;
-                    PlayVideo.displayVideo("winner","",stage);
+                    PlayVideo.displayVideo("draw","",stage);
                 }
                 for(int i=0;i<vc.size();i++)
                 {

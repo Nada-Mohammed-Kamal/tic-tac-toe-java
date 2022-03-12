@@ -348,6 +348,7 @@ public class MediumLevelScreen extends AnchorPane {
         playerXresult.setLayoutY(297.0);
         playerXresult.setPrefHeight(54.0);
         playerXresult.setPrefWidth(109.0);
+        playerXresult.setText("0");
         playerXresult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         playerXresult.setFont(new Font("Berlin Sans FB", 24.0));
 
@@ -394,6 +395,7 @@ public class MediumLevelScreen extends AnchorPane {
         computerYResult.setLayoutY(294.0);
         computerYResult.setPrefHeight(54.0);
         computerYResult.setPrefWidth(109.0);
+        computerYResult.setText("0");
         computerYResult.setTextFill(javafx.scene.paint.Color.valueOf("#edf1f2"));
         computerYResult.setFont(new Font("Berlin Sans FB", 24.0));
 
@@ -478,8 +480,8 @@ public class MediumLevelScreen extends AnchorPane {
 			break;
 		}
                 hideAllXOButton();
-                playerXresult.setText("Result: "+XWins);
-                computerYResult.setText("Result: "+OWins);
+                playerXresult.setText(""+XWins);
+                computerYResult.setText(""+OWins);
                 if(newXResult > newYResult){
                     GameResultId.setText("Congratulations you won");
                     newXResult = 0;

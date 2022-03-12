@@ -17,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import Navigation.Navigation;
+import SnakeGame.layoutBase;
 
 public class HomeScreen extends AnchorPane {
 
@@ -35,7 +36,9 @@ public class HomeScreen extends AnchorPane {
     protected final InnerShadow innerShadow;
     protected final Circle circle;
     protected final ImageView imageView0;
-
+    
+     protected final ImageView imageSnake;
+        
     public HomeScreen(Stage stage) {
 
         colorAdjust = new ColorAdjust();
@@ -194,6 +197,20 @@ public class HomeScreen extends AnchorPane {
         getChildren().add(anchorPane1);
         getChildren().add(circle);
         getChildren().add(imageView0);
+        
+        imageSnake = new ImageView();
+        imageSnake.setFitHeight(110.0);
+        imageSnake.setFitWidth(150.0);
+        imageSnake.setLayoutX(850.0);
+        imageSnake.setLayoutY(484.0);
+        imageSnake.setPickOnBounds(true);
+        imageSnake.setPreserveRatio(true);
+        imageSnake.setImage(new Image(getClass().getResourceAsStream("/tictactoe/Images/snake.png")));
+        imageSnake.setOnMouseClicked((value)->{
+            Navigation.navigateTo(stage, new layoutBase(stage), "Snake game");
+        });
+        getChildren().add(imageSnake);
+        
 
     }
 }

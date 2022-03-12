@@ -17,4 +17,5 @@ public interface NetworkLayer {
     int getScore();
     void setUsername(String username);
     String getUsername();
+    boolean isConnectedToServer();
 }

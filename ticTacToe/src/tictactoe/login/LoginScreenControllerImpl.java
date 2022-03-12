@@ -5,12 +5,14 @@
  */
 package tictactoe.login;
 
+import DisplayAlert.DisplayAlert;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import Navigation.Navigation;
+import javafx.application.Platform;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
@@ -29,6 +31,8 @@ interface LoginScreenController {
     void onPressPressBackBtn(Stage stage);
 
     void setNetworkLayer();
+    
+    void closeWindow();
 }
 
 public class LoginScreenControllerImpl implements LoginScreenController, NetworkUser {
@@ -43,7 +47,10 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
 
     @Override
     public void setNetworkLayer() {
-        this.networkLayer = NetworkLayerImpl.getInstance(this);
+        new Thread(()->{
+            LoginScreenControllerImpl.this.networkLayer = NetworkLayerImpl.getInstance(LoginScreenControllerImpl.this);
+        }).start();
+        
     }
 
     @Override
@@ -53,14 +60,26 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
 
     @Override
     public void onPressSignupBtn(Stage stage) {
-        Navigation.navigateToSignUp(stage);
+        if(networkLayer != null && networkLayer.isConnectedToServer())
+            Navigation.navigateToSignUp(stage);  
     }
 
     @Override
     public void onPressPressBackBtn(Stage stage) {
+        if (networkLayer != null) {
+            networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+        }
         Navigation.navigateToHome(stage);
     }
-
+    @Override
+    public void closeWindow() {
+        if (networkLayer != null) {
+            networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+            networkLayer.closeConnection("closing window...");
+        }
+        System.exit(0);
+    }
+    
     private void validateInputs(String username, String password, Stage stage) {
         if (isNotEmpty(username, password)) {
             System.out.println(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password));
@@ -74,8 +93,6 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
     private boolean isNotEmpty(String username, String password) {
         return !username.isEmpty() && !password.isEmpty();
     }
-
-
 
     @Override
     public void onMsgReceived(String receivedMsg) {
@@ -112,10 +129,11 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
     @Override
     public void exitNetwork(String msg) {
         networkLayer = null;
-        if(msg.equals(ServerQueries.CLOSE_NORMALLY)){
-                UIHelper.showAlertMessage(Constants.WARNING,ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+        if (msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)) {
+            DisplayAlert.informationAlert(ErrorConstants.SERVER_CLOSED, stage);
         }
-        Navigation.navigateToHome(stage);
+        Platform.runLater(() -> {
+            Navigation.navigateToHome(stage);
+        });
     }
-    
 }

@@ -25,16 +25,11 @@ public class ConnectionDB {
         ClientDriver d = new ClientDriver();
         DriverManager.registerDriver(d);
         System.out.println("ConnectionDB(): Succeeded!");
-        
-        
         if (con == null) {
             con = DriverManager.getConnection("jdbc:derby://localhost:1527/PlayerDB", "root", "root");
-
         }
     }
-    
 
-    
     void close(){ 
         
         try {

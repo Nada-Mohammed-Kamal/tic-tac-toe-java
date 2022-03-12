@@ -367,6 +367,7 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
             }
         } else {
             GameHandler.resetServerAndDBStatus();
+            turnServerOn = true;
         }
     }
 }

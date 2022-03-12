@@ -39,7 +39,13 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
             listenToServer();
 
         } catch (IOException ex) {
-            networkUser.onErrorReceived(ErrorConstants.COULD_NOT_CONNECT_TO_SERVER);
+            Platform.runLater(()->{
+                networkUser.exitNetwork(ErrorConstants.COULD_NOT_CONNECT_TO_SERVER);
+                networkUser.onErrorReceived(ErrorConstants.COULD_NOT_CONNECT_TO_SERVER);
+                networkLayer = null;
+            });
+            
+            
         }
     }
 
@@ -54,7 +60,8 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     @Override
     public void printStream(String msg) {
         System.out.println("printStream(String msg)" + msg);
-        ps.println(msg);
+        if(ps != null)
+            ps.println(msg);
     }
 
     @Override
@@ -118,6 +125,7 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
         if (networkLayer == null) {
             networkLayer = new NetworkLayerImpl(networkUser);
         } else {
+            
             NetworkLayerImpl.networkUser = networkUser;
         }
         return networkLayer;
@@ -141,6 +149,11 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
     @Override
     public String getUsername() {
         return NetworkLayerImpl.username;
+    }
+
+    @Override
+    public boolean isConnectedToServer() {
+        return ps != null;
     }
 
 }

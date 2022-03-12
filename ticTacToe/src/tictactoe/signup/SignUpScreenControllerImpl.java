@@ -5,11 +5,13 @@
  */
 package tictactoe.signup;
 
+import DisplayAlert.DisplayAlert;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import Navigation.Navigation;
+import javafx.application.Platform;
 import tictactoe.network.NetworkLayer;
 import tictactoe.network.NetworkLayerImpl;
 import tictactoe.network.NetworkUser;
@@ -32,6 +34,8 @@ interface SignupScreenController {
     void onPressBackBtn(Stage stage);
 
     void setNetworkLayer();
+    
+    void closeWindow();
 }
 
 public class SignUpScreenControllerImpl implements SignupScreenController, NetworkUser {
@@ -46,8 +50,20 @@ public class SignUpScreenControllerImpl implements SignupScreenController, Netwo
 
     @Override
     public void onPressBackBtn(Stage stage) {
+        if (networkLayer != null) {
+            networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+        }
         Navigation.navigateToHome(stage);
     }
+    @Override
+    public void closeWindow() {
+        if (networkLayer != null) {
+            networkLayer.printStream(ServerQueries.CLOSE_NORMALLY);
+            networkLayer.closeConnection("closing window...");
+        }
+        System.exit(0);
+    }
+    
 
     @Override
     public void setNetworkLayer() {
@@ -104,13 +120,15 @@ public class SignUpScreenControllerImpl implements SignupScreenController, Netwo
         return isValidData;
     }
     
-     @Override
+    @Override
     public void exitNetwork(String msg) {
         networkLayer = null;
-        if(msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)){
-                UIHelper.showAlertMessage(Constants.WARNING,ErrorConstants.SERVER_CLOSED, Alert.AlertType.WARNING);
+        if (msg.equals(ErrorConstants.CLOSED_ABBNORMALLY)) {
+            DisplayAlert.informationAlert(ErrorConstants.SERVER_CLOSED, stage);
         }
-        Navigation.navigateToHome(stage);
+        Platform.runLater(() -> {
+            Navigation.navigateToHome(stage);
+        });
     }
 
 }

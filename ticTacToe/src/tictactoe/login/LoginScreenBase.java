@@ -4,12 +4,14 @@ import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class LoginScreenBase extends AnchorPane {
 
@@ -28,7 +30,7 @@ public class LoginScreenBase extends AnchorPane {
     protected final Label label2;
     protected final Button signUpHere;
     protected final TextField nameTextBoxid;
-    protected final TextField passwordtextboxid;
+    protected final PasswordField passwordtextboxid;
     
     private LoginScreenController controller;
     
@@ -55,7 +57,25 @@ public class LoginScreenBase extends AnchorPane {
         signUpHere = new Button();
         CursorHANDWhenMoveToIntoButton.getCurserOnbutton(signUpHere, stage);
         nameTextBoxid = new TextField();
-        passwordtextboxid = new TextField();
+        passwordtextboxid = new PasswordField();
+        nameTextBoxid.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!(observable.getValue().isEmpty()) && !(passwordtextboxid.getText().isEmpty()))
+                loginId.setDisable(false);
+            
+            else
+                loginId.setDisable(true);
+        });
+        passwordtextboxid.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!(observable.getValue().isEmpty()) && !(nameTextBoxid.getText().isEmpty()))
+                loginId.setDisable(false);
+            else
+                loginId.setDisable(true);
+        });
+        
+        stage.setOnCloseRequest((WindowEvent event) -> {
+            controller.closeWindow();
+        });
+        
 
         setId("AnchorPane");
         setMinHeight(USE_PREF_SIZE);
@@ -121,6 +141,7 @@ public class LoginScreenBase extends AnchorPane {
         loginId.setPrefHeight(75.0);
         loginId.setPrefWidth(185.0);
         loginId.setStyle("-fx-background-radius: 17;-fx-background-color: #e7ffdb;");
+        loginId.setDisable(true);
         loginId.setText("      LogIn");
         loginId.setTextFill(javafx.scene.paint.Color.valueOf("#011317"));
         loginId.setFont(new Font("Berlin Sans FB", 33.0));
@@ -159,7 +180,9 @@ public class LoginScreenBase extends AnchorPane {
         signUpHere.setMnemonicParsing(false);
         signUpHere.setPrefHeight(89.0);
         signUpHere.setPrefWidth(282.0);
-        signUpHere.setStyle("-fx-background-radius: 17; -fx-background-color: tranceparent;");
+        signUpHere.setId("signUpHere");
+        signUpHere.setStyle("-fx-background-radius: 17;");
+        this.getStylesheets().add(getClass().getResource("/cssFile.css").toExternalForm());
         signUpHere.setText("Sign up here");
         signUpHere.setTextFill(javafx.scene.paint.Color.valueOf("#e7ffdb"));
         signUpHere.setFont(new Font("Berlin Sans FB Bold", 33.0));
@@ -175,7 +198,8 @@ public class LoginScreenBase extends AnchorPane {
         nameTextBoxid.setPrefHeight(79.0);
         nameTextBoxid.setPrefWidth(556.0);
         nameTextBoxid.setPromptText("Name");
-        nameTextBoxid.setStyle("-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;");
+        nameTextBoxid.setId("signUpHere");
+        nameTextBoxid.setStyle("-fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;");
         nameTextBoxid.setFont(new Font("Berlin Sans FB", 36.0));
 
         passwordtextboxid.setLayoutX(352.0);
@@ -183,7 +207,8 @@ public class LoginScreenBase extends AnchorPane {
         passwordtextboxid.setPrefHeight(79.0);
         passwordtextboxid.setPrefWidth(556.0);
         passwordtextboxid.setPromptText("Password");
-        passwordtextboxid.setStyle("-fx-background-color: trancperant; -fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;");
+        passwordtextboxid.setId("signUpHere");
+        passwordtextboxid.setStyle("-fx-border-radius: 20; -fx-border-color: #99a7b0; -fx-border-width: 0.5; -fx-text-fill: #99a7b0;");
         passwordtextboxid.setFont(new Font("Berlin Sans FB", 36.0));
 
         anchorPane.getChildren().add(label);

@@ -149,7 +149,20 @@ public class GameHandler extends Thread {
         }
     }
     private void closeStreamAbnormally() {
-        releasePlayersResources();
+        //releasePlayersResources();
+        
+        try {
+            stopServerTalkingAndListening();
+            if(currentPlayer != null) {
+                updatePlayerStateToClosing();
+                releasePlayerAndStopThreading();
+            } else {
+                inActiveSession.remove(GameHandler.this);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
     } 
     private void releasePlayersResources() {
         //TODO should be in Thread but take care of refrence!
@@ -159,13 +172,15 @@ public class GameHandler extends Thread {
     
     private void stopServerTalkingAndListening() throws IOException {
         flag = false;
-        dis.close();
-        ps.close();
-        bufferReader.close();
+        if(dis != null)
+            dis.close();
+        if(ps != null)
+            ps.close();
+        if(bufferReader != null)
+            bufferReader.close();
         s.close();
     }
     private void updatePlayerStateToClosing() {
-        // handle closing server ya ABDELWAHAB
         playerMgr.updatePlayerStatusOnDB(
             currentPlayer.getUsername(), 
             PlayerStatusValues.CLOSING, 
@@ -250,8 +265,12 @@ public class GameHandler extends Thread {
         switch (commandToExcute) {
             case ServerQueries.CLOSE_NORMALLY:
                 System.out.println("Client " + ServerQueries.CLOSE_NORMALLY);
-                playerMgr.logOut(currentPlayer.getUsername(), currentPlayer.getStatus());
-                closeStream(ServerQueries.CLOSE_NORMALLY);
+                if(currentPlayer != null) {
+                    playerMgr.logOut(currentPlayer.getUsername(), currentPlayer.getStatus());
+                    closeStream(ServerQueries.CLOSE_NORMALLY);  
+                } else {
+                    inActiveSession.remove(GameHandler.this);
+                }
                 break;
             case ServerQueries.SIGN_UP:
                 registerNewPlayer(stringTokenizer.nextToken(), stringTokenizer.nextToken());

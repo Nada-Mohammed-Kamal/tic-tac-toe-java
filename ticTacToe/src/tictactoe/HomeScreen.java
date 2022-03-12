@@ -118,8 +118,7 @@ public class HomeScreen extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                  //DisplayAlert.getPlayerNameOnOnePlayer(stage);    
-                Navigation.navigateTo(stage, new SinglePlayerChooseLevel(stage), "Choose Level");
-                 
+                Navigation.navigateTo(stage, new SinglePlayerChooseLevel(stage), "Choose Level");   
             }
         });
         

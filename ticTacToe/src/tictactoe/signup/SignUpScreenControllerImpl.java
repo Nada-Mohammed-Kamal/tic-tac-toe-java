@@ -90,7 +90,7 @@ public class SignUpScreenControllerImpl implements SignupScreenController, Netwo
     @Override
     public void onPressSignupBtn(String username, String password, String password2) {
         if(isValidUserData(username, password, password2)){
-            networkLayer.printStream(ServerQueries.SIGN_UP.concat(";").concat(username).concat(";").concat(password));
+            networkLayer.printStream(ServerQueries.SIGN_UP.concat(";").concat(username).concat(";").concat(password.replace(";", "@")));
         }
     }
 
@@ -114,6 +114,9 @@ public class SignUpScreenControllerImpl implements SignupScreenController, Netwo
             isValidData = false;
         } else if (!password.trim().equals(password2.trim())) {
             UIHelper.showAlertMessage(Constants.WARNING, "Password and Re-Password isn't the same!\nPlease, type your password and Confirm password correct.", Alert.AlertType.WARNING);
+            isValidData = false;
+        }else if(username.contains(";")){
+            UIHelper.showAlertMessage(Constants.WARNING, "Username can't contain special chars.", Alert.AlertType.WARNING);
             isValidData = false;
         }
 

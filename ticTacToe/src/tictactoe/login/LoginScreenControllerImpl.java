@@ -81,13 +81,17 @@ public class LoginScreenControllerImpl implements LoginScreenController, Network
     }
     
     private void validateInputs(String username, String password, Stage stage) {
-        if (isNotEmpty(username, password)) {
-            System.out.println(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password));
-            networkLayer.printStream(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password));
-            this.stage = stage;
-        } else {
-            UIHelper.showAlertMessage("You can't let fields empty!", "Error", Alert.AlertType.ERROR);
-        }
+        if(networkLayer !=null)
+            if (isNotEmpty(username, password)) {
+                
+                System.out.println(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password.replace(";", "@")));
+                networkLayer.printStream(ServerQueries.LOGIN.concat(";").concat(username).concat(";").concat(password.replace(";", "@")));
+                this.stage = stage;
+            }else if(username.contains(";")){
+                UIHelper.showAlertMessage("Username can't contain special chars!", "Error", Alert.AlertType.ERROR);
+            }else {
+                UIHelper.showAlertMessage("You can't let fields empty!", "Error", Alert.AlertType.ERROR);
+            }            
     }
 
     private boolean isNotEmpty(String username, String password) {

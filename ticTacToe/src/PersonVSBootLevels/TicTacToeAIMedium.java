@@ -1,229 +1,172 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package PersonVSBootLevels;
 
-/*
-      title: TicTacToe AI-ENGINE 
-     author: Kris Cieslak
-       date: 03.09.2012
-    license: http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US
-   language: java
-   
-   description: 
-      Complete game-tree search/decision algorithm.
-      NegaMax function without recursion depth checking. 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
- 
- Methods:
-    private void put(int pos)
-    private void clear(int pos)
-    private boolean Check(int P)
-    private int GameOver()
-    private int NegaMax(int p)
-    private int PosToBit(int pos)
-    private int BitToPos(int bitNum)
-    
-    public boolean Move(int pos, int player)
-    public int GenerateMove(int Player)
-    public int getX()
-    public int getO()
-    public int getBoard()
-    public void NewGame()
-    public int isGameOver() 
+/**
+ *
+ * @author AhmedAli
  */
-
 public class TicTacToeAIMedium {
-	
-/*
-   BOARD (int) :
-   001|002|004
-   ---+---+---
-   008|016|032
-   ---+---+---
-   064|128|256
-   
-   X - only player X (1) positions
-   O - only player O (-1) positions
-   
-   X | O = Board
-  
-*/
-	private int X = 0, O = 0;
 
-/*  -==-=-=-=- put method -==-=-=-=-=-=-=-=-=-=-=-
-  
-    Turns on (set 1) specified bit.
-    
-    a pos sign determinates the choice of an variable (player).
-  
-    "pos" must be in +/-[1,2,4,8,16,32,64,128,256]  
-    "pos" > 0 - X move
-    "pos" < 0 - O move
-    
- */
-	private void put(int pos) {
-		X = X | pos & -((pos >> 31) + 1) & ~O;
-		O = O | -pos & (pos >> 31) & ~X;
-	}
+    List<List> allWinningLists;
+    List<List> allMayWinLists;
+    List topRow1;
+    List topRow2; 
+    List midRow1; 
+    List midRow2 ;
+    List bottomRow1;
+    List bottomRow2;
+    List leftcol1;
+    List midcol1 ;
+    List rightco1;
+    List diagonalOne1;
+    List diagonalOne2;
+    List diagonalTwo1;
+    List diagonalTwo2;
+    List topRow;
+    List midRow;
+    List bottomRow;
+    List leftcol;
+    List midcol;
+    List rightcol;
+    List diagonalOne;
+    List diagonalTwo;
+    List rightco2;
+    TicTacToeAIMedium() {
+        allWinningLists = new ArrayList<>();
+        allMayWinLists = new ArrayList<>();
 
-/* -==-=-=-=- clear method -==-=-=-=-=-=-=-=-=-=-=-
-    
-    Turns off (set 0) specified bit.
-    sign doesn't matter.   
-
-*/
-	private void clear(int pos) {
-		X = X & ~pos;
-		O = O & ~pos;
-	}
-
-/* -==-=-=-=- check method -==-=-=-=-=-=-=-=-=-=-=-	
-
-   P - X or Y (not 1/-1) (look at the GameOver method)
- 
-   Winning bits:
-         Row 1 - 000000111 = 0x007                 
-         Row 2 - 000111000 = 0x038 (0x007 << 3)
-         Row 3 - 111000000 = 0x1C0 (0x007 << 6)
-         Col 1 - 001001001 = 0x049 
-         Col 2 - 010010010 = 0x092 (0x049 << 1)
-         Col 3 - 100100100 = 0x124 (0x049 << 2)
-    Diagonal 1 - 100010001 = 0x111
-    Diagonal 2 - 001010100 = 0x054 
-	
-*/
-	private boolean Check(int P) {
-		return  (P & 0x007) == 7 || 
-				(P & 0x038) == 0x038 || 
-				(P & 0x1C0) == 0x1C0 || 
-				(P & 0x049) == 0x49 || 
-				(P & 0x092) == 0x92 || 
-				(P & 0x124) == 0x124 || 
-				(P & 0x111) == 0x111 ||
-				(P & 0x054) == 0x54;
-	}
-
-/* -==-=-=-=- check method -==-=-=-=-=-=-=-=-=-=-=-
-    returns
-        2048 - X won
-        512  - O won
-        1024 - drawn
-           0 - game still goes on
-	
-*/	
-	private int GameOver() {
-		return Check(X) ? 2048 : Check(O) ? 512 : ((X | O) & 511) == 511 ? 1024 : 0;
-	}
-
-	
-
-/* -==-=-=-=- NegaMax method -==-=-=-=-=-=-=-=-=-=-=-
-    
-    best_value (binary)
-
-          BEST SCORE                    BEST MOVE 
-          2048 1024  512 | 256 128 64  32  16   8   4   2   1
-            0    0    0  |  0   0   0   0   0   0   0   0   0
-            |    |    |     
-   Winner   X    0    O
-   
-       
-    best_value & 0xfffffe00 - clear move bit (get score bits)
-    
-    Worst "best_value" for X - 512 (O wins)
-    Worst "best_value" for O - 2048 (X wins)
-
-*/	
-	private int NegaMax(int p) {
-		int End = GameOver();
-		if (End != 0)
-			return End;
-
-		int best_value = (p == 1) ? 512 : 2048;
-		for (int b = 1; b <= 256; b = b << 1) {
-			int move = (~(X | O) & b);
-			if (move != 0) {
-				put(p * move);
-				int s = NegaMax(-p);
-				best_value = p * (s & 0xfffffe00) > p
-						* (best_value & 0xfffffe00) ? ((s & 0xfffffe00) | move)
-						: best_value;
-				clear(move);
-			}
-
-		}
-		return best_value;
-	}
-
-/* -==-=-=-=- PosToBit/BitToPos method -==-=-=-=-=-=-=-=-=-=-=-
-   
-    Standard field numeration (1,2,3,4,5,6,7,8,9)  
-    bit position (1,2,4,8,16,32,64,128,256)
-	
-*/	
-	private int PosToBit(int pos) {
-		return pos>=1 && pos<=9 ? 1<<(pos-1) : 0;
-	}
-
-	private int BitToPos(int bitNum) {
-		int result = 1;
-		while ( (bitNum=bitNum>>1) > 0 ) result++;   
-        return result;
-	}
-	
-/*
-  -=-= PUBLIC =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=-=-=-=-
- */
-
-/* -==-=-=-=- Move method -==-=-=-=-=-=-=-=-=-=-=-
-    
-    player -  1 or -1
-    pos in [1,2,3,4,5,6,7,8,9]
-
-*/
-	public boolean Move(int pos, int player) {
-		int p = PosToBit(pos);
-		if ( p!=0  && ( player==1 || player==-1 ) && ((X | O) & p)==0) {
-		  put(p*player);
-		  return true;
-		} else
-		  return false; 
-	}
- 
-	
- /* -==-=-=-=- GenerateMoveNegaMax method -==-=-=-=-=-=-=-=-=-=-=-
-      Opponent = 1, -1
- */
-	public int GenerateMove(int Player) {
-		return BitToPos((NegaMax(Player) & 511));
-	}
-
-	
-// -==-=-=-=- getX -==-=-=-=-=-=-=-=-=-=-=- 	
-	public int getX() {
-		return X;
-	}
-
-// -==-=-=-=- getO -==-=-=-=-=-=-=-=-=-=-=-	
-	public int getO() {
-		return O;
-	}
-	
-// -==-=-=-=- getBoard -==-=-=-=-=-=-=-=-=-=-=-
-	public int getBoard() {
-		return (X|O);
-	}
-	
-// -==-=-=-=- ClearBoard -==-=-=-=-=-=-=-=-=-=-=-	
-	public void NewGame() {
-		X=O=0;
-	}
-	
-	/* 1 - X player won
-	  -1 - O player won
-	   2 - drawn
-	   0 - game still goes on
-	*/
-// -==-=-=-=-= isGameOver =-=-=-=-=-=-=-=-=-=-=-=-=-
-	public int isGameOver() {
-		return Check(X) ? 1 : Check(O) ? -1 : ((X | O) & 511) == 511 ? 2 : 0;
-	}
+        topRow1 = Arrays.asList(1, 2);
+        topRow2 = Arrays.asList(1, 3);
+        midRow1 = Arrays.asList(4, 6);
+        midRow2 = Arrays.asList(4, 5);
+        bottomRow1 = Arrays.asList(8, 9);
+        bottomRow2 = Arrays.asList(7,8);
+        leftcol1 = Arrays.asList(1, 7);
+        midcol1 = Arrays.asList(5, 8);
+        rightco1 = Arrays.asList(3,9);
+        rightco2 = Arrays.asList(3,6);
+        diagonalOne1 = Arrays.asList( 5, 9);
+        diagonalTwo1 = Arrays.asList(3, 5);
+        diagonalOne2 = Arrays.asList( 1, 5);
+        diagonalTwo2 = Arrays.asList(5, 7);
+        
+        allMayWinLists.add(topRow1);
+        allMayWinLists.add(topRow2);
+        allMayWinLists.add(midRow1);
+        allMayWinLists.add(midRow2);
+        allMayWinLists.add(bottomRow1);
+        allMayWinLists.add(bottomRow2);
+        allMayWinLists.add(leftcol1);
+        allMayWinLists.add(midcol1);
+        allMayWinLists.add(rightco1);
+        allMayWinLists.add(rightco2);
+        allMayWinLists.add(diagonalOne1);
+        allMayWinLists.add(diagonalOne2);
+        allMayWinLists.add(diagonalTwo1);
+         allMayWinLists.add(diagonalTwo2);
+        /*
+        1   2   3
+        4   5   6
+        7   8   9
+         */
+        topRow = Arrays.asList(1, 2, 3);
+        midRow = Arrays.asList(4, 5, 6);
+        bottomRow = Arrays.asList(7, 8, 9);
+        leftcol = Arrays.asList(1, 4, 7);
+        midcol = Arrays.asList(2, 5, 8);
+        rightcol = Arrays.asList(3, 6, 9);
+        diagonalOne = Arrays.asList(1, 5, 9);
+        diagonalTwo = Arrays.asList(3, 5, 7);
+        
+        allWinningLists.add(topRow);
+        allWinningLists.add(midRow);
+        allWinningLists.add(bottomRow);
+        allWinningLists.add(leftcol);
+        allWinningLists.add(midcol);
+        allWinningLists.add(rightcol);
+        allWinningLists.add(diagonalOne);
+        allWinningLists.add(diagonalTwo);
+    }
+    public int detectNextPlay(ArrayList<Integer> playerXSteps, ArrayList<Integer> moves){
+        int move = -1;
+        for (List l : allMayWinLists) {
+            if (playerXSteps.containsAll(l)) {
+                if(l.equals(topRow1) && !moves.contains(3))// topRow1 = Arrays.asList(1, 2);
+                {
+                   
+                    return 3;
+                }
+                else if(l.equals(topRow2) && !moves.contains(2))//topRow2 = Arrays.asList(1, 3);
+                {
+                   
+                    return 2;
+                }
+                else if(l.equals(midRow1) && !moves.contains(5))//midRow1 = Arrays.asList(4, 6);
+                {
+                    return 5;
+                }
+                else if(l.equals(midRow2) && !moves.contains(6))//midRow2 = Arrays.asList(4, 5);
+                {
+                    return 6;
+                }
+                else if(l.equals(bottomRow1) && !moves.contains(7)){//bottomRow1 = Arrays.asList(8, 9);
+                    return 7;
+                }
+                else if(l.equals(bottomRow2) && !moves.contains(9)){//bottomRow2 = Arrays.asList(7,8);
+                    return 9;
+                }
+                else if(l.equals(leftcol1) && !moves.contains(4)){//leftcol1 = Arrays.asList(1, 7);
+                    return 4;
+                }
+                else if(l.equals(midcol1) && !moves.contains(2)){//midcol1 = Arrays.asList(5, 8);
+                    return 2;
+                }
+                else if(l.equals(rightco2) && !moves.contains(9)){ // rightco2 = Arrays.asList(3,6);
+                    return 9;
+                }
+                else if(l.equals(rightco1) && !moves.contains(6)){//rightco1 = Arrays.asList(3,9);
+                    return 6;
+                }
+                else if(l.equals(diagonalOne1) && !moves.contains(1)){//diagonalOne1 = Arrays.asList( 5, 9);
+                    return 1;
+                }
+                else if(l.equals(diagonalTwo1) && !moves.contains(7)){//diagonalTwo1 = Arrays.asList(3, 5);
+                    return 7;
+                }
+                else if(l.equals(diagonalOne2) && !moves.contains(9)){//diagonalOne2 = Arrays.asList( 1, 5);
+                    return 9;
+                }
+                else if(l.equals(diagonalTwo2) && !moves.contains(3)){ // diagonalTwo2 = Arrays.asList(5, 7);
+                    return 3;
+                }
+                
+                
+            } 
+        }
+        return move;
+    }
+    public int detectWin(ArrayList<Integer> playerXSteps, ArrayList<Integer> playerOSteps) {
+        if (playerXSteps.size() + playerOSteps.size() >= 5) {
+            for (List l : allWinningLists) {
+                if (playerXSteps.containsAll(l)) {
+                    return GameResult.X_WIN;
+                } else if (playerOSteps.containsAll(l)) {
+                    return GameResult.O_WIN;
+                }
+            }
+            if (playerXSteps.size() + playerOSteps.size() == 9) {
+                return GameResult.TIE;
+            }
+        }
+        
+        return GameResult.CONTINUE_PLAYING;
+    }
 }

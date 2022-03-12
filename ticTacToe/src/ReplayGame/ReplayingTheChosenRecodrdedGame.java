@@ -1,5 +1,6 @@
 package ReplayGame;
 
+import CursorHANDWhenMoveToIntoButton.CursorHANDWhenMoveToIntoButton;
 import ReplayGame.ReplayGameService;
 import ReplayGame.RecordedScreen;
 import GameLocalMultiPlayersScreenWithAlert.GameLocalMultiPlayersScreenBase;
@@ -91,6 +92,7 @@ public class ReplayingTheChosenRecodrdedGame extends AnchorPane {
         player2result = new Label();
         anchorPane4 = new AnchorPane();
         backButtonId = new Button();
+        CursorHANDWhenMoveToIntoButton.getCurserOnbutton(backButtonId, stage);
         imageView = new ImageView();
 
         setId("AnchorPane");

@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import model.PlayerDto;
 import serverdao.ConnectionDB;
 import serverdao.PlayerManager;
 import serverdao.PlayerManagerImpl;
+import utils.AlertHelper;
 import utils.AuthenticationConstants;
 import utils.ErrorConstants;
 import utils.GameResult;
@@ -45,7 +47,7 @@ public class GameHandler extends Thread {
     Socket s;
     BufferedReader bufferReader;
     StringTokenizer stringTokenizer;
-    PlayerManager playerMgr = PlayerManagerImpl.getInstance(ConnectionDB.getInstance());
+    static PlayerManager playerMgr;
     PlayerDto currentPlayer;
     static Map<String, PlayerDto> sessions = Collections.synchronizedMap(new HashMap());
     static Vector<Game> currentGames = new Vector<>();
@@ -73,6 +75,16 @@ public class GameHandler extends Thread {
         }).start();
     }
     
+    static{
+        try {
+            playerMgr = PlayerManagerImpl.getInstance();
+        } catch (SQLException ex) {
+            AlertHelper.showDBConectionErrorAlert("DB Server is not connected!!");
+            System.exit(0);
+            
+        }
+       
+    }
     public GameHandler(Socket cs, Stage stage) {
         try {
             this.s = cs;
@@ -326,16 +338,19 @@ public class GameHandler extends Thread {
     
     public static void resetServerAndDBStatus() {
         new Thread(() -> {
-            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).setAllPlayersOffline();
-            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).setAllPlayersStatusZero();
-            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).updateServerStatistics();
+            playerMgr.setAllPlayersOffline();
+            playerMgr.setAllPlayersStatusZero();
+            playerMgr.updateServerStatistics();
+
+            closeAllResourses();
+            
         }).start();
     }
     
     public static void closeAllResourses() {
         for(Map.Entry<String, PlayerDto> session : sessions.entrySet()) {
             System.out.println("session " + session);
-            PlayerManagerImpl.getInstance(ConnectionDB.getInstance()).setAllPlayersOffline();
+            playerMgr.setAllPlayersOffline();
             session.getValue().getHandler().serverClosePlayerStream(ErrorConstants.CLOSED_ABBNORMALLY);
         }
         sessions.clear();

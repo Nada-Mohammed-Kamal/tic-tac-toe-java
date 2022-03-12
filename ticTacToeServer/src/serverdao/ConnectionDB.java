@@ -21,31 +21,19 @@ public class ConnectionDB {
     private Connection con;
     private static ConnectionDB connectionDB;
     
-    private ConnectionDB() {
+    private ConnectionDB() throws SQLException{
+        ClientDriver d = new ClientDriver();
+        DriverManager.registerDriver(d);
+        System.out.println("ConnectionDB(): Succeeded!");
         
-        try {
-            DriverManager.registerDriver(new ClientDriver());
-            System.out.println("ConnectionDB(): Succeeded!");
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("ConnectionDB(): Failed!");
-        }
         
         if (con == null) {
-            open();
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/PlayerDB", "root", "root");
+
         }
     }
     
-    void open(){
-        
-        try {
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/PlayerDB", "root", "root");
-            System.out.println("open(): Succeeded!");
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("open(): Failed!");
-        }
-    }
+
     
     void close(){ 
         
@@ -62,7 +50,7 @@ public class ConnectionDB {
         return con;
     }
     
-    public static synchronized ConnectionDB getInstance(){
+    public static synchronized ConnectionDB getInstance() throws SQLException{
         if(connectionDB == null) {
             connectionDB = new ConnectionDB();
         }

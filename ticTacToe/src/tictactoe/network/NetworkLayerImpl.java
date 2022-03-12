@@ -59,13 +59,7 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
 
     @Override
     public void closeConnection(String msg) {
-        Platform.runLater(()->{
-            networkUser.exitNetwork(msg);
-            networkUser = null;
-            networkLayer = null;
-            score = 0;
-            username = null;
-        });
+
         try {
             ps.close();
             bufferReader.close();
@@ -75,7 +69,13 @@ public class NetworkLayerImpl extends Thread implements NetworkLayer {
             networkUser.onErrorReceived(ErrorConstants.PROBLEM_WHILE_CLOSING_CONNECTION);
             Logger.getLogger(NetworkLayerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        Platform.runLater(()->{
+            networkUser.exitNetwork(msg);
+            networkUser = null;
+            networkLayer = null;
+            score = 0;
+            username = null;
+        });
     }
 
     private void listenToServer() {

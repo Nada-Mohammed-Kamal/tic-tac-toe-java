@@ -48,9 +48,10 @@ public class PlayerManagerImpl implements PlayerManager {
         this.con = con;
     }
 
-    public synchronized static PlayerManager getInstance(ConnectionDB con) {
+    public synchronized static PlayerManager getInstance() throws SQLException {
+        ConnectionDB connection = ConnectionDB.getInstance();
         if (playerManager == null) {
-            playerManager = new PlayerManagerImpl(con);
+            playerManager = new PlayerManagerImpl(connection);
         }
         return playerManager;
     }

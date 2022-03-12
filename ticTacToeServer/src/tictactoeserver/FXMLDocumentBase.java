@@ -4,6 +4,7 @@ import serverdao.PlayerCountChangeUpdater;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import serverdao.ConnectionDB;
 import serverdao.PlayerManagerImpl;
+import utils.AlertHelper;
 
 public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeListener {
 
@@ -79,8 +81,14 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
         label2 = new Label();
         imageView0 = new ImageView();
         statusOfUserOnButton = new Label();
-        connectionDBInstance = ConnectionDB.getInstance();
-        playerCountChangeUpdater = PlayerManagerImpl.getInstance(connectionDBInstance);
+        
+        try {
+            playerCountChangeUpdater = PlayerManagerImpl.getInstance();
+        } catch (SQLException ex) {
+            AlertHelper.showDBConectionErrorAlert("DB Server is not connected!!");
+            System.exit(0);
+        }
+
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -157,6 +165,7 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
             
             turnServerOn = true;
             btnStart.setDisable(true);
+        if(playerCountChangeUpdater!=null)
             try {
                 serverSocket = new ServerSocket(5555);
                 System.out.println("Server started");
@@ -164,10 +173,10 @@ public class FXMLDocumentBase extends AnchorPane implements OnPlayerCountChangeL
                 
                 txtFieldServerState.setText("Server is online");
                 txtFieldServerState.setTextFill(javafx.scene.paint.Color.valueOf("#22bd62"));
-                
                 thread = new Thread() {
                     @Override
                     public void run() {
+                        
                         playerCountChangeUpdater.setOnPlayerCountChangeListener(FXMLDocumentBase.this);
                         while (turnServerOn) {
                             Socket accept;

@@ -15,11 +15,11 @@
 
 ## Description:
  
-*A Network-based Tic-Tac-Toe application consists mainly of two applications, `server` and `client`. 
-*The Application is done mainly using `JavaFX` 
-*The server has a `JAVA-DB-SERVER` database that stores all the information about the players. and The games they are played. 
-*The application is designed using the  `MVC` pattern. 
-*Clients can choose from three choices:
+* A Network-based Tic-Tac-Toe application consists mainly of two applications, `server` and `client`. 
+* The Application is done mainly using `JavaFX` 
+* The server has a `JAVA-DB-SERVER` database that stores all the information about the players. and The games they are played. 
+* The application is designed using the  `MVC` pattern. 
+* Clients can choose from three choices:
 1) Play with a computer with three levels options:-
     - Easy
     - Medium

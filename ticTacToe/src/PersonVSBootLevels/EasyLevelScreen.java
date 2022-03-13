@@ -579,7 +579,7 @@ public class EasyLevelScreen extends AnchorPane {
                 computerYResult.setText("" + playerO);
                 GameResultId.setText("You Won!");
                 
-                PlayVideo.displayVideo("winner", "", stage);
+                PlayVideo.displayVideo("winner", stage);
                 break;
             case "O":
                 playerO++;
@@ -588,11 +588,11 @@ public class EasyLevelScreen extends AnchorPane {
                 playerXresult.setText("" + playerX);
                 GameResultId.setText("You Lose!");
                 
-                PlayVideo.displayVideo("loser", "", stage);      
+                PlayVideo.displayVideo("loser", stage);      
                 break;
             default: 
                 GameResultId.setText("It's a TIE!");
-                PlayVideo.displayVideo("draw", "", stage);   
+                PlayVideo.displayVideo("draw", stage);   
                 break;
         }
     }

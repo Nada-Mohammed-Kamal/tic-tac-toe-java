@@ -22,8 +22,8 @@ import javafx.util.Duration;
  */
 public class PlayVideo {
     //winner .. loser .. draw
-    public static void displayVideo(String playerWinnerOrNot,String WinnerName,Stage myStage){
-            Parent root = new VideoFXMLBase(playerWinnerOrNot,WinnerName);
+    public static void displayVideo(String playerWinnerOrNot,Stage myStage){
+            Parent root = new VideoFXMLBase(playerWinnerOrNot);
             Scene registerScene = new Scene(root);
             //get stage information
             Stage window = new Stage();
@@ -36,7 +36,7 @@ public class PlayVideo {
             window.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
-                    window.setX(((myStage.getWidth()-300)/2) + myStage.getX());
+                    window.setX(((myStage.getWidth()-600)/2) + myStage.getX());
                     window.setY( 100+ myStage.getY());
 
                 }

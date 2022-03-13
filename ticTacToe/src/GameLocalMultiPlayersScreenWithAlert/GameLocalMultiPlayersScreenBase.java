@@ -556,14 +556,14 @@ public class GameLocalMultiPlayersScreenBase extends AnchorPane {
 
         if(playerName.equals("No one"))
         {
-            PlayVideo.displayVideo("draw","",stage);
+            PlayVideo.displayVideo("draw",stage);
             GameResultId.setText("It's a tie");
             
         }
         else
         {
             GameResultId.setText(playerName + " Wins");
-            PlayVideo.displayVideo("winner",playerName,stage);
+            PlayVideo.displayVideo("winner",stage);
         }
         saveAchorPane.setVisible(true);
         anchorPanePlayAgain.setVisible(true);

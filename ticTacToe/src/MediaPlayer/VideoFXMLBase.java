@@ -15,25 +15,15 @@ public class VideoFXMLBase extends BorderPane {
     protected final MediaView mediaView;
     private String typePlayer;
     public static MediaPlayer mp;
-    protected final Label label;
-    public VideoFXMLBase(String stringTypePlayer,String playerWinName) {
+    public VideoFXMLBase(String stringTypePlayer) {
 
         mediaView = new MediaView();
-        label = new Label();
         setMaxHeight(USE_COMPUTED_SIZE);
         setMaxWidth(USE_COMPUTED_SIZE);
         setMinHeight(USE_COMPUTED_SIZE);
         setMinWidth(USE_COMPUTED_SIZE);
         setPrefHeight(400.0);
-        setPrefWidth(400.0);
-        if(!playerWinName.isEmpty())
-        {
-            BorderPane.setAlignment(label, javafx.geometry.Pos.CENTER);
-            label.setText(playerWinName + " wins");
-            label.setTextFill(javafx.scene.paint.Color.valueOf("#287149"));
-            label.setFont(new Font("Berlin Sans FB Demi Bold", 40.0));
-            setTop(label);
-        }
+        setPrefWidth(600.0);
         
         BorderPane.setAlignment(mediaView, javafx.geometry.Pos.CENTER);
         mediaView.setFitHeight(USE_COMPUTED_SIZE);
@@ -62,8 +52,8 @@ public class VideoFXMLBase extends BorderPane {
         mediaView.setMediaPlayer(mp);
         DoubleProperty width =  mediaView.fitWidthProperty();
         DoubleProperty height =  mediaView.fitHeightProperty();
-        width.bind(Bindings.selectDouble( mediaView.parentProperty(), "width"));
-        height.bind(Bindings.selectDouble( mediaView.parentProperty(), "height"));
+        width.bind(Bindings.selectDouble( mediaView.parentProperty(), "width").multiply(1.5));
+        height.bind(Bindings.selectDouble( mediaView.parentProperty(), "height").multiply(1.5));
         mediaView.setPreserveRatio(true);
         Platform.runLater(() -> {
             mp.play();

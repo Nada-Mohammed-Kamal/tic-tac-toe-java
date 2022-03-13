@@ -33,7 +33,7 @@ public class DisplayAlert {
             window.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
-                    window.setX(((myStage.getWidth()-200)/2) + myStage.getX());
+                    window.setX(((myStage.getWidth()-400)/2) + myStage.getX());
                     window.setY(((myStage.getHeight()-100)/2) + myStage.getY());
 
                 }

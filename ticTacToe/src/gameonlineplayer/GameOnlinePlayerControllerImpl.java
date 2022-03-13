@@ -163,7 +163,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     private void handleWin() {
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
-        PlayVideo.displayVideo("winner","",stage);
+        PlayVideo.displayVideo("winner",stage);
         //
         gameOnlinePlayersScreenInterface.setGameResultId("You win");
         System.out.println("handleWin");
@@ -172,7 +172,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     private void handleLoose() {
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
-        PlayVideo.displayVideo("loser","",stage);
+        PlayVideo.displayVideo("loser",stage);
         //
         gameOnlinePlayersScreenInterface.setGameResultId("You lost");
         System.out.println("handleLoose");
@@ -181,7 +181,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
     private void handleTie() {
         handleTransaction();
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
-        PlayVideo.displayVideo("draw","",stage);
+        PlayVideo.displayVideo("draw",stage);
         gameOnlinePlayersScreenInterface.setGameResultId("It's a tie");
         System.out.println("handleTie");
     }

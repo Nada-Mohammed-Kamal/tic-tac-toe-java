@@ -8,7 +8,7 @@
 # Tic-Tac-Toe
 
 <p align="center">
-   <img src="https://user-images.githubusercontent.com/53404081/158030182-af3ec3aa-a957-4870-8eb1-50dfc753bae1.jpeg" alt="Build Status" width="300">
+   <img src="https://user-images.githubusercontent.com/53404081/158055618-9e562db8-feb4-42ee-965b-32c61512b8e2.png" alt="Build Status" width="300">
    <img src="https://user-images.githubusercontent.com/53404081/158030235-87690d2f-42ab-403d-993e-e74c4f4b3fd2.jpeg" alt="Build Status" width="300">
 
 </p>
@@ -26,6 +26,7 @@
     - Hard
 2) Play locally with someone
 3) play online with someone
+4) Play snake game with abilty to choose the color of the snake
 
 
 ## main features
@@ -111,7 +112,7 @@ only if this player is `online` and if the player is not in `game`.
        <img src="https://user-images.githubusercontent.com/53404081/158031376-71c90a64-91fd-482d-9b4e-312ed5ae6dde.jpeg"></img>
     </td>
      <td>
-       <img src="https://user-images.githubusercontent.com/53404081/158031392-523d0017-6f32-4c3c-bf21-e3fce4fad01b.jpeg"></img>
+       <img src="https://user-images.githubusercontent.com/53404081/158055618-9e562db8-feb4-42ee-965b-32c61512b8e2.png"></img>
     </td>
   </tr>
    <tr>

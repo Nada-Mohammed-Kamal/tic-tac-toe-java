@@ -174,7 +174,7 @@ public class GameOnlinePlayerControllerImpl implements GameOnlinePlayerControlle
         gameOnlinePlayersScreenInterface.hideAllXOButtonWhenGameFinished();
         PlayVideo.displayVideo("loser",stage);
         //
-        gameOnlinePlayersScreenInterface.setGameResultId("You lost");
+        gameOnlinePlayersScreenInterface.setGameResultId("You lose");
         System.out.println("handleLoose");
     }
 

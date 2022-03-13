@@ -1,20 +1,20 @@
-Sat Mar 12 22:05:04 EET 2022 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
+Sun Mar 13 15:35:20 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sat Mar 12 22:05:16 EET 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-017f-7fbb-d889-ffffafb4a9e9 
-on database directory D:\ITI\Java\JavaProject\TicTacToeJava\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
-Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_151/db/lib/derby.jar
+Sun Mar 13 15:35:21 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-837d-71ec-00007906e3b1 
+on database directory C:\Users\AhmedAli\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_151-b12
-user.dir=C:\Program Files\Java\jdk1.8.0_151\db
+java.runtime.version=1.8.0_191-b12
+user.dir=C:\Program Files\glassfish-4.1.1\javadb
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=D:\ITI\Java\JavaProject\TicTacToeJava\tic-tac-toe-java\Database
+derby.system.home=C:\Users\AhmedAli\Documents\GitHub\tic-tac-toe-java\Database
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Sun Mar 13 00:24:32 EET 2022: Shutting down Derby engine
+Sun Mar 13 16:51:00 EET 2022: Shutting down Derby engine
 ----------------------------------------------------------------
-Sun Mar 13 00:24:32 EET 2022:
-Shutting down instance a816c00e-017f-7fbb-d889-ffffafb4a9e9 on database directory D:\ITI\Java\JavaProject\TicTacToeJava\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Sun Mar 13 16:51:00 EET 2022:
+Shutting down instance a816c00e-017f-837d-71ec-00007906e3b1 on database directory C:\Users\AhmedAli\Documents\GitHub\tic-tac-toe-java\Database\PlayerDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 ----------------------------------------------------------------

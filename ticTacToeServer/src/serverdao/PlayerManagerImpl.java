@@ -311,9 +311,9 @@ public class PlayerManagerImpl implements PlayerManager {
 
     @Override
     public boolean logOut(String username, int oldState) {
-        boolean result =false;
+        boolean result = false;
         result = updateIsPlayerOnline(username, false);
-        if(oldState == PlayerStatusValues.IDLE)
+//        if(oldState == PlayerStatusValues.IDLE)
             updateAvailableOnlinePlayers();
 
         return result;
